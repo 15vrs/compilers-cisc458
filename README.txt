@@ -8,4 +8,4 @@ Kevin Tran      20084019    17kt11
 We added subdirectories to the /testSuite directory to organize the test
 files by topic being tested and created a script to automatically generate 
 all the ssltrace outputs. The runTests.sh script should be run while in 
-the /testSuite directory.
+the /testSuite directory with the command: ./runTests.sh
