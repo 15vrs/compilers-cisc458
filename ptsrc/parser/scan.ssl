@@ -97,7 +97,6 @@ Output :
         pPlus
         pMinus
         pStar
-        pDot
         pComma
         pSemicolon
         pColon
@@ -125,8 +124,7 @@ Output :
         pPercentEquals
         pDoubleEquals
 % END
-        pDotDot
-        lastSyntaxToken = pDotDot;
+        lastSyntaxToken = pDoubleEquals;
 
 Error :
         eIllegalChar = 5
@@ -214,13 +212,6 @@ Scan :
                         .pMinusEquals
                     | *:
                         .pMinus
-                ]
-            | '.':
-                [
-                    | '.':
-                        .pDotDot
-                    | *:
-                        .pDot
                 ]
             | '<':
                 [
