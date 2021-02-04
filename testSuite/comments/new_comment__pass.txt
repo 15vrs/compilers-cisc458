@@ -1,1 +1,5 @@
 The new end of line comment // should pass through the Comment rule.
+
+Expected output:
+#eCommentEOF
+.pEndFile

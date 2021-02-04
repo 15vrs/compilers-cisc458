@@ -1,1 +1,5 @@
 The new multi-line comment /**/ should pass through the AlternateComment rule.
+
+Expected output:
+.pNewLine
+.pEndFile

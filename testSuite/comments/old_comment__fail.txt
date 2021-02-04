@@ -1,1 +1,12 @@
 The old comment form of {} should fail.
+
+Expected output:
+#eIllegalChar
+.pIdentifier
+.pIdentifier
+.pIdentifier
+.pNewLine
+.pIdentifier
+.pIdentifier
+#eIllegalChar
+.pEndFile
