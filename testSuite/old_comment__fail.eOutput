@@ -1,0 +1,22 @@
+ #eIllegalChar
+  .pIdentifier
+  % Output token text 'this'
+  .pIdentifier (screened to pIs)
+  .pIdentifier (screened to pNot)
+  .pIdentifier
+  % Output token text 'a'
+  .pIdentifier
+  % Output token text 'comment'
+ #eIllegalChar
+ #eIllegalChar
+  .pIdentifier
+  % Output token text 'this'
+  .pIdentifier (screened to pIs)
+  .pIdentifier (screened to pNot)
+ .pNewLine
+  .pIdentifier
+  % Output token text 'a'
+  .pIdentifier
+  % Output token text 'comment'
+ #eIllegalChar
+ .pEndFile
