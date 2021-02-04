@@ -1,4 +1,4 @@
-These syntax tokens should be not be
+These syntax tokens should be not be recognized
 .
 ..
 {
