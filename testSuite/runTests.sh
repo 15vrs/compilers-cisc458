@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+##### Run this script from the command line while in the testSuite directory #####
+
 cd ../ptsrc
 make scanner
 cd ../testSuite
