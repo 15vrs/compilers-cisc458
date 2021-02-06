@@ -1,6 +1,6 @@
 The old alternate comment form of (**) should fail.
 
-Expected output:
+Expected Result:
 .pLeftParen
 .pStar
 .pIdentifier

@@ -1,6 +1,6 @@
 The old comment form of {} should fail.
 
-Expected output:
+Expected Result:
 #eIllegalChar
 .pIdentifier
 .pIdentifier
