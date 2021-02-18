@@ -106,7 +106,13 @@ Output :
         sParmBegin
         sParmEnd
         sConst
-        sType
+% REMOVE
+%        sType
+% ADD
+        sLike
+        sPackage
+        sPublic
+% END
         sVar
         sProcedure
         sBegin
@@ -148,7 +154,15 @@ Output :
         sNot
         sNewLine
         sEndOfFile
-        lastSemanticToken = sEndOfFile;
+% ADD
+        sConcatenate
+        sRepeatString
+        sSubstring
+        sLength
+        sInitialValue
+        sCaseElse
+% END
+        lastSemanticToken = sCaseElse;
 
 
 rules
