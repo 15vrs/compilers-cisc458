@@ -62,8 +62,8 @@ Input :
         pStar                   '*'
 % REMOVE
 %        pColonEquals            ':='
+%        pDot                    '.'
 % END
-        pDot                    '.'
         pComma                  ','
         pSemicolon              ';'
         pColon                  ':'
@@ -180,7 +180,7 @@ Program :
             ]
         }
         .sParmEnd
-        ';'  @Block  '.';
+        ';'  @Block;
 
 Block :
         % Strictly speaking, standard Pascal requires that declarations
@@ -188,11 +188,11 @@ Block :
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
         {[
-            | 'const':
-                .sConst
-                @ConstantDefinitions
+            % | 'const':
+            %     .sConst
+            %     @ConstantDefinitions
             | 'like':
-                .sType
+                .sLike
                 @TypeDefinitions
             | 'var':
                 .sVar
@@ -204,26 +204,34 @@ Block :
                 @ProcedureHeading
                 @Block  ','
             | *:
-                .sBegin
                 [
                     | pIdentifier:
+                        .sBegin
                         @AssignmentOrCallStmt
                     | 'if':
+                        .sBegin
                         @IfStmt
                     | 'while':
+                        .sBegin
                         @WhileStmt
                     | 'choose':
+                        .sBegin
                         @CaseStmt
                     | 'repeat':
+                        .sBegin
                         @RepeatStmt
-                    | *:
+                    | ';':
                         .sNullStmt
+                    | *:
+                        [
+                            | 'end':
+                                .sEnd
+                            | *:
+                                >
+                        ]
                 ]
-            | ';':
-                >
-            | 'end':
-                .sEnd
-        ]};
+        ]}
+        .sEnd;
 
 
 ConstantDefinitions :
@@ -275,45 +283,45 @@ TypeDefinitions :
 
 TypeBody :
         [
-            | 'array':
-                .sArray
-                '['  @SimpleType  ']'
-                'of'  @SimpleType
+            % | 'array':
+            %     .sArray
+            %     '['  @SimpleType  ']'
+            %     'of'  @SimpleType
             | 'file':
                 .sFile
-                'of'  @SimpleType
+                % 'of'  @SimpleType
             | *:
-                @SimpleType
+                % @SimpleType
         ];
 
-SimpleType :
+% SimpleType :
         % A simple type is a named type (possibly predefined)
         % or a subrange type specification
-        [
-            | pIdentifier:
-                .sIdentifier
-                [
-                    | '..':
-                        .sRange         %% this may be unnecessary
-                        @OptionallySignedIntegerConstant
-                    | *:
-                ]
-            | *:
-                @OptionallySignedIntegerConstant
-                '..'  .sRange
-                @OptionallySignedIntegerConstant
-        ];
+        % [
+        %     | pIdentifier:
+        %         .sIdentifier
+        %         % [
+        %         %     % | '..':
+        %         %     %     .sRange         %% this may be unnecessary
+        %         %     %     @OptionallySignedIntegerConstant
+        %         %     | *:
+        %         % ]
+        %     | *:
+        %         @OptionallySignedIntegerConstant
+        %         '..'  .sRange
+        %         @OptionallySignedIntegerConstant
+        % ];
 
-OptionallySignedIntegerConstant :
-        [
-            | '-':
-                @UnsignedIntegerConstant
-                .sNegate
-            | '+':
-                @UnsignedIntegerConstant
-            | *:
-                @UnsignedIntegerConstant
-        ];
+% OptionallySignedIntegerConstant :
+        % [
+        %     | '-':
+        %         @UnsignedIntegerConstant
+        %         .sNegate
+        %     | '+':
+        %         @UnsignedIntegerConstant
+        %     | *:
+        %         @UnsignedIntegerConstant
+        % ];
 
 VariableDeclarations :
         % Accept one or more variable declarations.
@@ -355,27 +363,9 @@ ProcedureHeading :
         ';'
         .sParmEnd;
 
-% Statement :
-%         [
-%             | pIdentifier:
-%                 @AssignmentOrCallStmt
-%             | 'begin':
-%                 @BeginStmt
-%             | 'if':
-%                 @IfStmt
-%             | 'while':
-%                 @WhileStmt
-%             | 'case':
-%                 @CaseStmt
-%             | 'repeat':
-%                 @RepeatStmt
-%             | *:
-%                 .sNullStmt
-%         ];
-
 AssignmentOrCallStmt :
         [
-            | ':=':
+            | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
@@ -386,7 +376,7 @@ AssignmentOrCallStmt :
                 .sSubscript
                 @Expression
                 .sExpnEnd
-                ']'  ':='
+                ']'  '='
                 @Expression
                 .sExpnEnd
             | *:
@@ -422,28 +412,16 @@ CallStmt :
         ]
         .sParmEnd;
 
-BeginStmt :
-        .sBegin
-        {
-            @Statement
-            [
-                | ';':
-                | 'end':
-                    .sEnd
-                    >
-            ]
-        };
-
 IfStmt :
         .sIfStmt
         @Expression
         .sExpnEnd
         'then'  .sThen
-        @Statement
+        @Block
         [
             | 'else':
                 .sElse
-                @Statement
+                @Block
             | *:
         ];
 
@@ -474,7 +452,7 @@ CaseAlternative :
         % one or more optionally signed integer constants
 
         {
-            @OptionallySignedIntegerConstant
+            % @OptionallySignedIntegerConstant
             [
                 | ',':
                 | *:
@@ -482,22 +460,22 @@ CaseAlternative :
             ]
         }
         .sLabelEnd
-        ':'  @Statement;
+        ':'  @Block;
 
 WhileStmt :
         .sWhileStmt
         @Expression
         .sExpnEnd
-        'do'
-        @Statement;
+        % 'do'
+        @Block;
 
 RepeatStmt :
         .sRepeatStmt
         {
-            @Statement
+            @Block
             [
                 | ';':
-                | 'until':
+                | *:%'until':
                     .sRepeatEnd
                     >
             ]
@@ -548,9 +526,9 @@ Term :
         {[
             | '*':
                 @Factor  .sMultiply
-            | 'div':
+            | '/':
                 @Factor  .sDivide
-            | 'mod':
+            | '%':
                 @Factor  .sModulus
             | 'and':
                 .sInfixAnd  @Factor  .sAnd
