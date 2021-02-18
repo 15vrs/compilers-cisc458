@@ -17,31 +17,30 @@ Input :
         % Keywords must be first both here and in stdIdentifiers,
         % and they must appear in the exact same order
 
-        pDiv                    'div'
-        firstKeywordToken = pDiv
-        pMod                    'mod'
         pOr                     'or'
+        firstKeywordToken = pOr
         pAnd                    'and'
         pNot                    'not'
         pThen                   'then'
         pElse                   'else'
         pOf                     'of'
         pEnd                    'end'
-        pUntil                  'until'
-        pDo                     'do'
-        pArray                  'array'
         pFile                   'file'
-        pProgram                'program'
-        pConst                  'const'
         pVar                    'var'
-        pType                   'type'
-        pProcedure              'procedure'
-        pBegin                  'begin'
         pIf                     'if'
-        pCase                   'case'
         pWhile                  'while'
         pRepeat                 'repeat'
-        lastKeywordToken = pRepeat 
+        pChoose                 'choose'
+        pElseif                 'elseif'
+        pFun                    'fun'
+        pIs                     'is'
+        pLike                   'like'
+        pPkg                    'pkg'
+        pPublic                 'public'
+        pUsing                  'using'
+        pVal                    'val'
+        pWhen                   'when'
+        lastKeywordToken = pWhen 
 
         % Scanner tokens -
         %   These are the tokens actually recognized by the Scanner itself.
