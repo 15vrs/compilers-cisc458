@@ -204,26 +204,34 @@ Block :
                 @ProcedureHeading
                 @Block  ','
             | *:
-                .sBegin
                 [
                     | pIdentifier:
+                        .sBegin
                         @AssignmentOrCallStmt
                     | 'if':
+                        .sBegin
                         @IfStmt
                     | 'while':
+                        .sBegin
                         @WhileStmt
                     | 'choose':
+                        .sBegin
                         @CaseStmt
                     | 'repeat':
+                        .sBegin
                         @RepeatStmt
-                    | *:
+                    | ';':
                         .sNullStmt
+                    | *:
+                        [
+                            | 'end':
+                                .sEnd
+                            | *:
+                                >
+                        ]
                 ]
-            | ';':
-                >
-            | 'end':
-                .sEnd
-        ]};
+        ]}
+        .sEnd;
 
 
 ConstantDefinitions :
@@ -375,7 +383,7 @@ ProcedureHeading :
 
 AssignmentOrCallStmt :
         [
-            | ':=':
+            | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
@@ -386,7 +394,7 @@ AssignmentOrCallStmt :
                 .sSubscript
                 @Expression
                 .sExpnEnd
-                ']'  ':='
+                ']'  '='
                 @Expression
                 .sExpnEnd
             | *:
@@ -422,28 +430,16 @@ CallStmt :
         ]
         .sParmEnd;
 
-BeginStmt :
-        .sBegin
-        {
-            @Statement
-            [
-                | ';':
-                | 'end':
-                    .sEnd
-                    >
-            ]
-        };
-
 IfStmt :
         .sIfStmt
         @Expression
         .sExpnEnd
         'then'  .sThen
-        @Statement
+        @Block
         [
             | 'else':
                 .sElse
-                @Statement
+                @Block
             | *:
         ];
 
@@ -482,19 +478,19 @@ CaseAlternative :
             ]
         }
         .sLabelEnd
-        ':'  @Statement;
+        ':'  @Block;
 
 WhileStmt :
         .sWhileStmt
         @Expression
         .sExpnEnd
         'do'
-        @Statement;
+        @Block;
 
 RepeatStmt :
         .sRepeatStmt
         {
-            @Statement
+            @Block
             [
                 | ';':
                 | 'until':
@@ -548,9 +544,9 @@ Term :
         {[
             | '*':
                 @Factor  .sMultiply
-            | 'div':
+            | '/':
                 @Factor  .sDivide
-            | 'mod':
+            | '%':
                 @Factor  .sModulus
             | 'and':
                 .sInfixAnd  @Factor  .sAnd
