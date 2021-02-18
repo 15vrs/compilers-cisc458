@@ -17,31 +17,30 @@ Input :
         % Keywords must be first both here and in stdIdentifiers,
         % and they must appear in the exact same order
 
-        pDiv                    'div'
-        firstKeywordToken = pDiv
-        pMod                    'mod'
         pOr                     'or'
+        firstKeywordToken = pOr
         pAnd                    'and'
         pNot                    'not'
         pThen                   'then'
         pElse                   'else'
         pOf                     'of'
         pEnd                    'end'
-        pUntil                  'until'
-        pDo                     'do'
-        pArray                  'array'
         pFile                   'file'
-        pProgram                'program'
-        pConst                  'const'
         pVar                    'var'
-        pType                   'type'
-        pProcedure              'procedure'
-        pBegin                  'begin'
         pIf                     'if'
-        pCase                   'case'
         pWhile                  'while'
         pRepeat                 'repeat'
-        lastKeywordToken = pRepeat 
+        pChoose                 'choose'
+        pElseif                 'elseif'
+        pFun                    'fun'
+        pIs                     'is'
+        pLike                   'like'
+        pPkg                    'pkg'
+        pPublic                 'public'
+        pUsing                  'using'
+        pVal                    'val'
+        pWhen                   'when'
+        lastKeywordToken = pWhen 
 
         % Scanner tokens -
         %   These are the tokens actually recognized by the Scanner itself.
@@ -61,7 +60,9 @@ Input :
         pPlus                   '+'
         pMinus                  '-'
         pStar                   '*'
-        pColonEquals            ':='
+% REMOVE
+%        pColonEquals            ':='
+% END
         pDot                    '.'
         pComma                  ','
         pSemicolon              ';'
@@ -76,8 +77,21 @@ Input :
         pRightParen             ')'
         pLeftBracket            '['
         pRightBracket           ']'
-        pDotDot                 '..'
-        lastSyntaxToken = pDotDot;
+% ADD        
+        pSlash                  '/'
+        pPercent                '%'
+        pHash                   '#'
+        pBang                   '!'
+        pBar                    '|'
+        pDoubleBar              '||'
+        pPlusEquals             '+='
+        pMinusEquals            '-='
+        pStarEquals             '*='
+        pSlashEquals            '/='
+        pPercentEquals          '%='
+        pDoubleEquals           '=='
+% END
+        lastSyntaxToken = pDoubleEquals;
 
 Output :
         sIdentifier 
@@ -91,7 +105,13 @@ Output :
         sParmBegin
         sParmEnd
         sConst
-        sType
+% REMOVE
+%        sType
+% ADD
+        sLike
+        sPackage
+        sPublic
+% END
         sVar
         sProcedure
         sBegin
@@ -133,17 +153,24 @@ Output :
         sNot
         sNewLine
         sEndOfFile
-        lastSemanticToken = sEndOfFile;
+% ADD
+        sConcatenate
+        sRepeatString
+        sSubstring
+        sLength
+        sInitialValue
+        sCaseElse
+% END
+        lastSemanticToken = sCaseElse;
 
 
 rules
 
 Program :
-        'program'  .sProgram
+        'using'  .sProgram
         % program name
         pIdentifier
         % program parameters
-        '('
         {
             pIdentifier  .sIdentifier
             [
@@ -152,36 +179,60 @@ Program :
                     >
             ]
         }
-        ')'
         .sParmEnd
         ';'  @Block  '.';
 
 Block :
         % Strictly speaking, standard Pascal requires that declarations
-        % appear only in the order consts, types, vars, procedures.
+        % appear only in the order consts, likes, vars, functions.
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
         {[
             | 'const':
                 .sConst
                 @ConstantDefinitions
-            | 'type':
+            | 'like':
                 .sType
                 @TypeDefinitions
             | 'var':
                 .sVar
                 @VariableDeclarations
-            | 'procedure':
+            | 'fun':
                 .sProcedure
                 % procedure name
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
-                @Block  ';'
+                @Block  ','
             | *:
-                >
+                [
+                    | pIdentifier:
+                        .sBegin
+                        @AssignmentOrCallStmt
+                    | 'if':
+                        .sBegin
+                        @IfStmt
+                    | 'while':
+                        .sBegin
+                        @WhileStmt
+                    | 'choose':
+                        .sBegin
+                        @CaseStmt
+                    | 'repeat':
+                        .sBegin
+                        @RepeatStmt
+                    | ';':
+                        .sNullStmt
+                    | *:
+                        [
+                            | 'end':
+                                .sEnd
+                            | *:
+                                >
+                        ]
+                ]
         ]}
-        'begin'
-        @BeginStmt;
+        .sEnd;
+
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
@@ -312,27 +363,27 @@ ProcedureHeading :
         ';'
         .sParmEnd;
 
-Statement :
-        [
-            | pIdentifier:
-                @AssignmentOrCallStmt
-            | 'begin':
-                @BeginStmt
-            | 'if':
-                @IfStmt
-            | 'while':
-                @WhileStmt
-            | 'case':
-                @CaseStmt
-            | 'repeat':
-                @RepeatStmt
-            | *:
-                .sNullStmt
-        ];
+% Statement :
+%         [
+%             | pIdentifier:
+%                 @AssignmentOrCallStmt
+%             | 'begin':
+%                 @BeginStmt
+%             | 'if':
+%                 @IfStmt
+%             | 'while':
+%                 @WhileStmt
+%             | 'case':
+%                 @CaseStmt
+%             | 'repeat':
+%                 @RepeatStmt
+%             | *:
+%                 .sNullStmt
+%         ];
 
 AssignmentOrCallStmt :
         [
-            | ':=':
+            | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
@@ -343,7 +394,7 @@ AssignmentOrCallStmt :
                 .sSubscript
                 @Expression
                 .sExpnEnd
-                ']'  ':='
+                ']'  '='
                 @Expression
                 .sExpnEnd
             | *:
@@ -379,28 +430,16 @@ CallStmt :
         ]
         .sParmEnd;
 
-BeginStmt :
-        .sBegin
-        {
-            @Statement
-            [
-                | ';':
-                | 'end':
-                    .sEnd
-                    >
-            ]
-        };
-
 IfStmt :
         .sIfStmt
         @Expression
         .sExpnEnd
         'then'  .sThen
-        @Statement
+        @Block
         [
             | 'else':
                 .sElse
-                @Statement
+                @Block
             | *:
         ];
 
@@ -439,19 +478,19 @@ CaseAlternative :
             ]
         }
         .sLabelEnd
-        ':'  @Statement;
+        ':'  @Block;
 
 WhileStmt :
         .sWhileStmt
         @Expression
         .sExpnEnd
         'do'
-        @Statement;
+        @Block;
 
 RepeatStmt :
         .sRepeatStmt
         {
-            @Statement
+            @Block
             [
                 | ';':
                 | 'until':
@@ -505,9 +544,9 @@ Term :
         {[
             | '*':
                 @Factor  .sMultiply
-            | 'div':
+            | '/':
                 @Factor  .sDivide
-            | 'mod':
+            | '%':
                 @Factor  .sModulus
             | 'and':
                 .sInfixAnd  @Factor  .sAnd
