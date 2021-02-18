@@ -167,11 +167,10 @@ Output :
 rules
 
 Program :
-        'program'  .sProgram
+        'using'  .sProgram
         % program name
         pIdentifier
         % program parameters
-        '('
         {
             pIdentifier  .sIdentifier
             [
@@ -180,36 +179,52 @@ Program :
                     >
             ]
         }
-        ')'
         .sParmEnd
         ';'  @Block  '.';
 
 Block :
         % Strictly speaking, standard Pascal requires that declarations
-        % appear only in the order consts, types, vars, procedures.
+        % appear only in the order consts, likes, vars, functions.
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
         {[
             | 'const':
                 .sConst
                 @ConstantDefinitions
-            | 'type':
+            | 'like':
                 .sType
                 @TypeDefinitions
             | 'var':
                 .sVar
                 @VariableDeclarations
-            | 'procedure':
+            | 'fun':
                 .sProcedure
                 % procedure name
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
-                @Block  ';'
+                @Block  ','
             | *:
+                .sBegin
+                [
+                    | pIdentifier:
+                        @AssignmentOrCallStmt
+                    | 'if':
+                        @IfStmt
+                    | 'while':
+                        @WhileStmt
+                    | 'choose':
+                        @CaseStmt
+                    | 'repeat':
+                        @RepeatStmt
+                    | *:
+                        .sNullStmt
+                ]
+            | ';':
                 >
-        ]}
-        'begin'
-        @BeginStmt;
+            | 'end':
+                .sEnd
+        ]};
+
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
@@ -340,23 +355,23 @@ ProcedureHeading :
         ';'
         .sParmEnd;
 
-Statement :
-        [
-            | pIdentifier:
-                @AssignmentOrCallStmt
-            | 'begin':
-                @BeginStmt
-            | 'if':
-                @IfStmt
-            | 'while':
-                @WhileStmt
-            | 'case':
-                @CaseStmt
-            | 'repeat':
-                @RepeatStmt
-            | *:
-                .sNullStmt
-        ];
+% Statement :
+%         [
+%             | pIdentifier:
+%                 @AssignmentOrCallStmt
+%             | 'begin':
+%                 @BeginStmt
+%             | 'if':
+%                 @IfStmt
+%             | 'while':
+%                 @WhileStmt
+%             | 'case':
+%                 @CaseStmt
+%             | 'repeat':
+%                 @RepeatStmt
+%             | *:
+%                 .sNullStmt
+%         ];
 
 AssignmentOrCallStmt :
         [
