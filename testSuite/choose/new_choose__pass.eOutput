@@ -1,0 +1,46 @@
+  .pIdentifier (screened to pUsing)
+  .pIdentifier
+  % Output token text 'output'
+ .pSemicolon
+ .pNewLine
+  .pIdentifier (screened to pChoose)
+  .pIdentifier
+  % Output token text 'i'
+  .pIdentifier (screened to pOf)
+ .pNewLine
+  .pIdentifier (screened to pWhen)
+  .pInteger
+  % Output token text '42'
+  .pIdentifier (screened to pThen)
+ .pNewLine
+  .pIdentifier
+  % Output token text 'i'
+ .pPlusEquals
+  .pInteger
+  % Output token text '1'
+ .pSemicolon
+ .pNewLine
+  .pIdentifier (screened to pWhen)
+  .pInteger
+  % Output token text '43'
+  .pIdentifier (screened to pThen)
+ .pNewLine
+  .pIdentifier
+  % Output token text 'i'
+ .pPlusEquals
+  .pInteger
+  % Output token text '2'
+ .pSemicolon
+ .pNewLine
+  .pIdentifier (screened to pElse)
+ .pNewLine
+  .pIdentifier
+  % Output token text 'i'
+ .pPlusEquals
+  .pInteger
+  % Output token text '3'
+ .pSemicolon
+ .pNewLine
+  .pIdentifier (screened to pEnd)
+ .pSemicolon
+ .pEndFile

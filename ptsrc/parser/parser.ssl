@@ -203,33 +203,52 @@ Block :
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
                 @Block  ','
+            | 'if':
+                .sBegin
+                @IfStmt
+            | 'while':
+                .sBegin
+                @WhileStmt
+            | 'choose':
+                .sBegin
+                @CaseStmt
+            | 'repeat':
+                .sBegin
+                @RepeatStmt
+            | pIdentifier:
+                .sBegin
+                @AssignmentOrCallStmt
+            % | ';':
+            %     .sNullStmt
             | *:
-                [
-                    | pIdentifier:
-                        .sBegin
-                        @AssignmentOrCallStmt
-                    | 'if':
-                        .sBegin
-                        @IfStmt
-                    | 'while':
-                        .sBegin
-                        @WhileStmt
-                    | 'choose':
-                        .sBegin
-                        @CaseStmt
-                    | 'repeat':
-                        .sBegin
-                        @RepeatStmt
-                    | ';':
-                        .sNullStmt
-                    | *:
-                        [
-                            | 'end':
-                                .sEnd
-                            | *:
-                                >
-                        ]
-                ]
+                >
+            % | *:
+            %     [
+            %         | pIdentifier:
+            %             .sBegin
+            %             @AssignmentOrCallStmt
+            %         | 'if':
+            %             .sBegin
+            %             @IfStmt
+            %         | 'while':
+            %             .sBegin
+            %             @WhileStmt
+            %         | 'choose':
+            %             .sBegin
+            %             @CaseStmt
+            %         | 'repeat':
+            %             .sBegin
+            %             @RepeatStmt
+            %         | ';':
+            %             .sNullStmt
+            %         | *:
+            %             [
+            %                 | 'end':
+            %                     .sEnd
+            %                 | *:
+            %                     >
+            %             ]
+            %     ]
         ]}
         .sEnd;
 
@@ -312,16 +331,16 @@ TypeBody :
         %         @OptionallySignedIntegerConstant
         % ];
 
-% OptionallySignedIntegerConstant :
-        % [
-        %     | '-':
-        %         @UnsignedIntegerConstant
-        %         .sNegate
-        %     | '+':
-        %         @UnsignedIntegerConstant
-        %     | *:
-        %         @UnsignedIntegerConstant
-        % ];
+OptionallySignedIntegerConstant :
+        [
+            | '-':
+                @UnsignedIntegerConstant
+                .sNegate
+            | '+':
+                @UnsignedIntegerConstant
+            | *:
+                @UnsignedIntegerConstant
+        ];
 
 VariableDeclarations :
         % Accept one or more variable declarations.
@@ -422,6 +441,11 @@ IfStmt :
             | 'else':
                 .sElse
                 @Block
+% ADD
+            | 'elseif':
+                .sElse
+                @IfStmt
+% END
             | *:
         ];
 
@@ -445,22 +469,34 @@ CaseStmt :
             | 'end':
                 >
         ]}
-        .sCaseEnd;
+        .sCaseEnd % ;
+% ADD
+        'else'
+        .sCaseElse
+        @ Block;
+% END
 
 CaseAlternative :
         % A case alternative is a statement labelled by
         % one or more optionally signed integer constants
-
+% ADD
+        'when'
+% END
         {
-            % @OptionallySignedIntegerConstant
+            @OptionallySignedIntegerConstant
             [
                 | ',':
                 | *:
                     >
             ]
         }
+% ADD
+        'then'
+% END
         .sLabelEnd
-        ':'  @Block;
+%        ':'  
+        pNewLine
+        @Block;
 
 WhileStmt :
         .sWhileStmt
@@ -486,7 +522,7 @@ RepeatStmt :
 Expression :
         @SimpleExpression
         [
-            | '=':
+            | '==':
                 @SimpleExpression  .sEq
             | '<>':
                 @SimpleExpression  .sNE
