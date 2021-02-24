@@ -188,12 +188,12 @@ Block :
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
         {[
-            % | 'const':
-            %     .sConst
-            %     @ConstantDefinitions
+            | 'val':
+                .sVal
+                @ConstantDefinitions
             | 'like':
                 .sLike
-                @TypeDefinitions
+                @LikeClause
             | 'var':
                 .sVar
                 @VariableDeclarations
@@ -203,7 +203,18 @@ Block :
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
                 @Block  ','
+            | 'public':
+                [
+                    | 'fun':
+                        .sProcedure
+                        pIdentifier  .sIdentifier
+                        .sPublic
+                        @ProcedureHeading
+                        @Block  ','
+                ]
+
             | *:
+                % declarations and statements
                 [
                     | pIdentifier:
                         .sBegin
@@ -220,6 +231,7 @@ Block :
                     | 'repeat':
                         .sBegin
                         @RepeatStmt
+                    
                     | ';':
                         .sNullStmt
                     | *:
@@ -322,7 +334,27 @@ TypeBody :
         %     | *:
         %         @UnsignedIntegerConstant
         % ];
+% ADD
+LikeClause:
+        % Handles like clauses
+        [
 
+        ];
+
+ValueOrLike:
+        % call instead of TypeBody
+        % accepts either a constant value or a like clause
+        [
+
+        ];
+PublicClause:
+
+        [
+            | 'public':
+                @UnsignedIntegerConstant
+                .sNegate
+        ];
+% END
 VariableDeclarations :
         % Accept one or more variable declarations.
         pIdentifier  .sIdentifier
