@@ -191,8 +191,6 @@ Block :
             | 'val': %K Change from 'const'
                 .sConst
                 @ConstantDefinitions
-            | 'like':
-                @LikeClause
             | 'var':
                 .sVar
                 @ValueOrLike
@@ -336,11 +334,19 @@ TypeBody :
         %         @UnsignedIntegerConstant
         % ];
 % ADD
-LikeClause:
-        % Handles like clauses
-        {[
+LikeClause :
+        % Handles stuff following 'like'
+        [
             | 'file':
-                .sFile '(' @Expression ')'
+                .sFile 
+                'like' .sLike
+                [
+                    | pIdentifier:
+                        pIdentifier .sIdentifier
+                        >
+                    | *:
+                        % how to handle files?
+                        >
             | 'like':
                 .sLike
                 [
@@ -351,11 +357,13 @@ LikeClause:
                         @ConstantValue
                         >
                 ]
-        ]};
+            ]
+
+        ];
 
 
 
-ValueOrLike:
+ValueOrLike :
         % call instead of TypeBody
         % accepts either a initial value or a like clause
         pIdentifier  .sIdentifier
@@ -366,24 +374,14 @@ ValueOrLike:
                 .sExpnEnd
             | ':': % like clause
                 @LikeClause
-
-        ];
-
-% END
-VariableDeclarations :
-        % Accept a single variable declaration
-        [
-            | pIdentifier:
-                .sIdentifier
-                ':'  @TypeBody  ';'
             | '[':
                 .sArray
                 @ConstantValue
                 ']'
                 ':'
-            | *:
-                >
+                @LikeClause
         ];
+% END
 
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
