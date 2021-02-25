@@ -254,7 +254,6 @@ ConstantDefinitions :
             | ',':
                 @ConstantDefinitions
             | ';':
-                >
         ];
 
 ConstantValue :
@@ -280,30 +279,30 @@ UnsignedIntegerConstant :
                 .sInteger
         ];
 
-TypeDefinitions :
-        % Accept one or more named type definitions.
-        pIdentifier  .sIdentifier
-        '='  @TypeBody  ';'
-        {[
-            | pIdentifier:
-                .sIdentifier
-                '='  @TypeBody  ';'
-            | *:
-                >
-        ]};
+% TypeDefinitions :
+%         % Accept one or more named type definitions.
+%         pIdentifier  .sIdentifier
+%         '='  @TypeBody  ';'
+%         {[
+%             | pIdentifier:
+%                 .sIdentifier
+%                 '='  @TypeBody  ';'
+%             | *:
+%                 >
+%         ]};
 
-TypeBody :
-        [
-            | '[':
-                .sArray
-                @SimpleType
-                ']'
-            | 'file':
-                .sFile
-                % 'of'  @SimpleType
-            | *:
-                % @SimpleType
-        ];
+% TypeBody :
+%         [
+%             | '[':
+%                 .sArray
+%                 % @SimpleType
+%                 ']'
+%             | 'file':
+%                 .sFile
+%                 % 'of'  @SimpleType
+%             | *:
+%                 % @SimpleType
+%         ];
 
 % SimpleType :
         % A simple type is a named type (possibly predefined)
@@ -323,16 +322,16 @@ TypeBody :
         %         @OptionallySignedIntegerConstant
         % ];
 
-% OptionallySignedIntegerConstant :
-        % [
-        %     | '-':
-        %         @UnsignedIntegerConstant
-        %         .sNegate
-        %     | '+':
-        %         @UnsignedIntegerConstant
-        %     | *:
-        %         @UnsignedIntegerConstant
-        % ];
+OptionallySignedIntegerConstant :
+        [
+            | '-':
+                @UnsignedIntegerConstant
+                .sNegate
+            | '+':
+                @UnsignedIntegerConstant
+            | *:
+                @UnsignedIntegerConstant
+        ];
 % ADD
 LikeClause :
         % Handles stuff following 'like'
@@ -343,22 +342,17 @@ LikeClause :
                 [
                     | pIdentifier:
                         pIdentifier .sIdentifier
-                        >
                     | *:
                         % how to handle files?
-                        >
+                ]
             | 'like':
                 .sLike
                 [
                     | pIdentifier:
                         pIdentifier .sIdentifier
-                        >
                     | *:
                         @ConstantValue
-                        >
                 ]
-            ]
-
         ];
 
 
