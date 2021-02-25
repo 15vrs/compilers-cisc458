@@ -1,3 +1,4 @@
-  .pStringLiteral
-  % Output token text ''
- .pEndFile
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sEnd

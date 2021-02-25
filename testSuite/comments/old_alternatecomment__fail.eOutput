@@ -1,14 +1,13 @@
- .pLeftParen
- .pStar
-  .pIdentifier
-  % Output token text 'this'
-  .pIdentifier (screened to pIs)
-  .pIdentifier (screened to pNot)
- .pNewLine
-  .pIdentifier
-  % Output token text 'a'
-  .pIdentifier
-  % Output token text 'comment'
- .pStar
- .pRightParen
- .pEndFile
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+    .sParmEnd
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+    .sParmEnd
+  .sEnd

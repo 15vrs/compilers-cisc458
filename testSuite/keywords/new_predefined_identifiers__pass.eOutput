@@ -1,12 +1,19 @@
-  .pIdentifier
-  % Output token text 'get'
- .pNewLine
-  .pIdentifier
-  % Output token text 'getln'
- .pNewLine
-  .pIdentifier
-  % Output token text 'put'
- .pNewLine
-  .pIdentifier
-  % Output token text 'putln'
- .pEndFile
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  % .sNewLine
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+    .sParmEnd
+  % .sNewLine
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+    .sParmEnd
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+    .sParmEnd
+  .sEnd
