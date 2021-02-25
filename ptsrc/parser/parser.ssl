@@ -192,11 +192,10 @@ Block :
                 .sConst
                 @ConstantDefinitions
             | 'like':
-                .sLike
-                @TypeDefinitions
+                @LikeClause
             | 'var':
                 .sVar
-                @VariableDeclarations
+                @ValueOrLike
             | 'fun':
                 .sProcedure
                 % procedure name
@@ -222,56 +221,43 @@ Block :
                     |*:
                         @RepeatStmt
                 ]
+            | 'public':
+                [
+                    | 'fun':
+                        .sProcedure
+                        pIdentifier  .sIdentifier
+                        .sPublic
+                        @ProcedureHeading
+                        @Block  ','
+                ]
                 %END
             | pIdentifier:
                 .sBegin
                 @AssignmentOrCallStmt
-            % | ';':
-            %     .sNullStmt
+            | ';':
+                .sNullStmt
             | *:
-                >
-            % | *:
-            %     [
-            %         | pIdentifier:
-            %             .sBegin
-            %             @AssignmentOrCallStmt
-            %         | 'if':
-            %             .sBegin
-            %             @IfStmt
-            %         | 'while':
-            %             .sBegin
-            %             @WhileStmt
-            %         | 'choose':
-            %             .sBegin
-            %             @CaseStmt
-            %         | 'repeat':
-            %             .sBegin
-            %             @RepeatStmt
-            %         | ';':
-            %             .sNullStmt
-            %         | *:
-            %             [
-            %                 | 'end':
-            %                     .sEnd
-            %                 | *:
-            %                     >
-            %             ]
-            %     ]
+                [
+                    | 'end':
+                        .sEnd
+                    | *:
+                        >
+                ]
         ]}
         .sEnd;
 
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
+        .sConst
         pIdentifier  .sIdentifier
-        '=' @ConstantValue ';'
-        {[
-            | pIdentifier:
-                .sIdentifier
-                '=' @ConstantValue ';'
-            | *:
+        '=' @ConstantValue 
+        [
+            | ',':
+                @ConstantDefinitions
+            | ';':
                 >
-        ]};
+        ];
 
 ConstantValue :
         [
@@ -310,10 +296,10 @@ TypeDefinitions :
 
 TypeBody :
         [
-            % | 'array':
-            %     .sArray
-            %     '['  @SimpleType  ']'
-            %     'of'  @SimpleType
+            | '[':
+                .sArray
+                @SimpleType
+                ']'
             | 'file':
                 .sFile
                 % 'of'  @SimpleType
@@ -339,28 +325,65 @@ TypeBody :
         %         @OptionallySignedIntegerConstant
         % ];
 
-OptionallySignedIntegerConstant :
+% OptionallySignedIntegerConstant :
+        % [
+        %     | '-':
+        %         @UnsignedIntegerConstant
+        %         .sNegate
+        %     | '+':
+        %         @UnsignedIntegerConstant
+        %     | *:
+        %         @UnsignedIntegerConstant
+        % ];
+% ADD
+LikeClause:
+        % Handles like clauses
+        {[
+            | 'file':
+                .sFile '(' @Expression ')'
+            | 'like':
+                .sLike
+                [
+                    | pIdentifier:
+                        pIdentifier .sIdentifier
+                        >
+                    | *:
+                        @ConstantValue
+                        >
+                ]
+        ]};
+
+
+
+ValueOrLike:
+        % call instead of TypeBody
+        % accepts either a initial value or a like clause
+        pIdentifier  .sIdentifier
         [
-            | '-':
-                @UnsignedIntegerConstant
-                .sNegate
-            | '+':
-                @UnsignedIntegerConstant
-            | *:
-                @UnsignedIntegerConstant
+            | '=': % constant value declaration
+                .sInitialValue
+                @Expression
+                .sExpnEnd
+            | ':': % like clause
+                @LikeClause
+
         ];
 
+% END
 VariableDeclarations :
-        % Accept one or more variable declarations.
-        pIdentifier  .sIdentifier
-        ':'  @TypeBody  ';'
-        {[
+        % Accept a single variable declaration
+        [
             | pIdentifier:
                 .sIdentifier
                 ':'  @TypeBody  ';'
+            | '[':
+                .sArray
+                @ConstantValue
+                ']'
+                ':'
             | *:
                 >
-        ]};
+        ];
 
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
