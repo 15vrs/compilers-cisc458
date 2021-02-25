@@ -1,6 +1,5 @@
-  .pNewLine
-  .pIdentifier
-  % Output token text 'a'
-  .pIdentifier
-  % Output token text 'comment'
- .pEndFile
+ % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+  .sEnd

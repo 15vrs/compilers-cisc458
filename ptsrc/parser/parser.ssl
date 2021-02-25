@@ -68,7 +68,7 @@ Input :
         pSemicolon              ';'
         pColon                  ':'
         pEquals                 '='
-        pNotEqual               '<>'
+        pNotEqual               '!=' %K Changed from '<>'
         pLess                   '<'
         pLessEqual              '<='
         pGreaterEqual           '>='
@@ -188,9 +188,9 @@ Block :
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
         {[
-            % | 'const':
-            %     .sConst
-            %     @ConstantDefinitions
+            | 'val': %K Change from 'const'
+                .sConst
+                @ConstantDefinitions
             | 'like':
                 .sLike
                 @TypeDefinitions
@@ -203,30 +203,60 @@ Block :
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
                 @Block  ','
-            | pIdentifier:
-                .sBegin
-                @AssignmentOrCallStmt
             | 'if':
                 .sBegin
                 @IfStmt
-            | 'while':
-                .sBegin
-                @WhileStmt
+            %K Part of repeat now
+            %| 'while':
+            %    .sBegin
+            %    @WhileStmt
             | 'choose':
                 .sBegin
                 @CaseStmt
             | 'repeat':
                 .sBegin
-                @RepeatStmt
-            | ';':
-                .sNullStmt
-            | *:
+                %K ADD
                 [
-                    | 'end':
-                        .sEnd
-                    | *:
-                        >
+                    | 'while':
+                        @WhileStmt
+                    |*:
+                        @RepeatStmt
                 ]
+                %END
+            | pIdentifier:
+                .sBegin
+                @AssignmentOrCallStmt
+            % | ';':
+            %     .sNullStmt
+            | *:
+                >
+            % | *:
+            %     [
+            %         | pIdentifier:
+            %             .sBegin
+            %             @AssignmentOrCallStmt
+            %         | 'if':
+            %             .sBegin
+            %             @IfStmt
+            %         | 'while':
+            %             .sBegin
+            %             @WhileStmt
+            %         | 'choose':
+            %             .sBegin
+            %             @CaseStmt
+            %         | 'repeat':
+            %             .sBegin
+            %             @RepeatStmt
+            %         | ';':
+            %             .sNullStmt
+            %         | *:
+            %             [
+            %                 | 'end':
+            %                     .sEnd
+            %                 | *:
+            %                     >
+            %             ]
+            %     ]
         ]}
         .sEnd;
 
@@ -362,6 +392,43 @@ ProcedureHeading :
 
 AssignmentOrCallStmt :
         [
+            %K probably wrong
+            | '+=':
+                .sAssignmentStmt
+                .sIdentifier
+                .sIdentifier
+                @Expression
+                .sAdd
+                .sExpnEnd
+            | '-=':
+                .sAssignmentStmt
+                .sIdentifier
+                .sIdentifier
+                @Expression
+                .sSubtract
+                .sExpnEnd
+            | '*=':
+                .sAssignmentStmt
+                .sIdentifier
+                .sIdentifier
+                @Expression
+                .sMultiply
+                .sExpnEnd
+            | '/=':
+                .sAssignmentStmt
+                .sIdentifier
+                .sIdentifier
+                @Expression
+                .sDivide
+                .sExpnEnd
+            | '%=':
+                .sAssignmentStmt
+                .sIdentifier
+                .sIdentifier
+                @Expression
+                .sModulus
+                .sExpnEnd
+            %END
             | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
@@ -489,20 +556,24 @@ RepeatStmt :
             @Block
             [
                 | ';':
-                | *:%'until':
+                | 'while': %K Change from 'until'
                     .sRepeatEnd
                     >
             ]
         }
         @Expression
+        %K ADD
+        .sNot
+        %END
         .sExpnEnd;
+
 
 Expression :
         @SimpleExpression
         [
             | '==':
                 @SimpleExpression  .sEq
-            | '<>':
+            | '!=': %K Change from <>
                 @SimpleExpression  .sNE
             | '<':
                 @SimpleExpression  .sLT
