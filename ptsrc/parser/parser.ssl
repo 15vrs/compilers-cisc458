@@ -189,10 +189,9 @@ Block :
         % programmer sanity.
         {[
             | 'val':
-                .sVal
+                .sConst
                 @ConstantDefinitions
             | 'like':
-                .sLike
                 @LikeClause
             | 'var':
                 .sVar
@@ -214,6 +213,7 @@ Block :
                 ]
 
             | *:
+                >
                 % declarations and statements
                 [
                     | pIdentifier:
@@ -249,14 +249,13 @@ Block :
 ConstantDefinitions :
         % Accept one or more named constant definitions
         pIdentifier  .sIdentifier
-        '=' @ConstantValue ';'
-        {[
-            | pIdentifier:
-                .sIdentifier
-                '=' @ConstantValue ';'
-            | *:
+        '=' @ConstantValue 
+        [
+            | ',':
+                @ConstantDefinitions
+            | ';':
                 >
-        ]};
+        ];
 
 ConstantValue :
         [
@@ -356,16 +355,21 @@ PublicClause:
         ];
 % END
 VariableDeclarations :
-        % Accept one or more variable declarations.
+        % Accept a single variable declaration
         pIdentifier  .sIdentifier
         ':'  @TypeBody  ';'
-        {[
-            | pIdentifier:
-                .sIdentifier
-                ':'  @TypeBody  ';'
-            | *:
-                >
-        ]};
+        % {[
+        %     | pIdentifier:
+        %         .sIdentifier
+        %         ':'  @TypeBody  ';'
+        %     | '[':
+        %         .sArray
+        %         @ConstantValue
+        %         ']'
+        %         ':'
+        %     | *:
+        %         >
+        % ]};
 
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
