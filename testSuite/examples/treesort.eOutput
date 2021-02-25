@@ -7,13 +7,24 @@
  % .sNewLine
  % .sNewLine
   .sConst
+   .sConst
    .sIdentifier
     .sInteger
    % .sNewLine
   .sConst
+   .sConst
    .sIdentifier
     .sInteger
    % .sNewLine
   .sVar
    .sIdentifier
-  .sEnd
+    .sLike
+     .sInteger
+  % .sNewLine
+  % .sNewLine
+  % .sNewLine
+  .sNullStmt
+  .sVar
+   .sIdentifier
+    .sLike
+    .sIdentifier

@@ -9,4 +9,4 @@
        .sInteger
    .sDivide
    .sExpnEnd
-  .sEnd
+  .sNullStmt

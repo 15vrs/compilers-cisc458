@@ -7,20 +7,28 @@
  % .sNewLine
  % .sNewLine
   .sConst
+   .sConst
    .sIdentifier
     .sInteger
    % .sNewLine
   .sVar
    .sIdentifier
-   % .sNewLine
-   % .sNewLine
+   .sInitialValue
+       .sInteger
+       .sInteger
+      .sDivide
+   .sExpnEnd
+  % .sNewLine
+  % .sNewLine
+  .sNullStmt
   .sConst
+   .sConst
    .sIdentifier
     .sIdentifier
    % .sNewLine
   .sConst
+   .sConst
    .sIdentifier
     .sIdentifier
    % .sNewLine
    % .sNewLine
-  .sEnd

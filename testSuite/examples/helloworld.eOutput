@@ -9,4 +9,11 @@
         .sStringLiteral
     .sExpnEnd
     .sParmEnd
-  .sEnd
+  % .sNewLine
+  .sNullStmt
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+    .sParmEnd
+  % .sNewLine
+  .sNullStmt

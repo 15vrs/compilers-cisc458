@@ -9,4 +9,4 @@
        .sInteger
    .sMultiply
    .sExpnEnd
-  .sEnd
+  .sNullStmt

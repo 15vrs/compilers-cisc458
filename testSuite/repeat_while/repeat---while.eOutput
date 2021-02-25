@@ -12,13 +12,12 @@
          .sInteger
        .sAdd
      .sExpnEnd
-    .sEnd
-   % .sNewLine
-    .sEnd
+    % .sNewLine
+    .sNullStmt
    .sRepeatEnd
        .sIdentifier
        .sInteger
     .sLT
    .sNot
    .sExpnEnd
-  .sEnd
+  .sNullStmt

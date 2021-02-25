@@ -7,12 +7,13 @@
  % .sNewLine
  % .sNewLine
   .sConst
+   .sConst
    .sIdentifier
     .sInteger
    % .sNewLine
   .sConst
+   .sConst
    .sIdentifier
     .sInteger
    % .sNewLine
    % .sNewLine
-  .sEnd

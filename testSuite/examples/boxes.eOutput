@@ -8,4 +8,134 @@
  % .sNewLine
   .sVar
    .sIdentifier
-  .sEnd
+    .sLike
+     .sInteger
+  % .sNewLine
+  .sNullStmt
+  .sVar
+   .sIdentifier
+    .sLike
+     .sInteger
+  % .sNewLine
+  .sNullStmt
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+        .sStringLiteral
+    .sExpnEnd
+    .sParmEnd
+  % .sNewLine
+  .sNullStmt
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+        .sIdentifier
+    .sExpnEnd
+        .sIdentifier
+    .sExpnEnd
+    .sParmEnd
+  % .sNewLine
+  % .sNewLine
+  .sNullStmt
+  .sVar
+   .sIdentifier
+    .sLike
+     .sInteger
+  % .sNewLine
+  .sNullStmt
+  .sVar
+   .sIdentifier
+    .sLike
+     .sInteger
+  % .sNewLine
+  .sNullStmt
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+        .sStringLiteral
+    .sExpnEnd
+    .sParmEnd
+  % .sNewLine
+  .sNullStmt
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+        .sIdentifier
+    .sExpnEnd
+        .sIdentifier
+    .sExpnEnd
+    .sParmEnd
+  % .sNewLine
+  % .sNewLine
+  % .sNewLine
+  .sNullStmt
+  .sBegin
+   .sAssignmentStmt
+   .sIdentifier
+   .sIdentifier
+       .sInteger
+   .sAdd
+   .sExpnEnd
+  .sNullStmt
+  .sBegin
+   .sAssignmentStmt
+   .sIdentifier
+   .sIdentifier
+       .sInteger
+   .sAdd
+   .sExpnEnd
+  % .sNewLine
+  % .sNewLine
+  % .sNewLine
+  .sNullStmt
+  .sVar
+   .sIdentifier
+   .sInitialValue
+       .sStringLiteral
+   .sExpnEnd
+  .sNullStmt
+  .sVar
+   .sIdentifier
+   .sInitialValue
+       .sStringLiteral
+   .sExpnEnd
+  .sNullStmt
+  .sVar
+   .sIdentifier
+   .sInitialValue
+       .sStringLiteral
+   .sExpnEnd
+  % .sNewLine
+  .sNullStmt
+  .sVar
+   .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+  % .sNewLine
+  .sNullStmt
+  .sBegin
+   .sWhileStmt
+       .sIdentifier
+       .sIdentifier
+       .sIdentifier
+      .sMultiply
+    .sLE
+   .sExpnEnd
+    % .sNewLine
+    .sNullStmt
+    .sBegin
+     .sIfStmt
+         .sIdentifier
+         .sIdentifier
+        .sModulus
+         .sInteger
+      .sEq
+     .sExpnEnd
+     % .sNewLine
+     .sThen
+      .sBegin
+       .sAssignmentStmt
+       .sIdentifier
+           .sIdentifier
+       .sExpnEnd

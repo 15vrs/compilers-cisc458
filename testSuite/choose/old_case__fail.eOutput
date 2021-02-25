@@ -1,36 +1,12 @@
-  .pIdentifier (screened to pUsing)
-  .pIdentifier
-  % Output token text 'output'
- .pSemicolon
- .pNewLine
-  .pIdentifier
-  % Output token text 'case'
-  .pIdentifier
-  % Output token text 'i'
-  .pIdentifier (screened to pOf)
- .pNewLine
-  .pInteger
-  % Output token text '42'
- .pColon
-  .pIdentifier
-  % Output token text 'i'
- .pSemicolon
- .pNewLine
-  .pInteger
-  % Output token text '43'
- .pColon
-  .pIdentifier
-  % Output token text 'i'
- .pSemicolon
- .pNewLine
-  .pInteger
-  % Output token text '44'
- .pColon
-  .pIdentifier
-  % Output token text 'i'
- .pSemicolon
- .pNewLine
-  .pIdentifier (screened to pEnd)
- .pSemicolon
- .pNewLine
- .pEndFile
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+    .sParmEnd
+  .sBegin
+    .sCallStmt
+    .sIdentifier
+    .sParmEnd

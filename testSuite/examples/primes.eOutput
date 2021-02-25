@@ -5,10 +5,12 @@
  .sParmEnd
  % .sNewLine
   .sConst
+   .sConst
    .sIdentifier
     .sInteger
    % .sNewLine
   .sConst
+   .sConst
    .sIdentifier
     .sInteger
    % .sNewLine
@@ -16,4 +18,5 @@
    % .sNewLine
   .sVar
    .sIdentifier
-  .sEnd
+    .sLike
+    .sIdentifier

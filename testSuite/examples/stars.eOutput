@@ -7,15 +7,28 @@
  % .sNewLine
   .sVar
    .sIdentifier
-   % .sNewLine
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
+  % .sNewLine
+  .sNullStmt
   .sVar
    .sIdentifier
-   % .sNewLine
+   .sInitialValue
+       .sStringLiteral
+   .sExpnEnd
+  % .sNewLine
+  .sNullStmt
   .sBegin
    .sWhileStmt
        .sIdentifier
        .sInteger
     .sLE
    .sExpnEnd
-    .sEnd
-  .sEnd
+    % .sNewLine
+    .sNullStmt
+    .sBegin
+     .sAssignmentStmt
+     .sIdentifier
+         .sStringLiteral
+     .sExpnEnd

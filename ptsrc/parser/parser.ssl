@@ -199,6 +199,7 @@ Block :
                 % procedure name
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
+                .sBegin
                 @Block  ','
             | 'if':
                 .sBegin
@@ -226,7 +227,9 @@ Block :
                         pIdentifier  .sIdentifier
                         .sPublic
                         @ProcedureHeading
+                        .sBegin
                         @Block  ','
+                        .sEnd
                 ]
                 %END
             | pIdentifier:
@@ -234,15 +237,11 @@ Block :
                 @AssignmentOrCallStmt
             | ';':
                 .sNullStmt
+            | 'end':
+                .sEnd
             | *:
-                [
-                    | 'end':
-                        .sEnd
-                    | *:
-                        >
-                ]
-        ]}
-        .sEnd;
+                >
+        ]};
 
 
 ConstantDefinitions :

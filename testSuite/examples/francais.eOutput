@@ -14,55 +14,80 @@
           .sStringLiteral
       .sExpnEnd
       .sParmEnd
-    .sEnd
+    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
       .sParmEnd
-    .sEnd
-   % .sNewLine
+    % .sNewLine
+    .sNullStmt
     .sVar
      .sIdentifier
-    .sEnd
-   % .sNewLine
+      .sLike
+       .sStringLiteral
+    % .sNewLine
+    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
           .sIdentifier
       .sExpnEnd
       .sParmEnd
-    .sEnd
-   % .sNewLine
+    % .sNewLine
+    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
       .sParmEnd
-    .sEnd
-   % .sNewLine
-   % .sNewLine
+    % .sNewLine
+    % .sNewLine
+    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
           .sStringLiteral
       .sExpnEnd
       .sParmEnd
-    .sEnd
+    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
       .sParmEnd
-    .sEnd
-   % .sNewLine
-   % .sNewLine
+    % .sNewLine
+    % .sNewLine
+    .sNullStmt
     .sVar
      .sIdentifier
-     % .sNewLine
-     .sIdentifier
-     .sIdentifier
-     % .sNewLine
-     .sIdentifier
-     % .sNewLine
-     % .sNewLine
+     .sInitialValue
+         .sIdentifier
+         .sInteger
+        .sDivide
+     .sExpnEnd
+   % .sNewLine
+    .sBegin
+      .sCallStmt
+      .sIdentifier
+          .sStringLiteral
+      .sExpnEnd
+          .sIdentifier
+      .sExpnEnd
+          .sStringLiteral
+      .sExpnEnd
+      .sParmEnd
+    .sNullStmt
+    .sBegin
+      .sCallStmt
+      .sIdentifier
+      .sParmEnd
+    % .sNewLine
+    .sNullStmt
+    .sBegin
+      .sCallStmt
+      .sIdentifier
+      .sParmEnd
+    % .sNewLine
+    % .sNewLine
+    .sNullStmt
     .sBegin
      .sIfStmt
          .sIdentifier
@@ -71,8 +96,6 @@
         .sDivide
      .sExpnEnd
      .sThen
-      .sEnd
-    .sEnd
    % .sNewLine
    % .sNewLine
     .sBegin
@@ -82,43 +105,7 @@
             .sDivide
      .sExpnEnd
      .sThen
-      .sEnd
-    .sEnd
    % .sNewLine
-    .sEnd
-    .sEnd
-   % .sNewLine
-    .sEnd
-    .sEnd
-   % .sNewLine
-    .sBegin
-      .sCallStmt
-      .sIdentifier
-          .sStringLiteral
-      .sExpnEnd
-      .sParmEnd
-    .sEnd
-   % .sNewLine
-    .sEnd
-    .sEnd
-   % .sNewLine
-    .sBegin
-      .sCallStmt
-      .sIdentifier
-          .sStringLiteral
-      .sExpnEnd
-      .sParmEnd
-    .sEnd
-   % .sNewLine
-    .sEnd
-    .sEnd
-   % .sNewLine
-   % .sNewLine
-    .sBegin
-      .sCallStmt
-      .sIdentifier
-      .sParmEnd
-    .sEnd
    % .sNewLine
    % .sNewLine
     .sBegin
@@ -127,12 +114,7 @@
           .sStringLiteral
       .sExpnEnd
       .sParmEnd
-    .sEnd
-    .sBegin
-      .sCallStmt
-      .sIdentifier
-      .sParmEnd
-    .sEnd
+   % .sNewLine
    % .sNewLine
     .sBegin
       .sCallStmt
@@ -140,20 +122,49 @@
           .sStringLiteral
       .sExpnEnd
       .sParmEnd
+   % .sNewLine
     .sEnd
+    % .sNewLine
+    % .sNewLine
+    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
       .sParmEnd
-    .sEnd
-   % .sNewLine
+    % .sNewLine
+    % .sNewLine
+    .sNullStmt
+    .sBegin
+      .sCallStmt
+      .sIdentifier
+          .sStringLiteral
+      .sExpnEnd
+      .sParmEnd
     .sBegin
       .sCallStmt
       .sIdentifier
       .sParmEnd
-    .sEnd
-   % .sNewLine
-   % .sNewLine
+    % .sNewLine
+    .sNullStmt
+    .sBegin
+      .sCallStmt
+      .sIdentifier
+          .sStringLiteral
+      .sExpnEnd
+      .sParmEnd
+    .sBegin
+      .sCallStmt
+      .sIdentifier
+      .sParmEnd
+    % .sNewLine
+    .sNullStmt
+    .sBegin
+      .sCallStmt
+      .sIdentifier
+      .sParmEnd
+    % .sNewLine
+    % .sNewLine
+    .sNullStmt
     .sBegin
      .sIfStmt
          .sIdentifier
@@ -162,8 +173,6 @@
         .sDivide
      .sExpnEnd
      .sThen
-      .sEnd
-    .sEnd
    % .sNewLine
     .sBegin
       .sCallStmt
@@ -171,28 +180,6 @@
           .sStringLiteral
       .sExpnEnd
       .sParmEnd
-    .sEnd
-   % .sNewLine
-    .sEnd
-    .sEnd
-   % .sNewLine
-    .sBegin
-      .sCallStmt
-      .sIdentifier
-          .sStringLiteral
-      .sExpnEnd
-      .sParmEnd
-    .sEnd
-   % .sNewLine
-    .sEnd
-    .sEnd
-   % .sNewLine
-   % .sNewLine
-    .sBegin
-      .sCallStmt
-      .sIdentifier
-      .sParmEnd
-    .sEnd
    % .sNewLine
    % .sNewLine
     .sBegin
@@ -201,12 +188,49 @@
           .sStringLiteral
       .sExpnEnd
       .sParmEnd
+   % .sNewLine
     .sEnd
+    % .sNewLine
+    % .sNewLine
+    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
       .sParmEnd
-    .sEnd
+    % .sNewLine
+    % .sNewLine
+    .sNullStmt
+    .sBegin
+      .sCallStmt
+      .sIdentifier
+          .sStringLiteral
+      .sExpnEnd
+      .sParmEnd
+    .sBegin
+      .sCallStmt
+      .sIdentifier
+      .sParmEnd
+    % .sNewLine
+    .sNullStmt
+    .sBegin
+      .sCallStmt
+      .sIdentifier
+          .sStringLiteral
+      .sExpnEnd
+      .sParmEnd
+    .sBegin
+      .sCallStmt
+      .sIdentifier
+      .sParmEnd
+    % .sNewLine
+    .sNullStmt
+    .sBegin
+      .sCallStmt
+      .sIdentifier
+      .sParmEnd
+    % .sNewLine
+    % .sNewLine
+    .sNullStmt
    % .sNewLine
     .sBegin
       .sCallStmt
@@ -214,45 +238,20 @@
           .sStringLiteral
       .sExpnEnd
       .sParmEnd
-    .sEnd
+    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
       .sParmEnd
-    .sEnd
-   % .sNewLine
+    % .sNewLine
+    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
       .sParmEnd
-    .sEnd
-   % .sNewLine
-   % .sNewLine
-    .sEnd
-    .sEnd
-   % .sNewLine
-    .sBegin
-      .sCallStmt
-      .sIdentifier
-          .sStringLiteral
-      .sExpnEnd
-      .sParmEnd
-    .sEnd
-    .sBegin
-      .sCallStmt
-      .sIdentifier
-      .sParmEnd
-    .sEnd
-   % .sNewLine
-    .sBegin
-      .sCallStmt
-      .sIdentifier
-      .sParmEnd
-    .sEnd
-   % .sNewLine
-   % .sNewLine
-    .sEnd
-    .sEnd
+    % .sNewLine
+    % .sNewLine
+    .sNullStmt
    % .sNewLine
     .sBegin
       .sCallStmt
@@ -260,34 +259,34 @@
           .sStringLiteral
       .sExpnEnd
       .sParmEnd
-    .sEnd
+    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
       .sParmEnd
-    .sEnd
-   % .sNewLine
+    % .sNewLine
+    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
       .sParmEnd
+    % .sNewLine
+    .sNullStmt
     .sEnd
-   % .sNewLine
-    .sEnd
-    .sEnd
-   % .sNewLine
-   % .sNewLine
+    % .sNewLine
+    % .sNewLine
+    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
       .sParmEnd
-    .sEnd
-   % .sNewLine
-    .sEnd
+    % .sNewLine
+    .sNullStmt
    .sRepeatEnd
        .sIdentifier
        .sStringLiteral
     .sNE
    .sNot
    .sExpnEnd
-  .sEnd
+  % .sNewLine
+  .sNullStmt

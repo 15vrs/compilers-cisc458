@@ -11,7 +11,13 @@
  % .sNewLine
   .sVar
    .sIdentifier
-   % .sNewLine
+   .sArray
+    .sInteger
+    .sLike
+     .sInteger
+  % .sNewLine
+  .sNullStmt
   .sVar
    .sIdentifier
-  .sEnd
+    .sLike
+    .sIdentifier

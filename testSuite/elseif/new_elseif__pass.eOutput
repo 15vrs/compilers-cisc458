@@ -1,47 +1,51 @@
-  .pIdentifier (screened to pUsing)
-  .pIdentifier
-  % Output token text 'output'
- .pSemicolon
- .pNewLine
-  .pIdentifier (screened to pIf)
-  .pIdentifier
-  % Output token text 'x'
- .pDoubleEquals
-  .pInteger
-  % Output token text '42'
-  .pIdentifier (screened to pThen)
- .pNewLine
-  .pIdentifier
-  % Output token text 'i'
- .pPlusEquals
-  .pInteger
-  % Output token text '1'
- .pSemicolon
- .pNewLine
-  .pIdentifier (screened to pElseif)
-  .pIdentifier
-  % Output token text 'y'
- .pDoubleEquals
-  .pInteger
-  % Output token text '71'
-  .pIdentifier (screened to pThen)
- .pNewLine
-  .pIdentifier
-  % Output token text 'i'
- .pPlusEquals
-  .pInteger
-  % Output token text '2'
- .pSemicolon
- .pNewLine
-  .pIdentifier (screened to pElse)
- .pNewLine
-  .pIdentifier
-  % Output token text 'i'
- .pPlusEquals
-  .pInteger
-  % Output token text '3'
- .pSemicolon
- .pNewLine
-  .pIdentifier (screened to pEnd)
- .pSemicolon
- .pEndFile
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sIfStmt
+       .sIdentifier
+       .sInteger
+    .sEq
+   .sExpnEnd
+   % .sNewLine
+   .sThen
+    .sBegin
+     .sAssignmentStmt
+     .sIdentifier
+     .sIdentifier
+         .sInteger
+     .sAdd
+     .sExpnEnd
+    % .sNewLine
+    .sNullStmt
+   .sElse
+    .sIfStmt
+        .sIdentifier
+        .sInteger
+     .sEq
+    .sExpnEnd
+    % .sNewLine
+    .sThen
+     .sBegin
+      .sAssignmentStmt
+      .sIdentifier
+      .sIdentifier
+          .sInteger
+      .sAdd
+      .sExpnEnd
+     % .sNewLine
+     .sNullStmt
+    % .sNewLine
+    .sElse
+     .sBegin
+      .sAssignmentStmt
+      .sIdentifier
+      .sIdentifier
+          .sInteger
+      .sAdd
+      .sExpnEnd
+     % .sNewLine
+     .sNullStmt
+     .sEnd
+     .sNullStmt
