@@ -17,8 +17,76 @@
     .sLike
      .sInteger
   % .sNewLine
-  .sNullStmt
   .sVar
    .sIdentifier
     .sLike
     .sIdentifier
+  % .sNewLine
+  .sVar
+   .sIdentifier
+    .sLike
+     .sInteger
+  % .sNewLine
+  .sVar
+   .sIdentifier
+    .sLike
+     .sInteger
+  % .sNewLine
+  % .sNewLine
+  % .sNewLine
+  .sVar
+   .sIdentifier
+    .sLike
+     .sInteger
+  % .sNewLine
+  .sVar
+   .sIdentifier
+    .sLike
+     .sInteger
+  % .sNewLine
+  .sVar
+   .sIdentifier
+    .sLike
+     .sInteger
+  % .sNewLine
+  % .sNewLine
+  % .sNewLine
+  .sVar
+   .sIdentifier
+    .sLike
+     .sInteger
+  % .sNewLine
+  .sVar
+   .sIdentifier
+    .sLike
+     .sInteger
+  % .sNewLine
+  % .sNewLine
+  % .sNewLine
+  .sVar
+   .sIdentifier
+    .sLike
+    .sIdentifier
+  % .sNewLine
+  .sVar
+   .sIdentifier
+    .sLike
+    .sIdentifier
+  % .sNewLine
+  % .sNewLine
+  % .sNewLine
+  .sVar
+   .sIdentifier
+    .sLike
+     .sStringLiteral
+  % .sNewLine
+  % .sNewLine
+  % .sNewLine
+  .sVar
+   .sIdentifier
+    .sLike
+     .sInteger
+  % .sNewLine
+  % .sNewLine
+  % .sNewLine
+  % .sNewLine

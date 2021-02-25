@@ -26,7 +26,6 @@
       .sLike
        .sStringLiteral
     % .sNewLine
-    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
@@ -126,7 +125,6 @@
     .sEnd
     % .sNewLine
     % .sNewLine
-    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
@@ -192,7 +190,6 @@
     .sEnd
     % .sNewLine
     % .sNewLine
-    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier
@@ -275,7 +272,6 @@
     .sEnd
     % .sNewLine
     % .sNewLine
-    .sNullStmt
     .sBegin
       .sCallStmt
       .sIdentifier

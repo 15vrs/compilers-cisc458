@@ -13,7 +13,6 @@
     .sLike
      .sStringLiteral
   % .sNewLine
-  .sNullStmt
   .sVar
    .sIdentifier
    .sArray
@@ -23,7 +22,6 @@
   % .sNewLine
   % .sNewLine
   % .sNewLine
-  .sNullStmt
   .sBegin
    .sAssignmentStmt
    .sIdentifier
@@ -210,7 +208,6 @@
    .sExpnEnd
   % .sNewLine
   % .sNewLine
-  .sNullStmt
   .sBegin
    .sWhileStmt
        .sIdentifier

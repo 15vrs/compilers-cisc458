@@ -11,13 +11,11 @@
     .sLike
      .sInteger
   % .sNewLine
-  .sNullStmt
   .sVar
    .sIdentifier
     .sLike
      .sInteger
   % .sNewLine
-  .sNullStmt
   .sBegin
     .sCallStmt
     .sIdentifier
@@ -42,13 +40,11 @@
     .sLike
      .sInteger
   % .sNewLine
-  .sNullStmt
   .sVar
    .sIdentifier
     .sLike
      .sInteger
   % .sNewLine
-  .sNullStmt
   .sBegin
     .sCallStmt
     .sIdentifier
@@ -93,27 +89,23 @@
    .sInitialValue
        .sStringLiteral
    .sExpnEnd
-  .sNullStmt
   .sVar
    .sIdentifier
    .sInitialValue
        .sStringLiteral
    .sExpnEnd
-  .sNullStmt
   .sVar
    .sIdentifier
    .sInitialValue
        .sStringLiteral
    .sExpnEnd
   % .sNewLine
-  .sNullStmt
   .sVar
    .sIdentifier
    .sInitialValue
        .sInteger
    .sExpnEnd
   % .sNewLine
-  .sNullStmt
   .sBegin
    .sWhileStmt
        .sIdentifier

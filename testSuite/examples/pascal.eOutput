@@ -13,7 +13,6 @@
      .sInteger
   % .sNewLine
   % .sNewLine
-  .sNullStmt
   .sProcedure
   .sIdentifier
    .sIdentifier
@@ -68,12 +67,10 @@
      .sNullStmt
      .sEnd
      % .sNewLine
-     .sNullStmt
      .sEnd
      % .sNewLine
      % .sNewLine
      % .sNewLine
-     .sNullStmt
      .sBegin
       .sAssignmentStmt
       .sIdentifier
@@ -90,7 +87,6 @@
           .sInteger
       .sExpnEnd
      % .sNewLine
-     .sNullStmt
      % .sNewLine
      .sBegin
       .sRepeatStmt
@@ -145,7 +141,6 @@
           .sInteger
       .sExpnEnd
      % .sNewLine
-     .sNullStmt
      % .sNewLine
      % .sNewLine
      .sBegin
@@ -185,7 +180,6 @@
          % .sNewLine
          % .sNewLine
          % .sNewLine
-         .sNullStmt
          .sBegin
           .sAssignmentStmt
           .sIdentifier
@@ -225,7 +219,6 @@
            .sNullStmt
            .sEnd
            % .sNewLine
-           .sNullStmt
            .sBegin
              .sCallStmt
              .sIdentifier

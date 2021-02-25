@@ -23,14 +23,12 @@
     .sLike
      .sInteger
   % .sNewLine
-  .sNullStmt
   .sVar
    .sIdentifier
     .sLike
      .sInteger
   % .sNewLine
   % .sNewLine
-  .sNullStmt
   .sProcedure
   .sIdentifier
    .sIdentifier
@@ -63,7 +61,6 @@
    .sEnd
    % .sNewLine
    % .sNewLine
-   .sNullStmt
    .sProcedure
    .sIdentifier
     .sIdentifier
@@ -76,7 +73,6 @@
       .sLike
        .sInteger
     % .sNewLine
-    .sNullStmt
     .sBegin
      .sAssignmentStmt
      .sIdentifier
@@ -120,7 +116,6 @@
     .sEnd
     % .sNewLine
     % .sNewLine
-    .sNullStmt
     .sProcedure
     .sIdentifier
      .sParmEnd

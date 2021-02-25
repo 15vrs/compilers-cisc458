@@ -20,7 +20,6 @@
    .sExpnEnd
   % .sNewLine
   % .sNewLine
-  .sNullStmt
   .sConst
    .sConst
    .sIdentifier

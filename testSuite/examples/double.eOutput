@@ -10,7 +10,6 @@
    .sExpnEnd
   % .sNewLine
   % .sNewLine
-  .sNullStmt
   .sBegin
     .sCallStmt
     .sIdentifier

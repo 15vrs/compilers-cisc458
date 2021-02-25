@@ -11,14 +11,12 @@
        .sInteger
    .sExpnEnd
   % .sNewLine
-  .sNullStmt
   .sVar
    .sIdentifier
    .sInitialValue
        .sStringLiteral
    .sExpnEnd
   % .sNewLine
-  .sNullStmt
   .sBegin
    .sWhileStmt
        .sIdentifier

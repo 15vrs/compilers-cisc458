@@ -240,6 +240,7 @@ Block :
                 .sNullStmt
             | 'end':
                 .sEnd
+                ';'
             | *:
                 >
         ]};
