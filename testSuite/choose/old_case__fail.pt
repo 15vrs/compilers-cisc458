@@ -1,0 +1,6 @@
+using output;
+case i of
+    42: i;
+    43: i;
+    44: i;
+end;

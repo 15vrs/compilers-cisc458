@@ -62,8 +62,8 @@ Input :
         pStar                   '*'
 % REMOVE
 %        pColonEquals            ':='
+%        pDot                    '.'
 % END
-        pDot                    '.'
         pComma                  ','
         pSemicolon              ';'
         pColon                  ':'
@@ -180,7 +180,7 @@ Program :
             ]
         }
         .sParmEnd
-        ';'  @Block  '.';
+        ';'  @Block;
 
 Block :
         % Strictly speaking, standard Pascal requires that declarations
@@ -188,11 +188,11 @@ Block :
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
         {[
-            | 'const':
-                .sConst
-                @ConstantDefinitions
+            % | 'const':
+            %     .sConst
+            %     @ConstantDefinitions
             | 'like':
-                .sType
+                .sLike
                 @TypeDefinitions
             | 'var':
                 .sVar
@@ -203,32 +203,29 @@ Block :
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
                 @Block  ','
+            | pIdentifier:
+                .sBegin
+                @AssignmentOrCallStmt
+            | 'if':
+                .sBegin
+                @IfStmt
+            | 'while':
+                .sBegin
+                @WhileStmt
+            | 'choose':
+                .sBegin
+                @CaseStmt
+            | 'repeat':
+                .sBegin
+                @RepeatStmt
+            | ';':
+                .sNullStmt
             | *:
                 [
-                    | pIdentifier:
-                        .sBegin
-                        @AssignmentOrCallStmt
-                    | 'if':
-                        .sBegin
-                        @IfStmt
-                    | 'while':
-                        .sBegin
-                        @WhileStmt
-                    | 'choose':
-                        .sBegin
-                        @CaseStmt
-                    | 'repeat':
-                        .sBegin
-                        @RepeatStmt
-                    | ';':
-                        .sNullStmt
+                    | 'end':
+                        .sEnd
                     | *:
-                        [
-                            | 'end':
-                                .sEnd
-                            | *:
-                                >
-                        ]
+                        >
                 ]
         ]}
         .sEnd;
@@ -283,34 +280,34 @@ TypeDefinitions :
 
 TypeBody :
         [
-            | 'array':
-                .sArray
-                '['  @SimpleType  ']'
-                'of'  @SimpleType
+            % | 'array':
+            %     .sArray
+            %     '['  @SimpleType  ']'
+            %     'of'  @SimpleType
             | 'file':
                 .sFile
-                'of'  @SimpleType
+                % 'of'  @SimpleType
             | *:
-                @SimpleType
+                % @SimpleType
         ];
 
-SimpleType :
+% SimpleType :
         % A simple type is a named type (possibly predefined)
         % or a subrange type specification
-        [
-            | pIdentifier:
-                .sIdentifier
-                [
-                    | '..':
-                        .sRange         %% this may be unnecessary
-                        @OptionallySignedIntegerConstant
-                    | *:
-                ]
-            | *:
-                @OptionallySignedIntegerConstant
-                '..'  .sRange
-                @OptionallySignedIntegerConstant
-        ];
+        % [
+        %     | pIdentifier:
+        %         .sIdentifier
+        %         % [
+        %         %     % | '..':
+        %         %     %     .sRange         %% this may be unnecessary
+        %         %     %     @OptionallySignedIntegerConstant
+        %         %     | *:
+        %         % ]
+        %     | *:
+        %         @OptionallySignedIntegerConstant
+        %         '..'  .sRange
+        %         @OptionallySignedIntegerConstant
+        % ];
 
 OptionallySignedIntegerConstant :
         [
@@ -362,24 +359,6 @@ ProcedureHeading :
         ]
         ';'
         .sParmEnd;
-
-% Statement :
-%         [
-%             | pIdentifier:
-%                 @AssignmentOrCallStmt
-%             | 'begin':
-%                 @BeginStmt
-%             | 'if':
-%                 @IfStmt
-%             | 'while':
-%                 @WhileStmt
-%             | 'case':
-%                 @CaseStmt
-%             | 'repeat':
-%                 @RepeatStmt
-%             | *:
-%                 .sNullStmt
-%         ];
 
 AssignmentOrCallStmt :
         [
@@ -440,6 +419,11 @@ IfStmt :
             | 'else':
                 .sElse
                 @Block
+% ADD
+            | 'elseif':
+                .sElse
+                @IfStmt
+% END
             | *:
         ];
 
@@ -463,12 +447,19 @@ CaseStmt :
             | 'end':
                 >
         ]}
-        .sCaseEnd;
+        .sCaseEnd % ;
+% ADD
+        'else'
+        .sCaseElse
+        @ Block;
+% END
 
 CaseAlternative :
         % A case alternative is a statement labelled by
         % one or more optionally signed integer constants
-
+% ADD
+        'when'
+% END
         {
             @OptionallySignedIntegerConstant
             [
@@ -477,14 +468,19 @@ CaseAlternative :
                     >
             ]
         }
+% ADD
+        'then'
+% END
         .sLabelEnd
-        ':'  @Block;
+%        ':'  
+        pNewLine
+        @Block;
 
 WhileStmt :
         .sWhileStmt
         @Expression
         .sExpnEnd
-        'do'
+        % 'do'
         @Block;
 
 RepeatStmt :
@@ -493,7 +489,7 @@ RepeatStmt :
             @Block
             [
                 | ';':
-                | 'until':
+                | *:%'until':
                     .sRepeatEnd
                     >
             ]
@@ -504,7 +500,7 @@ RepeatStmt :
 Expression :
         @SimpleExpression
         [
-            | '=':
+            | '==':
                 @SimpleExpression  .sEq
             | '<>':
                 @SimpleExpression  .sNE
