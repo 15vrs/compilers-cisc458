@@ -189,13 +189,12 @@ Block :
         % programmer sanity.
         {[
             | 'val':
-                .sConst
                 @ConstantDefinitions
             | 'like':
                 @LikeClause
             | 'var':
                 .sVar
-                @VariableDeclarations
+                @ValueOrLike
             | 'fun':
                 .sProcedure
                 % procedure name
@@ -248,6 +247,7 @@ Block :
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
+        .sConst
         pIdentifier  .sIdentifier
         '=' @ConstantValue 
         [
@@ -294,10 +294,10 @@ TypeDefinitions :
 
 TypeBody :
         [
-            % | 'array':
-            %     .sArray
-            %     '['  @SimpleType  ']'
-            %     'of'  @SimpleType
+            | '[':
+                .sArray
+                @SimpleType
+                ']'
             | 'file':
                 .sFile
                 % 'of'  @SimpleType
@@ -336,23 +336,37 @@ TypeBody :
 % ADD
 LikeClause:
         % Handles like clauses
-        [
+        {[
+            | 'file':
+                .sFile '(' @Expression ')'
+            | 'like':
+                .sLike
+                [
+                    | pIdentifier:
+                        pIdentifier .sIdentifier
+                        >
+                    | *:
+                        @ConstantValue
+                        >
+                ]
+        ]};
 
-        ];
+
 
 ValueOrLike:
         % call instead of TypeBody
-        % accepts either a constant value or a like clause
+        % accepts either a initial value or a like clause
+        pIdentifier  .sIdentifier
         [
+            | '=': % constant value declaration
+                .sInitialValue
+                @Expression
+                .sExpnEnd
+            | ':': % like clause
+                @LikeClause
 
         ];
-PublicClause:
 
-        [
-            | 'public':
-                @UnsignedIntegerConstant
-                .sNegate
-        ];
 % END
 VariableDeclarations :
         % Accept a single variable declaration
