@@ -343,8 +343,6 @@ LikeClause :
                 [
                     | pIdentifier:
                         pIdentifier .sIdentifier
-                    | *:
-                        % how to handle files?
                 ]
             | 'like':
                 .sLike
