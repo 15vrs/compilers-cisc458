@@ -201,6 +201,7 @@ Block :
                 @ProcedureHeading
                 .sBegin
                 @Block  ','
+                .sEnd
             | 'if':
                 .sBegin
                 @IfStmt
