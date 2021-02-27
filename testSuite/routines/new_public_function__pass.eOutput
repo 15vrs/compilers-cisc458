@@ -2,9 +2,11 @@
  .sIdentifier
  .sParmEnd
  % .sNewLine
+ .sBegin
   .sProcedure
   .sIdentifier
   .sPublic
    .sParmEnd
   .sBegin
   .sEnd
+ .sEnd
