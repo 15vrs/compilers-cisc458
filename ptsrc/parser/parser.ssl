@@ -369,14 +369,30 @@ LikeClause :
                 [
                     | pIdentifier:
                         pIdentifier .sIdentifier
+                        [
+                            | ',':
+                                @ValueOrLike
+                            | ';':
+                        ]
                 ]
             | 'like':
                 .sLike
                 [
                     | pIdentifier:
                         pIdentifier .sIdentifier
+                        [
+                            | ',':
+                                @ValueOrLike
+                            | ';':
+                        ]
                     | *:
                         @ConstantValue
+                        [
+                            | ',':
+                                @ValueOrLike
+                            | ';':
+                        ]
+                        
                 ]
         ];
 
@@ -391,6 +407,11 @@ ValueOrLike :
                 .sInitialValue
                 @Expression
                 .sExpnEnd
+                [
+                    | ',':
+                        @ValueOrLike
+                    | ';':
+                ]
             | ':': % like clause
                 @LikeClause
             | '[':
