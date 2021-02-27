@@ -3,13 +3,14 @@
  .sIdentifier
  .sParmEnd
  % .sNewLine
+ .sBegin
   .sVar
    .sIdentifier
    .sInitialValue
        .sStringLiteral
    .sExpnEnd
-  % .sNewLine
-  % .sNewLine
+   % .sNewLine
+   % .sNewLine
   .sBegin
     .sCallStmt
     .sIdentifier
@@ -61,3 +62,4 @@
    .sExpnEnd
   % .sNewLine
   .sNullStmt
+ .sEnd

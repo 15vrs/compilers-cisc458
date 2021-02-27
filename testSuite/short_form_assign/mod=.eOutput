@@ -2,6 +2,7 @@
  .sIdentifier
  .sParmEnd
  % .sNewLine
+ .sBegin
   .sBegin
    .sAssignmentStmt
    .sIdentifier
@@ -10,3 +11,4 @@
    .sModulus
    .sExpnEnd
   .sNullStmt
+ .sEnd

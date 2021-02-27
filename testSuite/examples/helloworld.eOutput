@@ -3,6 +3,7 @@
  .sIdentifier
  .sParmEnd
  % .sNewLine
+ .sBegin
   .sBegin
     .sCallStmt
     .sIdentifier
@@ -17,3 +18,4 @@
     .sParmEnd
   % .sNewLine
   .sNullStmt
+ .sEnd

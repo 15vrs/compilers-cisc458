@@ -2,6 +2,7 @@
  .sIdentifier
  .sParmEnd
  % .sNewLine
+ .sBegin
   .sBegin
     .sCallStmt
     .sIdentifier
@@ -10,3 +11,4 @@
     .sCallStmt
     .sIdentifier
     .sParmEnd
+ .sEnd

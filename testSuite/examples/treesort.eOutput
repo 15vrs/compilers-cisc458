@@ -6,6 +6,7 @@
  % .sNewLine
  % .sNewLine
  % .sNewLine
+ .sBegin
   .sConst
    .sConst
    .sIdentifier
@@ -20,247 +21,233 @@
    .sIdentifier
     .sLike
      .sInteger
-  % .sNewLine
-  % .sNewLine
-  % .sNewLine
-  .sVar
-   .sIdentifier
-    .sLike
-    .sIdentifier
-  % .sNewLine
-  .sVar
-   .sIdentifier
-   .sArray
-    .sIdentifier
-    .sLike
-    .sIdentifier
-  % .sNewLine
-  .sVar
-   .sIdentifier
-   .sArray
-    .sIdentifier
-    .sLike
-    .sIdentifier
-  % .sNewLine
-  .sVar
-   .sIdentifier
-   .sArray
-    .sIdentifier
-    .sLike
-     .sInteger
-  % .sNewLine
-  % .sNewLine
-  % .sNewLine
-  .sVar
-   .sIdentifier
-    .sLike
-     .sInteger
-  % .sNewLine
-  % .sNewLine
-  % .sNewLine
-  .sProcedure
-  .sIdentifier
-   .sIdentifier
-   .sIdentifier
-   % .sNewLine
-   .sParmEnd
-  .sBegin
-   .sBegin
-    .sAssignmentStmt
-    .sIdentifier
-    .sSubscript
-        .sIdentifier
-    .sExpnEnd
-        .sIdentifier
-    .sExpnEnd
-   % .sNewLine
-   .sNullStmt
-   .sBegin
-    .sAssignmentStmt
-    .sIdentifier
-    .sSubscript
-        .sIdentifier
-    .sExpnEnd
-        .sIdentifier
-    .sExpnEnd
-   % .sNewLine
-   .sNullStmt
-   .sBegin
-    .sAssignmentStmt
-    .sIdentifier
-    .sSubscript
-        .sIdentifier
-    .sExpnEnd
-        .sIdentifier
-    .sExpnEnd
-   % .sNewLine
-   % .sNewLine
-   .sNullStmt
-   .sBegin
-    .sIfStmt
-        .sIdentifier
-        .sIdentifier
-     .sEq
-    .sExpnEnd
     % .sNewLine
-    .sThen
-     .sBegin
-      .sAssignmentStmt
-      .sIdentifier
-          .sIdentifier
-      .sExpnEnd
-     % .sNewLine
-     .sNullStmt
     % .sNewLine
-    .sElse
-     .sVar
+    % .sNewLine
+  .sVar
+   .sIdentifier
+    .sLike
+    .sIdentifier
+     .sIdentifier
+     .sInitialValue
+         .sIdentifier
+     .sExpnEnd
       .sIdentifier
       .sInitialValue
           .sIdentifier
       .sExpnEnd
-     % .sNewLine
-     % .sNewLine
-     .sBegin
-      .sRepeatStmt
-       .sBegin
-        .sIfStmt
+       .sIdentifier
+       .sInitialValue
+           .sIdentifier
+       .sExpnEnd
+        .sIdentifier
+        .sInitialValue
             .sIdentifier
+        .sExpnEnd
+         .sIdentifier
+         .sInitialValue
+             .sIdentifier
+         .sExpnEnd
+          .sIdentifier
+          .sInitialValue
+              .sIdentifier
+          .sExpnEnd
+           .sIdentifier
+           .sInitialValue
+               .sIdentifier
+           .sExpnEnd
             .sIdentifier
-             .sSubscript
+            .sInitialValue
+                .sIdentifier
+            .sExpnEnd
+             .sIdentifier
+             .sInitialValue
                  .sIdentifier
              .sExpnEnd
-         .sLT
-        .sExpnEnd
-        % .sNewLine
-        .sThen
-         .sBegin
-          .sIfStmt
               .sIdentifier
-               .sSubscript
-                   .sIdentifier
-               .sExpnEnd
-              .sIdentifier
-           .sEq
-          .sExpnEnd
-          % .sNewLine
-          .sThen
-           .sBegin
-            .sAssignmentStmt
-            .sIdentifier
-            .sSubscript
-                .sIdentifier
-            .sExpnEnd
-                .sIdentifier
-            .sExpnEnd
-           % .sNewLine
-           .sNullStmt
-           .sBegin
-            .sAssignmentStmt
-            .sIdentifier
-                .sIdentifier
-            .sExpnEnd
-           % .sNewLine
-           .sNullStmt
-          % .sNewLine
-          .sElse
-           .sBegin
-            .sAssignmentStmt
-            .sIdentifier
-                .sIdentifier
-                 .sSubscript
-                     .sIdentifier
-                 .sExpnEnd
-            .sExpnEnd
-           % .sNewLine
-           .sNullStmt
-           .sEnd
-           % .sNewLine
-           % .sNewLine
-        .sElse
-         .sIfStmt
-             .sIdentifier
-             .sIdentifier
-              .sSubscript
+              .sInitialValue
                   .sIdentifier
               .sExpnEnd
-          .sGT
-         .sExpnEnd
-         % .sNewLine
-         .sThen
-          .sBegin
-           .sIfStmt
                .sIdentifier
-                .sSubscript
+               .sInitialValue
+                   .sIdentifier
+               .sExpnEnd
+                .sIdentifier
+                .sInitialValue
                     .sIdentifier
                 .sExpnEnd
-               .sIdentifier
-            .sEq
-           .sExpnEnd
-           % .sNewLine
-           .sThen
-            .sBegin
-             .sAssignmentStmt
-             .sIdentifier
-             .sSubscript
                  .sIdentifier
-             .sExpnEnd
-                 .sIdentifier
-             .sExpnEnd
-            % .sNewLine
-            .sNullStmt
-            .sBegin
-             .sAssignmentStmt
-             .sIdentifier
-                 .sIdentifier
-             .sExpnEnd
-            % .sNewLine
-            .sNullStmt
-           % .sNewLine
-           .sElse
-            .sBegin
-             .sAssignmentStmt
-             .sIdentifier
-                 .sIdentifier
-                  .sSubscript
+                 .sInitialValue
+                     .sIdentifier
+                 .sExpnEnd
+                  .sIdentifier
+                  .sInitialValue
                       .sIdentifier
                   .sExpnEnd
-             .sExpnEnd
-            % .sNewLine
-            .sNullStmt
-            .sEnd
-            % .sNewLine
-            .sEnd
-            % .sNewLine
-      .sRepeatEnd
-          .sIdentifier
-           .sSubscript
-               .sIdentifier
-           .sExpnEnd
-          .sIdentifier
-       .sNE
-      .sNot
-      .sExpnEnd
-     % .sNewLine
-     .sNullStmt
-     .sEnd
-     % .sNewLine
-     % .sNewLine
-     .sBegin
-      .sAssignmentStmt
-      .sIdentifier
-      .sIdentifier
-          .sInteger
-      .sAdd
-      .sExpnEnd
-     % .sNewLine
-     .sNullStmt
-     .sEnd
-     % .sNewLine
-     % .sNewLine
-     % .sNewLine
-     .sProcedure
-     .sIdentifier
-      .sParmEnd
-     .sBegin
-     .sEnd
-  .sEnd
+                   .sIdentifier
+                   .sInitialValue
+                       .sIdentifier
+                   .sExpnEnd
+                    .sIdentifier
+                    .sInitialValue
+                        .sIdentifier
+                    .sExpnEnd
+                     .sIdentifier
+                     .sInitialValue
+                         .sIdentifier
+                     .sExpnEnd
+                      .sIdentifier
+                      .sInitialValue
+                          .sIdentifier
+                      .sExpnEnd
+                       .sIdentifier
+                       .sInitialValue
+                           .sIdentifier
+                       .sExpnEnd
+                        .sIdentifier
+                        .sInitialValue
+                            .sIdentifier
+                        .sExpnEnd
+                         .sIdentifier
+                         .sInitialValue
+                             .sIdentifier
+                         .sExpnEnd
+                          .sIdentifier
+                          .sInitialValue
+                              .sIdentifier
+                          .sExpnEnd
+                           .sIdentifier
+                           .sInitialValue
+                               .sIdentifier
+                           .sExpnEnd
+                            .sIdentifier
+                            .sInitialValue
+                                .sIdentifier
+                            .sExpnEnd
+                             .sIdentifier
+                             .sInitialValue
+                                 .sIdentifier
+                             .sExpnEnd
+                              .sIdentifier
+                              .sInitialValue
+                                  .sIdentifier
+                              .sExpnEnd
+                               .sIdentifier
+                               .sInitialValue
+                                   .sIdentifier
+                               .sExpnEnd
+                                .sIdentifier
+                                .sInitialValue
+                                    .sIdentifier
+                                .sExpnEnd
+                                 .sIdentifier
+                                 .sInitialValue
+                                     .sIdentifier
+                                 .sExpnEnd
+                                  .sIdentifier
+                                  .sInitialValue
+                                      .sIdentifier
+                                  .sExpnEnd
+                                   .sIdentifier
+                                   .sInitialValue
+                                       .sIdentifier
+                                   .sExpnEnd
+                                    .sIdentifier
+                                    .sInitialValue
+                                        .sIdentifier
+                                    .sExpnEnd
+                                     .sIdentifier
+                                     .sInitialValue
+                                         .sIdentifier
+                                     .sExpnEnd
+                                      .sIdentifier
+                                      .sInitialValue
+                                          .sIdentifier
+                                      .sExpnEnd
+                                       .sIdentifier
+                                       .sInitialValue
+                                           .sIdentifier
+                                       .sExpnEnd
+                                        .sIdentifier
+                                        .sInitialValue
+                                            .sIdentifier
+                                        .sExpnEnd
+                                         .sIdentifier
+                                         .sInitialValue
+                                             .sIdentifier
+                                         .sExpnEnd
+                                          .sIdentifier
+                                          .sInitialValue
+                                              .sIdentifier
+                                          .sExpnEnd
+                                           .sIdentifier
+                                           .sInitialValue
+                                               .sIdentifier
+                                           .sExpnEnd
+                                            .sIdentifier
+                                            .sInitialValue
+                                                .sIdentifier
+                                            .sExpnEnd
+                                             .sIdentifier
+                                             .sInitialValue
+                                                 .sIdentifier
+                                             .sExpnEnd
+                                              .sIdentifier
+                                              .sInitialValue
+                                                  .sIdentifier
+                                              .sExpnEnd
+                                               .sIdentifier
+                                               .sInitialValue
+                                                   .sIdentifier
+                                               .sExpnEnd
+                                                .sIdentifier
+                                                .sInitialValue
+                                                    .sIdentifier
+                                                .sExpnEnd
+                                                 .sIdentifier
+                                                 .sInitialValue
+                                                     .sIdentifier
+                                                 .sExpnEnd
+                                                  .sIdentifier
+                                                  .sInitialValue
+                                                      .sIdentifier
+                                                  .sExpnEnd
+                                                   .sIdentifier
+                                                   .sInitialValue
+                                                       .sIdentifier
+                                                   .sExpnEnd
+                                                    .sIdentifier
+                                                    .sInitialValue
+                                                        .sIdentifier
+                                                    .sExpnEnd
+                                                     .sIdentifier
+                                                     .sInitialValue
+                                                         .sIdentifier
+                                                     .sExpnEnd
+                                                      .sIdentifier
+                                                      .sInitialValue
+                                                          .sIdentifier
+                                                      .sExpnEnd
+                                                       .sIdentifier
+                                                       .sInitialValue
+                                                           .sIdentifier
+                                                       .sExpnEnd
+                                                        .sIdentifier
+                                                        .sInitialValue
+                                                            .sIdentifier
+                                                        .sExpnEnd
+                                                         .sIdentifier
+                                                         .sInitialValue
+                                                             .sIdentifier
+                                                         .sExpnEnd
+                                                          .sIdentifier
+                                                          .sInitialValue
+                                                              .sIdentifier
+                                                          .sExpnEnd
+                                                           .sIdentifier
+                                                           .sInitialValue
+                                                               .sIdentifier
+                                                           .sExpnEnd
+                                                            .sIdentifier
+                                                            .sInitialValue
+                                                                .sIdentifier

@@ -2,6 +2,7 @@
  .sIdentifier
  .sParmEnd
  % .sNewLine
+ .sBegin
   % .sNewLine
   .sBegin
    .sRepeatStmt
@@ -21,3 +22,4 @@
    .sNot
    .sExpnEnd
   .sNullStmt
+ .sEnd
