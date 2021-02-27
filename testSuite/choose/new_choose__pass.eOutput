@@ -2,6 +2,7 @@
  .sIdentifier
  .sParmEnd
  % .sNewLine
+ .sBegin
   .sBegin
    .sCaseStmt
        .sIdentifier
@@ -23,3 +24,4 @@
    % .sNewLine
    .sCaseEnd
    .sCaseElse
+ .sEnd

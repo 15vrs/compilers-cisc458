@@ -6,22 +6,23 @@
  % .sNewLine
  % .sNewLine
  % .sNewLine
+ .sBegin
   .sVar
    .sIdentifier
    .sArray
     .sInteger
     .sLike
      .sStringLiteral
-  % .sNewLine
+    % .sNewLine
   .sVar
    .sIdentifier
    .sArray
     .sInteger
     .sLike
      .sStringLiteral
-  % .sNewLine
-  % .sNewLine
-  % .sNewLine
+    % .sNewLine
+    % .sNewLine
+    % .sNewLine
   .sBegin
    .sAssignmentStmt
    .sIdentifier
@@ -206,8 +207,8 @@
    .sInitialValue
        .sInteger
    .sExpnEnd
-  % .sNewLine
-  % .sNewLine
+   % .sNewLine
+   % .sNewLine
   .sBegin
    .sWhileStmt
        .sIdentifier
@@ -241,3 +242,4 @@
           .sStringLiteral
       .sExpnEnd
       .sParmEnd
+ .sEnd

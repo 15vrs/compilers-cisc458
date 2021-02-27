@@ -180,7 +180,10 @@ Program :
             ]
         }
         .sParmEnd
-        ';'  @Block;
+        ';'  
+        .sBegin
+        @Block
+        .sEnd;
 
 Block :
         % Strictly speaking, standard Pascal requires that declarations
@@ -223,6 +226,12 @@ Block :
                 ]
             | 'public':
                 [
+                    | 'var':
+                        .sVar
+                        @PublicValueOrLike
+                    | 'val':
+                        .sConst
+                        @PublicConstantDefinitions
                     | 'fun':
                         .sProcedure
                         pIdentifier  .sIdentifier
@@ -256,6 +265,21 @@ ConstantDefinitions :
                 @ConstantDefinitions
             | ';':
         ];
+
+
+%ADD
+PublicConstantDefinitions :
+        % Accept one or more named constant definitions
+        .sConst
+        pIdentifier  .sIdentifier
+        .sPublic
+        '=' @ConstantValue 
+        [
+            | ',':
+                @ConstantDefinitions
+            | ';':
+        ];
+%END
 
 ConstantValue :
         [
@@ -333,6 +357,8 @@ OptionallySignedIntegerConstant :
             | *:
                 @UnsignedIntegerConstant
         ];
+
+
 % ADD
 LikeClause :
         % Handles stuff following 'like'
@@ -343,14 +369,30 @@ LikeClause :
                 [
                     | pIdentifier:
                         pIdentifier .sIdentifier
+                        [
+                            | ',':
+                                @ValueOrLike
+                            | ';':
+                        ]
                 ]
             | 'like':
                 .sLike
                 [
                     | pIdentifier:
                         pIdentifier .sIdentifier
+                        [
+                            | ',':
+                                @ValueOrLike
+                            | ';':
+                        ]
                     | *:
                         @ConstantValue
+                        [
+                            | ',':
+                                @ValueOrLike
+                            | ';':
+                        ]
+                        
                 ]
         ];
 
@@ -360,6 +402,31 @@ ValueOrLike :
         % call instead of TypeBody
         % accepts either a initial value or a like clause
         pIdentifier  .sIdentifier
+        [
+            | '=': % constant value declaration
+                .sInitialValue
+                @Expression
+                .sExpnEnd
+                [
+                    | ',':
+                        @ValueOrLike
+                    | ';':
+                ]
+            | ':': % like clause
+                @LikeClause
+            | '[':
+                .sArray
+                @ConstantValue
+                ']'
+                ':'
+                @LikeClause
+        ];
+
+
+PublicValueOrLike :
+        % accepts either a initial value or a like clause
+        pIdentifier  .sIdentifier
+        .sPublic
         [
             | '=': % constant value declaration
                 .sInitialValue

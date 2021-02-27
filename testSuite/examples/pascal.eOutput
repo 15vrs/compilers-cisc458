@@ -5,14 +5,15 @@
  .sParmEnd
  % .sNewLine
  % .sNewLine
+ .sBegin
   .sVar
    .sIdentifier
    .sArray
     .sInteger
     .sLike
      .sInteger
-  % .sNewLine
-  % .sNewLine
+    % .sNewLine
+    % .sNewLine
   .sProcedure
   .sIdentifier
    .sIdentifier
@@ -86,7 +87,7 @@
       .sInitialValue
           .sInteger
       .sExpnEnd
-     % .sNewLine
+      % .sNewLine
      % .sNewLine
      .sBegin
       .sRepeatStmt
@@ -140,7 +141,7 @@
       .sInitialValue
           .sInteger
       .sExpnEnd
-     % .sNewLine
+      % .sNewLine
      % .sNewLine
      % .sNewLine
      .sBegin

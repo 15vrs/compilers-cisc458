@@ -6,6 +6,7 @@
  % .sNewLine
  % .sNewLine
  % .sNewLine
+ .sBegin
   .sConst
    .sConst
    .sIdentifier
@@ -18,8 +19,8 @@
        .sInteger
       .sDivide
    .sExpnEnd
-  % .sNewLine
-  % .sNewLine
+   % .sNewLine
+   % .sNewLine
   .sConst
    .sConst
    .sIdentifier
@@ -31,3 +32,4 @@
     .sIdentifier
    % .sNewLine
    % .sNewLine
+ .sEnd

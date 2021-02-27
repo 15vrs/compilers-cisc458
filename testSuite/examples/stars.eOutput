@@ -5,18 +5,19 @@
  .sParmEnd
  % .sNewLine
  % .sNewLine
+ .sBegin
   .sVar
    .sIdentifier
    .sInitialValue
        .sInteger
    .sExpnEnd
-  % .sNewLine
+   % .sNewLine
   .sVar
    .sIdentifier
    .sInitialValue
        .sStringLiteral
    .sExpnEnd
-  % .sNewLine
+   % .sNewLine
   .sBegin
    .sWhileStmt
        .sIdentifier
@@ -30,3 +31,4 @@
      .sIdentifier
          .sStringLiteral
      .sExpnEnd
+ .sEnd
