@@ -1,0 +1,12 @@
+The case where no case alternative is written, the CaseStmt rule is called, but the CaseAlternative rule is never reached. 
+
+Expected Result:
+.sProgram
+.sIdentifier
+.sParmEnd
+.sBegin
+.sCaseStmt
+.sIdentifier
+.sExpnEnd
+.sCaseEnd
+.sEnd
