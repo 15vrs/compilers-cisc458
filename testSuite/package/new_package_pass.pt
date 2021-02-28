@@ -1,0 +1,4 @@
+using output;
+pkg flags is
+var i = 1;
+end;

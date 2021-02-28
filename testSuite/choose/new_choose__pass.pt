@@ -1,9 +1,7 @@
 using output;
 choose i of
-    when 42 then 
-        i += 1;
+    when 42, 44 then 
+        ;
     when 43 then 
-        i += 2;
-    else 
-        i += 3;
+        ;
 end;
