@@ -165,6 +165,7 @@ Output :
 
 
 rules
+% TypeDefinitions, TypeBody, SimpleType, BeginStmt rules removed
 
 Program :
         'using'  .sProgram
@@ -259,6 +260,7 @@ ConstantDefinitions :
             | ',':
                 @ConstantDefinitions
             | ';':
+            | *:
         ];
 
 
@@ -273,6 +275,7 @@ PublicConstantDefinitions :
             | ',':
                 @ConstantDefinitions
             | ';':
+            | *:
         ];
 % END
 
@@ -306,7 +309,6 @@ UnsignedIntegerConstant :
                 .sInteger
         ];
 
-% TypeDefinitions, TypeBody, SimpleType rules removed
 
 OptionallySignedIntegerConstant :
         [
@@ -584,7 +586,6 @@ CaseStmt :
 CaseAlternative :
         % A case alternative is a statement labelled by
         % one or more optionally signed integer constants
-        % 'when'
         {
             @OptionallySignedIntegerConstant
             [
