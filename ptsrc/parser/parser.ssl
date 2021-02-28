@@ -328,11 +328,12 @@ LikeClause :
                 .sLike
                 [
                     | pIdentifier:
-                        pIdentifier .sIdentifier
+                        .sIdentifier
                         [
                             | ';':
                             | ',':
                                 @ValueOrLike
+                            | *:
                         ]
                     | *:
                         @ConstantValue
@@ -340,6 +341,7 @@ LikeClause :
                             | ';':
                             | ',':
                                 @ValueOrLike
+                            | *:
                         ]
                         
                 ]
@@ -348,11 +350,12 @@ LikeClause :
                 'like' .sLike
                 [
                     | pIdentifier:
-                        pIdentifier .sIdentifier
+                        .sIdentifier
                         [
                             | ',':
                                 @ValueOrLike
                             | ';':
+                            | *:
                         ]
                 ]
         ];
@@ -370,6 +373,7 @@ ValueOrLike :
                     | ';':
                     | ',':
                         @ValueOrLike
+                    | *:
                 ]
             | ':': % like clause
                 @LikeClause
@@ -379,6 +383,7 @@ ValueOrLike :
                 ']'
                 ':'
                 @LikeClause
+            | *:
         ];
 
 
@@ -399,6 +404,7 @@ PublicValueOrLike :
                 ']'
                 ':'
                 @LikeClause
+            | *:
         ];
 % END
 
@@ -422,6 +428,7 @@ ProcedureHeading :
                             >
                         | ',':
                             @ProcedureHeading
+                        | *:
                     ]
                 }
             | *:
