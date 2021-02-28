@@ -202,9 +202,8 @@ Block :
                 % procedure name
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
-                .sBegin
-                @Block  ','
-                .sEnd
+                'is'
+                @Block
              | 'pkg':
                 .sPackage
                 pIdentifier .sIdentifier
@@ -243,9 +242,8 @@ Block :
                         pIdentifier  .sIdentifier
                         .sPublic
                         @ProcedureHeading
-                        .sBegin
-                        @Block  ','
-                        .sEnd
+                        'is'
+                        @Block
                 ]
                 %END
             | pIdentifier:
@@ -472,7 +470,11 @@ ProcedureHeading :
                     % type identifier
                     pIdentifier  .sIdentifier
                     [
-                        | ';':
+% ADD
+                        | ',':
+                        | 'like':
+                            @LikeClause
+% END
                         | *:
                             >
                     ]
