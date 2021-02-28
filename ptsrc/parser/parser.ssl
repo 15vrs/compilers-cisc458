@@ -180,19 +180,19 @@ Program :
             ]
         }
         .sParmEnd
-        ';'  
-        .sBegin
+        ';'
         @Block
-        .sEnd;
+        ;
 
 Block :
+        .sBegin
         % Strictly speaking, standard Pascal requires that declarations
         % appear only in the order consts, likes, vars, functions.
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
         {[
             | 'val': %K Change from 'const'
-                .sConst
+                % .sConst
                 @ConstantDefinitions
             | 'var':
                 .sVar
@@ -212,14 +212,14 @@ Block :
                 .sBegin
                 @Block           
             | 'if':
-                .sBegin
+                % .sBegin
                 @IfStmt
             %K Part of repeat now
             %| 'while':
             %    .sBegin
             %    @WhileStmt
             | 'choose':
-                .sBegin
+                % .sBegin
                 @CaseStmt
             | 'repeat':
                 .sBegin
@@ -236,7 +236,7 @@ Block :
                         .sVar
                         @PublicValueOrLike
                     | 'val':
-                        .sConst
+                        % .sConst
                         @PublicConstantDefinitions
                     | 'fun':
                         .sProcedure
@@ -249,16 +249,17 @@ Block :
                 ]
                 %END
             | pIdentifier:
-                .sBegin
+                % .sBegin
                 @AssignmentOrCallStmt
             | ';':
                 .sNullStmt
             | 'end':
-                .sEnd
+                % .sEnd
                 ';'
             | *:
                 >
-        ]};
+        ]}
+        .sEnd;
 
 
 ConstantDefinitions :
@@ -299,7 +300,14 @@ ConstantValue :
             | '+':
                 @UnsignedIntegerConstant
             | pStringLiteral:
-                .sStringLiteral
+% CHANGE
+                @LikeString
+                % .sStringLiteral
+            | '#':
+                pStringLiteral
+                @LikeString
+                .sLength
+% END
         ];
 
 UnsignedIntegerConstant :
@@ -402,8 +410,6 @@ LikeClause :
                 ]
         ];
 
-
-
 ValueOrLike :
         % call instead of TypeBody
         % accepts either a initial value or a like clause
@@ -486,6 +492,9 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sAdd
+% ADD
+                ';'
+% END
                 .sExpnEnd
             | '-=':
                 .sAssignmentStmt
@@ -493,6 +502,9 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sSubtract
+% ADD
+                ';'
+% END
                 .sExpnEnd
             | '*=':
                 .sAssignmentStmt
@@ -500,6 +512,9 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sMultiply
+% ADD
+                ';'
+% END
                 .sExpnEnd
             | '/=':
                 .sAssignmentStmt
@@ -507,6 +522,9 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sDivide
+% ADD
+                ';'
+% END
                 .sExpnEnd
             | '%=':
                 .sAssignmentStmt
@@ -514,12 +532,18 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sModulus
+% ADD
+                ';'
+% END
                 .sExpnEnd
             %END
             | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
+% ADD
+                ';'
+% END
                 .sExpnEnd
             | '[':
                 .sAssignmentStmt
@@ -529,10 +553,14 @@ AssignmentOrCallStmt :
                 .sExpnEnd
                 ']'  '='
                 @Expression
+% ADD
+                ';'
+% END
                 .sExpnEnd
             | *:
                 @CallStmt
-        ];
+        ]
+        ;
 
 CallStmt :
         .sCallStmt
@@ -576,7 +604,9 @@ IfStmt :
 % ADD
             | 'elseif':
                 .sElse
+                .sBegin
                 @IfStmt
+                .sEnd
 % END
             | *:
         ];
@@ -586,34 +616,30 @@ CaseStmt :
         @Expression
         .sExpnEnd
         'of'
+        'when'
         @CaseAlternative
         {[
-            | ';':
-                % since case alternatives cannot be null, allow
-                % for the common situation of an extra semicolon
-                % at the end of the list of case alternatives.
-                [
-                    | 'end':
-                        >
-                    | *:
-                        @CaseAlternative
-                ]
+            % | ';':
+            %     % since case alternatives cannot be null, allow
+            %     % for the common situation of an extra semicolon
+            %     % at the end of the list of case alternatives.
+            %     [
+            %         | 'end':
+            %             >
+            %         | *:
+            %             @CaseAlternative
+            %     ]
             | 'end':
                 >
+            | 'when':
+                @CaseAlternative
         ]}
-        .sCaseEnd % ;
-% ADD
-        'else'
-        .sCaseElse
-        @ Block;
-% END
+        .sCaseEnd;
 
 CaseAlternative :
         % A case alternative is a statement labelled by
         % one or more optionally signed integer constants
-% ADD
-        'when'
-% END
+        % 'when'
         {
             @OptionallySignedIntegerConstant
             [
@@ -622,13 +648,14 @@ CaseAlternative :
                     >
             ]
         }
-% ADD
-        'then'
-% END
         .sLabelEnd
-%        ':'  
-        pNewLine
-        @Block;
+% CHANGE
+        'then'
+        % ':'  @Statement;
+        @Block
+        % .sNot
+        ;
+% END
 
 WhileStmt :
         .sWhileStmt
@@ -721,7 +748,14 @@ Factor :
                 @Factor
                 .sNot
             | pStringLiteral:
-                .sStringLiteral
+% CHANGE
+                @LikeString
+                % .sStringLiteral
+            | '#':
+                pStringLiteral
+                @LikeString
+                .sLength
+% END
             | 'file':
                 .sFile '(' @Expression ')'
                 .sExpnEnd
@@ -742,4 +776,25 @@ IdentifierExtension :
             | *:
         ];
 
+% ADD
+LikeString :
+        .sStringLiteral
+        [
+            | '/':
+                pInteger .sInteger
+                ':'
+                pInteger .sInteger
+                .sSubstring
+            | '||':
+                pInteger .sInteger
+                .sRepeatString
+            | '|':
+                pStringLiteral
+                @LikeString
+                .sConcatenate
+            | *:
+        ]
+        ;
+% END
 end
+
