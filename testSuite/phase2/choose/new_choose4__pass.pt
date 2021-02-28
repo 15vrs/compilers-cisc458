@@ -1,9 +1,9 @@
 using output;
 choose i of
-    when 42, 44 then 
+    when 1 then
         ;
-    when 43 then
+    when 2, 3, 4 then
         ;
     else
-        ;
+        i -= 1;
 end;

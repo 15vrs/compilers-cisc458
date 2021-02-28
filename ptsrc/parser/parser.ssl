@@ -493,7 +493,10 @@ AssignmentOrCallStmt :
             | *:
                 @CallStmt
         ]
-        ';';
+% ADD
+        ';'
+% END
+        ;
 
 CallStmt :
         .sCallStmt
@@ -549,10 +552,9 @@ CaseStmt :
         @Expression
         .sExpnEnd
         'of'
-% ADD
-        'when' 
+% REMOVE
+        % @CaseAlternative
 % END
-        @CaseAlternative
         {[
 % CHANGE
             % | ';':
