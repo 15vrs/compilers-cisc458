@@ -68,7 +68,7 @@ Input :
         pSemicolon              ';'
         pColon                  ':'
         pEquals                 '='
-        pNotEqual               '!=' %K Changed from '<>'
+        pNotEqual               '!=' % CHANGED from '<>'
         pLess                   '<'
         pLessEqual              '<='
         pGreaterEqual           '>='
@@ -165,6 +165,7 @@ Output :
 
 
 rules
+% TypeDefinitions, TypeBody, SimpleType, BeginStmt rules removed
 
 Program :
         'using'  .sProgram
@@ -191,7 +192,7 @@ Block :
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
         {[
-            | 'val': %K Change from 'const'
+            | 'val': % CHANGED from 'const'
                 % .sConst
                 @ConstantDefinitions
             | 'var':
@@ -202,28 +203,19 @@ Block :
                 % procedure name
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
-                .sBegin
-                @Block  ','
-                .sEnd
+                'is'
+                @Block
              | 'pkg':
                 .sPackage
                 pIdentifier .sIdentifier
                 'is'
-                .sBegin
                 @Block           
             | 'if':
-                % .sBegin
                 @IfStmt
-            %K Part of repeat now
-            %| 'while':
-            %    .sBegin
-            %    @WhileStmt
             | 'choose':
-                % .sBegin
                 @CaseStmt
             | 'repeat':
-                .sBegin
-                %K ADD
+% ADD
                 [
                     | 'while':
                         @WhileStmt
@@ -236,20 +228,16 @@ Block :
                         .sVar
                         @PublicValueOrLike
                     | 'val':
-                        % .sConst
                         @PublicConstantDefinitions
                     | 'fun':
                         .sProcedure
                         pIdentifier  .sIdentifier
                         .sPublic
                         @ProcedureHeading
-                        .sBegin
-                        @Block  ','
-                        .sEnd
+                        'is'
+                        @Block
                 ]
-                %END
             | pIdentifier:
-                % .sBegin
                 @AssignmentOrCallStmt
             | ';':
                 .sNullStmt
@@ -260,6 +248,7 @@ Block :
                 >
         ]}
         .sEnd;
+% END
 
 
 ConstantDefinitions :
@@ -271,10 +260,11 @@ ConstantDefinitions :
             | ',':
                 @ConstantDefinitions
             | ';':
+            | *:
         ];
 
 
-%ADD
+% ADD
 PublicConstantDefinitions :
         % Accept one or more named constant definitions
         .sConst
@@ -285,8 +275,9 @@ PublicConstantDefinitions :
             | ',':
                 @ConstantDefinitions
             | ';':
+            | *:
         ];
-%END
+% END
 
 ConstantValue :
         [
@@ -318,48 +309,6 @@ UnsignedIntegerConstant :
                 .sInteger
         ];
 
-% TypeDefinitions :
-%         % Accept one or more named type definitions.
-%         pIdentifier  .sIdentifier
-%         '='  @TypeBody  ';'
-%         {[
-%             | pIdentifier:
-%                 .sIdentifier
-%                 '='  @TypeBody  ';'
-%             | *:
-%                 >
-%         ]};
-
-% TypeBody :
-%         [
-%             | '[':
-%                 .sArray
-%                 % @SimpleType
-%                 ']'
-%             | 'file':
-%                 .sFile
-%                 % 'of'  @SimpleType
-%             | *:
-%                 % @SimpleType
-%         ];
-
-% SimpleType :
-        % A simple type is a named type (possibly predefined)
-        % or a subrange type specification
-        % [
-        %     | pIdentifier:
-        %         .sIdentifier
-        %         % [
-        %         %     % | '..':
-        %         %     %     .sRange         %% this may be unnecessary
-        %         %     %     @OptionallySignedIntegerConstant
-        %         %     | *:
-        %         % ]
-        %     | *:
-        %         @OptionallySignedIntegerConstant
-        %         '..'  .sRange
-        %         @OptionallySignedIntegerConstant
-        % ];
 
 OptionallySignedIntegerConstant :
         [
@@ -377,36 +326,39 @@ OptionallySignedIntegerConstant :
 LikeClause :
         % Handles stuff following 'like'
         [
+            | 'like':
+                .sLike
+                [
+                    | pIdentifier:
+                        .sIdentifier
+                        [
+                            | ';':
+                            | ',':
+                                @ValueOrLike
+                            | *:
+                        ]
+                    | *:
+                        @ConstantValue
+                        [
+                            | ';':
+                            | ',':
+                                @ValueOrLike
+                            | *:
+                        ]
+                        
+                ]
             | 'file':
                 .sFile 
                 'like' .sLike
                 [
                     | pIdentifier:
-                        pIdentifier .sIdentifier
+                        .sIdentifier
                         [
                             | ',':
                                 @ValueOrLike
                             | ';':
+                            | *:
                         ]
-                ]
-            | 'like':
-                .sLike
-                [
-                    | pIdentifier:
-                        pIdentifier .sIdentifier
-                        [
-                            | ',':
-                                @ValueOrLike
-                            | ';':
-                        ]
-                    | *:
-                        @ConstantValue
-                        [
-                            | ',':
-                                @ValueOrLike
-                            | ';':
-                        ]
-                        
                 ]
         ];
 
@@ -420,9 +372,10 @@ ValueOrLike :
                 @Expression
                 .sExpnEnd
                 [
+                    | ';':
                     | ',':
                         @ValueOrLike
-                    | ';':
+                    | *:
                 ]
             | ':': % like clause
                 @LikeClause
@@ -432,6 +385,7 @@ ValueOrLike :
                 ']'
                 ':'
                 @LikeClause
+            | *:
         ];
 
 
@@ -452,6 +406,7 @@ PublicValueOrLike :
                 ']'
                 ':'
                 @LikeClause
+            | *:
         ];
 % END
 
@@ -468,33 +423,29 @@ ProcedureHeading :
                         | *:
                             pIdentifier  .sIdentifier
                     ]
-                    ':'
+                    ':' @LikeClause
                     % type identifier
-                    pIdentifier  .sIdentifier
                     [
-                        | ';':
-                        | *:
+                        | ')':
                             >
+                        | ',':
+                            @ProcedureHeading
+                        | *:
                     ]
                 }
-                ')'
             | *:
         ]
-        ';'
         .sParmEnd;
 
 AssignmentOrCallStmt :
         [
-            %K probably wrong
+% ADD
             | '+=':
                 .sAssignmentStmt
                 .sIdentifier
                 .sIdentifier
                 @Expression
                 .sAdd
-% ADD
-                ';'
-% END
                 .sExpnEnd
             | '-=':
                 .sAssignmentStmt
@@ -502,9 +453,6 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sSubtract
-% ADD
-                ';'
-% END
                 .sExpnEnd
             | '*=':
                 .sAssignmentStmt
@@ -512,9 +460,6 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sMultiply
-% ADD
-                ';'
-% END
                 .sExpnEnd
             | '/=':
                 .sAssignmentStmt
@@ -522,9 +467,6 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sDivide
-% ADD
-                ';'
-% END
                 .sExpnEnd
             | '%=':
                 .sAssignmentStmt
@@ -532,19 +474,13 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sModulus
-% ADD
-                ';'
-% END
                 .sExpnEnd
-            %END
             | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
-% ADD
-                ';'
-% END
                 .sExpnEnd
+% END
             | '[':
                 .sAssignmentStmt
                 .sIdentifier
@@ -553,14 +489,11 @@ AssignmentOrCallStmt :
                 .sExpnEnd
                 ']'  '='
                 @Expression
-% ADD
-                ';'
-% END
                 .sExpnEnd
             | *:
                 @CallStmt
         ]
-        ;
+        ';';
 
 CallStmt :
         .sCallStmt
@@ -653,7 +586,6 @@ CaseStmt :
 CaseAlternative :
         % A case alternative is a statement labelled by
         % one or more optionally signed integer constants
-        % 'when'
         {
             @OptionallySignedIntegerConstant
             [
@@ -674,7 +606,7 @@ WhileStmt :
         .sWhileStmt
         @Expression
         .sExpnEnd
-        % 'do'
+% REMOVE 'do'
         @Block;
 
 RepeatStmt :
@@ -683,15 +615,15 @@ RepeatStmt :
             @Block
             [
                 | ';':
-                | 'while': %K Change from 'until'
+                | 'while': % CHANGED from 'until'
                     .sRepeatEnd
                     >
             ]
         }
         @Expression
-        %K ADD
+% ADD
         .sNot
-        %END
+% END
         .sExpnEnd;
 
 
@@ -700,7 +632,7 @@ Expression :
         [
             | '==':
                 @SimpleExpression  .sEq
-            | '!=': %K Change from <>
+            | '!=': %CHANGED from <>
                 @SimpleExpression  .sNE
             | '<':
                 @SimpleExpression  .sLT
