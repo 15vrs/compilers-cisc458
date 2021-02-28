@@ -205,6 +205,12 @@ Block :
                 .sBegin
                 @Block  ','
                 .sEnd
+             | 'pkg':
+                .sPackage
+                pIdentifier .sIdentifier
+                'is'
+                .sBegin
+                @Block           
             | 'if':
                 % .sBegin
                 @IfStmt
@@ -791,3 +797,4 @@ LikeString :
         ;
 % END
 end
+
