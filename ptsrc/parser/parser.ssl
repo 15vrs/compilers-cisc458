@@ -192,7 +192,7 @@ Block :
         % programmer sanity.
         {[
             | 'val': %K Change from 'const'
-                .sConst
+                % .sConst
                 @ConstantDefinitions
             | 'var':
                 .sVar
@@ -206,14 +206,14 @@ Block :
                 @Block  ','
                 .sEnd
             | 'if':
-                .sBegin
+                % .sBegin
                 @IfStmt
             %K Part of repeat now
             %| 'while':
             %    .sBegin
             %    @WhileStmt
             | 'choose':
-                .sBegin
+                % .sBegin
                 @CaseStmt
             | 'repeat':
                 .sBegin
@@ -243,12 +243,12 @@ Block :
                 ]
                 %END
             | pIdentifier:
-                .sBegin
+                % .sBegin
                 @AssignmentOrCallStmt
             | ';':
                 .sNullStmt
             | 'end':
-                .sEnd
+                % .sEnd
                 ';'
             | *:
                 >
@@ -293,7 +293,14 @@ ConstantValue :
             | '+':
                 @UnsignedIntegerConstant
             | pStringLiteral:
-                .sStringLiteral
+% CHANGE
+                @LikeString
+                % .sStringLiteral
+            | '#':
+                pStringLiteral
+                @LikeString
+                .sLength
+% END
         ];
 
 UnsignedIntegerConstant :
@@ -396,8 +403,6 @@ LikeClause :
                 ]
         ];
 
-
-
 ValueOrLike :
         % call instead of TypeBody
         % accepts either a initial value or a like clause
@@ -480,6 +485,9 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sAdd
+% ADD
+                ';'
+% END
                 .sExpnEnd
             | '-=':
                 .sAssignmentStmt
@@ -487,6 +495,9 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sSubtract
+% ADD
+                ';'
+% END
                 .sExpnEnd
             | '*=':
                 .sAssignmentStmt
@@ -494,6 +505,9 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sMultiply
+% ADD
+                ';'
+% END
                 .sExpnEnd
             | '/=':
                 .sAssignmentStmt
@@ -501,6 +515,9 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sDivide
+% ADD
+                ';'
+% END
                 .sExpnEnd
             | '%=':
                 .sAssignmentStmt
@@ -508,12 +525,18 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sModulus
+% ADD
+                ';'
+% END
                 .sExpnEnd
             %END
             | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
+% ADD
+                ';'
+% END
                 .sExpnEnd
             | '[':
                 .sAssignmentStmt
@@ -523,6 +546,9 @@ AssignmentOrCallStmt :
                 .sExpnEnd
                 ']'  '='
                 @Expression
+% ADD
+                ';'
+% END
                 .sExpnEnd
             | *:
                 @CallStmt
@@ -562,15 +588,27 @@ IfStmt :
         @Expression
         .sExpnEnd
         'then'  .sThen
+% ADD
+        .sBegin
+% END
         @Block
+% ADD
+        .sEnd
+% END
         [
             | 'else':
                 .sElse
+% ADD
+                .sBegin
+% END
                 @Block
 % ADD
+                .sEnd
             | 'elseif':
                 .sElse
+                .sBegin
                 @IfStmt
+                .sEnd
 % END
             | *:
         ];
@@ -595,19 +633,12 @@ CaseStmt :
             | 'end':
                 >
         ]}
-        .sCaseEnd % ;
-% ADD
-        'else'
-        .sCaseElse
-        @ Block;
-% END
+        .sCaseEnd;
 
 CaseAlternative :
         % A case alternative is a statement labelled by
         % one or more optionally signed integer constants
-% ADD
-        'when'
-% END
+
         {
             @OptionallySignedIntegerConstant
             [
@@ -616,13 +647,11 @@ CaseAlternative :
                     >
             ]
         }
-% ADD
-        'then'
-% END
         .sLabelEnd
-%        ':'  
-        pNewLine
+% CHANGE
+        % ':'  @Statement;
         @Block;
+% END
 
 WhileStmt :
         .sWhileStmt
@@ -715,7 +744,14 @@ Factor :
                 @Factor
                 .sNot
             | pStringLiteral:
-                .sStringLiteral
+% CHANGE
+                @LikeString
+                % .sStringLiteral
+            | '#':
+                pStringLiteral
+                @LikeString
+                .sLength
+% END
             | 'file':
                 .sFile '(' @Expression ')'
                 .sExpnEnd
@@ -736,4 +772,24 @@ IdentifierExtension :
             | *:
         ];
 
+% ADD
+LikeString :
+        .sStringLiteral
+        [
+            | '/':
+                pInteger .sInteger
+                ':'
+                pInteger .sInteger
+                .sSubstring
+            | '||':
+                pInteger .sInteger
+                .sRepeatString
+            | '|':
+                pStringLiteral
+                @LikeString
+                .sConcatenate
+            | *:
+        ]
+        ;
+% END
 end
