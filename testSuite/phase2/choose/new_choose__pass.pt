@@ -2,6 +2,8 @@ using output;
 choose i of
     when 42, 44 then 
         ;
-    when 43 then 
+    when 43 then
+        ;
+    else
         ;
 end;

@@ -618,25 +618,39 @@ CaseStmt :
         @Expression
         .sExpnEnd
         'of'
-        'when'
+% ADD
+        'when' 
+% END
         @CaseAlternative
         {[
+% CHANGE
             % | ';':
-            %     % since case alternatives cannot be null, allow
-            %     % for the common situation of an extra semicolon
-            %     % at the end of the list of case alternatives.
-            %     [
-            %         | 'end':
-            %             >
-            %         | *:
-            %             @CaseAlternative
-            %     ]
-            | 'end':
-                >
             | 'when':
                 @CaseAlternative
+                % since case alternatives cannot be null, allow
+                % for the common situation of an extra semicolon
+                % at the end of the list of case alternatives.
+                % [
+                    % | 'end':
+                    %     >
+                    % | *:
+                        % @CaseAlternative
+                % ]
+            % | 'end':
+            %     >
+            | *:
+                >
+% END
         ]}
-        .sCaseEnd;
+        .sCaseEnd
+% ADD
+        [
+            | 'else':
+                .sCaseElse
+                @Block
+            | *:
+        ];
+% END
 
 CaseAlternative :
         % A case alternative is a statement labelled by
@@ -655,7 +669,6 @@ CaseAlternative :
         'then'
         % ':'  @Statement;
         @Block
-        % .sNot
         ;
 % END
 
