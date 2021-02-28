@@ -375,6 +375,25 @@ OptionallySignedIntegerConstant :
 LikeClause :
         % Handles stuff following 'like'
         [
+            | 'like':
+                .sLike
+                [
+                    | pIdentifier:
+                        pIdentifier .sIdentifier
+                        [
+                            | ';':
+                            | ',':
+                                @ValueOrLike
+                        ]
+                    | *:
+                        @ConstantValue
+                        [
+                            | ';':
+                            | ',':
+                                @ValueOrLike
+                        ]
+                        
+                ]
             | 'file':
                 .sFile 
                 'like' .sLike
@@ -386,25 +405,6 @@ LikeClause :
                                 @ValueOrLike
                             | ';':
                         ]
-                ]
-            | 'like':
-                .sLike
-                [
-                    | pIdentifier:
-                        pIdentifier .sIdentifier
-                        [
-                            | ',':
-                                @ValueOrLike
-                            | ';':
-                        ]
-                    | *:
-                        @ConstantValue
-                        [
-                            | ',':
-                                @ValueOrLike
-                            | ';':
-                        ]
-                        
                 ]
         ];
 
@@ -418,9 +418,9 @@ ValueOrLike :
                 @Expression
                 .sExpnEnd
                 [
+                    | ';':
                     | ',':
                         @ValueOrLike
-                    | ';':
                 ]
             | ':': % like clause
                 @LikeClause
@@ -468,12 +468,13 @@ ProcedureHeading :
                     ]
                     ':' @LikeClause
                     % type identifier
+                    [
+                        | ')':
+                            >
+                        | ',':
+                            @ProcedureHeading
+                    ]
                 }
-                [
-                    | ',':
-                        @ProcedureHeading
-                    | ')':
-                ]
             | *:
         ]
         .sParmEnd;
