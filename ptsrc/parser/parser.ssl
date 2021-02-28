@@ -372,7 +372,6 @@ ValueOrLike :
                     | ';':
                     | ',':
                         @ValueOrLike
-                    | *:
                 ]
             | ':': % like clause
                 @LikeClause
@@ -382,7 +381,6 @@ ValueOrLike :
                 ']'
                 ':'
                 @LikeClause
-            | *:
         ];
 
 
@@ -490,10 +488,7 @@ AssignmentOrCallStmt :
             | *:
                 @CallStmt
         ]
-% ADD
-        ';'
-% END
-        ;
+        ';';
 
 CallStmt :
         .sCallStmt
@@ -549,9 +544,10 @@ CaseStmt :
         @Expression
         .sExpnEnd
         'of'
-% REMOVE
-        % @CaseAlternative
+% ADD
+        'when' 
 % END
+        @CaseAlternative
         {[
 % CHANGE
             % | ';':
