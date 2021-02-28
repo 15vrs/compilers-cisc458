@@ -180,12 +180,12 @@ Program :
             ]
         }
         .sParmEnd
-        ';'  
-        .sBegin
+        ';'
         @Block
-        .sEnd;
+        ;
 
 Block :
+        .sBegin
         % Strictly speaking, standard Pascal requires that declarations
         % appear only in the order consts, likes, vars, functions.
         % We allow arbitrary intermixing of these instead to preserve
@@ -230,7 +230,7 @@ Block :
                         .sVar
                         @PublicValueOrLike
                     | 'val':
-                        .sConst
+                        % .sConst
                         @PublicConstantDefinitions
                     | 'fun':
                         .sProcedure
@@ -252,7 +252,8 @@ Block :
                 ';'
             | *:
                 >
-        ]};
+        ]}
+        .sEnd;
 
 
 ConstantDefinitions :
@@ -552,7 +553,8 @@ AssignmentOrCallStmt :
                 .sExpnEnd
             | *:
                 @CallStmt
-        ];
+        ]
+        ;
 
 CallStmt :
         .sCallStmt
@@ -588,22 +590,12 @@ IfStmt :
         @Expression
         .sExpnEnd
         'then'  .sThen
-% ADD
-        .sBegin
-% END
         @Block
-% ADD
-        .sEnd
-% END
         [
             | 'else':
                 .sElse
-% ADD
-                .sBegin
-% END
                 @Block
 % ADD
-                .sEnd
             | 'elseif':
                 .sElse
                 .sBegin
@@ -638,7 +630,7 @@ CaseStmt :
 CaseAlternative :
         % A case alternative is a statement labelled by
         % one or more optionally signed integer constants
-
+        'when'
         {
             @OptionallySignedIntegerConstant
             [
@@ -649,8 +641,11 @@ CaseAlternative :
         }
         .sLabelEnd
 % CHANGE
+        'then'
         % ':'  @Statement;
-        @Block;
+        @Block
+        % .sNot
+        ;
 % END
 
 WhileStmt :
