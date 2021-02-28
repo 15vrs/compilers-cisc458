@@ -208,17 +208,13 @@ Block :
                 .sPackage
                 pIdentifier .sIdentifier
                 'is'
-                .sBegin
                 @Block           
             | 'if':
-                % .sBegin
                 @IfStmt
             | 'choose':
-                % .sBegin
                 @CaseStmt
             | 'repeat':
-                .sBegin
-                % ADD
+% ADD
                 [
                     | 'while':
                         @WhileStmt
@@ -231,7 +227,6 @@ Block :
                         .sVar
                         @PublicValueOrLike
                     | 'val':
-                        % .sConst
                         @PublicConstantDefinitions
                     | 'fun':
                         .sProcedure
@@ -241,9 +236,7 @@ Block :
                         'is'
                         @Block
                 ]
-% END
             | pIdentifier:
-                % .sBegin
                 @AssignmentOrCallStmt
             | ';':
                 .sNullStmt
@@ -254,6 +247,7 @@ Block :
                 >
         ]}
         .sEnd;
+% END
 
 
 ConstantDefinitions :
