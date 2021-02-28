@@ -12,7 +12,7 @@ for path in * ; do
     for file in "$dirname"/*; do
         if [ ${file: -3} == ".pt" ]
         then
-            ssltrace "ptc -o1 -t1 -L ../ptsrc/lib/pt ${file}" ../ptsrc/lib/pt/scan.def -e > ${file%.*}.eOutput
+            ssltrace "ptc -o1 -t1 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/scan.def -e > ${file%.*}.eOutput
         fi
     done
 done
