@@ -4,7 +4,7 @@
 
 cd ../ptsrc/parser
 make
-cd ../../testSuite
+cd ../../testSuite/phase2
 for path in * ; do
     [ -d "${path}" ] || continue # if not a directory, skip
     dirname="$(basename "${path}")"

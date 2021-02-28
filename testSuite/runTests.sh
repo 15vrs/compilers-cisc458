@@ -4,7 +4,7 @@
 
 cd ../ptsrc
 make scanner
-cd ../testSuite
+cd ../testSuite/phase1
 for path in * ; do
     [ -d "${path}" ] || continue # if not a directory, skip
     dirname="$(basename "${path}")"
