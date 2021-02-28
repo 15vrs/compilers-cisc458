@@ -444,7 +444,6 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sAdd
-                ';'
                 .sExpnEnd
             | '-=':
                 .sAssignmentStmt
@@ -452,7 +451,6 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sSubtract
-                ';'
                 .sExpnEnd
             | '*=':
                 .sAssignmentStmt
@@ -460,7 +458,6 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sMultiply
-                ';'
                 .sExpnEnd
             | '/=':
                 .sAssignmentStmt
@@ -468,7 +465,6 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sDivide
-                ';'
                 .sExpnEnd
             | '%=':
                 .sAssignmentStmt
@@ -476,14 +472,13 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sModulus
-                ';'
                 .sExpnEnd
             | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
-                ';'
                 .sExpnEnd
+% END
             | '[':
                 .sAssignmentStmt
                 .sIdentifier
@@ -492,13 +487,11 @@ AssignmentOrCallStmt :
                 .sExpnEnd
                 ']'  '='
                 @Expression
-                ';'
                 .sExpnEnd
-% END
             | *:
                 @CallStmt
         ]
-        ;
+        ';';
 
 CallStmt :
         .sCallStmt
