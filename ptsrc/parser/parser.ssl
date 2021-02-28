@@ -335,7 +335,6 @@ LikeClause :
                             | ';':
                             | ',':
                                 @ValueOrLike
-                            | *:
                         ]
                     | *:
                         @ConstantValue
@@ -343,7 +342,6 @@ LikeClause :
                             | ';':
                             | ',':
                                 @ValueOrLike
-                            | *:
                         ]
                         
                 ]
@@ -354,10 +352,9 @@ LikeClause :
                     | pIdentifier:
                         .sIdentifier
                         [
+                            | ';':
                             | ',':
                                 @ValueOrLike
-                            | ';':
-                            | *:
                         ]
                 ]
         ];
