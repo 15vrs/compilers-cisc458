@@ -202,9 +202,7 @@ Block :
                 % procedure name
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
-                .sBegin
                 @Block  ','
-                .sEnd
              | 'pkg':
                 .sPackage
                 pIdentifier .sIdentifier
@@ -243,9 +241,7 @@ Block :
                         pIdentifier  .sIdentifier
                         .sPublic
                         @ProcedureHeading
-                        .sBegin
                         @Block  ','
-                        .sEnd
                 ]
                 %END
             | pIdentifier:
@@ -480,7 +476,6 @@ ProcedureHeading :
                 ')'
             | *:
         ]
-        ';'
         .sParmEnd;
 
 AssignmentOrCallStmt :
@@ -492,9 +487,6 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sAdd
-% ADD
-                ';'
-% END
                 .sExpnEnd
             | '-=':
                 .sAssignmentStmt
@@ -502,9 +494,6 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sSubtract
-% ADD
-                ';'
-% END
                 .sExpnEnd
             | '*=':
                 .sAssignmentStmt
@@ -512,9 +501,6 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sMultiply
-% ADD
-                ';'
-% END
                 .sExpnEnd
             | '/=':
                 .sAssignmentStmt
@@ -522,9 +508,6 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sDivide
-% ADD
-                ';'
-% END
                 .sExpnEnd
             | '%=':
                 .sAssignmentStmt
@@ -532,18 +515,12 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sModulus
-% ADD
-                ';'
-% END
                 .sExpnEnd
             %END
             | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
-% ADD
-                ';'
-% END
                 .sExpnEnd
             | '[':
                 .sAssignmentStmt
@@ -553,13 +530,13 @@ AssignmentOrCallStmt :
                 .sExpnEnd
                 ']'  '='
                 @Expression
-% ADD
-                ';'
-% END
                 .sExpnEnd
             | *:
                 @CallStmt
         ]
+% ADD
+        ';'
+% END
         ;
 
 CallStmt :
@@ -616,10 +593,9 @@ CaseStmt :
         @Expression
         .sExpnEnd
         'of'
-% ADD
-        'when' 
+% REMOVE
+        % @CaseAlternative
 % END
-        @CaseAlternative
         {[
 % CHANGE
             % | ';':
