@@ -466,23 +466,16 @@ ProcedureHeading :
                         | *:
                             pIdentifier  .sIdentifier
                     ]
-                    ':'
+                    ':' @LikeClause
                     % type identifier
-                    pIdentifier  .sIdentifier
-                    [
-% ADD
-                        | ',':
-                        | 'like':
-                            @LikeClause
-% END
-                        | *:
-                            >
-                    ]
                 }
-                ')'
+                [
+                    | ',':
+                        @ProcedureHeading
+                    | ')':
+                ]
             | *:
         ]
-        ';'
         .sParmEnd;
 
 AssignmentOrCallStmt :
