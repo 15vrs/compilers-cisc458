@@ -213,16 +213,12 @@ Block :
             | 'if':
                 % .sBegin
                 @IfStmt
-            %K Part of repeat now
-            %| 'while':
-            %    .sBegin
-            %    @WhileStmt
             | 'choose':
                 % .sBegin
                 @CaseStmt
             | 'repeat':
                 .sBegin
-                %K ADD
+                % ADD
                 [
                     | 'while':
                         @WhileStmt
@@ -245,7 +241,7 @@ Block :
                         'is'
                         @Block
                 ]
-                %END
+% END
             | pIdentifier:
                 % .sBegin
                 @AssignmentOrCallStmt
@@ -272,7 +268,7 @@ ConstantDefinitions :
         ];
 
 
-%ADD
+% ADD
 PublicConstantDefinitions :
         % Accept one or more named constant definitions
         .sConst
@@ -284,7 +280,7 @@ PublicConstantDefinitions :
                 @ConstantDefinitions
             | ';':
         ];
-%END
+% END
 
 ConstantValue :
         [
@@ -316,48 +312,7 @@ UnsignedIntegerConstant :
                 .sInteger
         ];
 
-% TypeDefinitions :
-%         % Accept one or more named type definitions.
-%         pIdentifier  .sIdentifier
-%         '='  @TypeBody  ';'
-%         {[
-%             | pIdentifier:
-%                 .sIdentifier
-%                 '='  @TypeBody  ';'
-%             | *:
-%                 >
-%         ]};
-
-% TypeBody :
-%         [
-%             | '[':
-%                 .sArray
-%                 % @SimpleType
-%                 ']'
-%             | 'file':
-%                 .sFile
-%                 % 'of'  @SimpleType
-%             | *:
-%                 % @SimpleType
-%         ];
-
-% SimpleType :
-        % A simple type is a named type (possibly predefined)
-        % or a subrange type specification
-        % [
-        %     | pIdentifier:
-        %         .sIdentifier
-        %         % [
-        %         %     % | '..':
-        %         %     %     .sRange         %% this may be unnecessary
-        %         %     %     @OptionallySignedIntegerConstant
-        %         %     | *:
-        %         % ]
-        %     | *:
-        %         @OptionallySignedIntegerConstant
-        %         '..'  .sRange
-        %         @OptionallySignedIntegerConstant
-        % ];
+% TypeDefinitions, TypeBody, SimpleType rules removed
 
 OptionallySignedIntegerConstant :
         [
@@ -481,16 +436,14 @@ ProcedureHeading :
 
 AssignmentOrCallStmt :
         [
-            %K probably wrong
+% ADD
             | '+=':
                 .sAssignmentStmt
                 .sIdentifier
                 .sIdentifier
                 @Expression
                 .sAdd
-% ADD
                 ';'
-% END
                 .sExpnEnd
             | '-=':
                 .sAssignmentStmt
@@ -498,9 +451,7 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sSubtract
-% ADD
                 ';'
-% END
                 .sExpnEnd
             | '*=':
                 .sAssignmentStmt
@@ -508,9 +459,7 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sMultiply
-% ADD
                 ';'
-% END
                 .sExpnEnd
             | '/=':
                 .sAssignmentStmt
@@ -518,9 +467,7 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sDivide
-% ADD
                 ';'
-% END
                 .sExpnEnd
             | '%=':
                 .sAssignmentStmt
@@ -528,18 +475,13 @@ AssignmentOrCallStmt :
                 .sIdentifier
                 @Expression
                 .sModulus
-% ADD
                 ';'
-% END
                 .sExpnEnd
-            %END
             | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
-% ADD
                 ';'
-% END
                 .sExpnEnd
             | '[':
                 .sAssignmentStmt
@@ -549,10 +491,9 @@ AssignmentOrCallStmt :
                 .sExpnEnd
                 ']'  '='
                 @Expression
-% ADD
                 ';'
-% END
                 .sExpnEnd
+% END
             | *:
                 @CallStmt
         ]
@@ -685,9 +626,9 @@ RepeatStmt :
             ]
         }
         @Expression
-        %K ADD
+% ADD
         .sNot
-        %END
+% END
         .sExpnEnd;
 
 
@@ -696,7 +637,7 @@ Expression :
         [
             | '==':
                 @SimpleExpression  .sEq
-            | '!=': %K Change from <>
+            | '!=': %Changed from <>
                 @SimpleExpression  .sNE
             | '<':
                 @SimpleExpression  .sLT
