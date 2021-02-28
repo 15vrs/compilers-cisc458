@@ -10,6 +10,10 @@ for path in * ; do
     dirname="$(basename "${path}")"
     echo $dirname
     for file in "$dirname"/*; do
+        if [ ${file: -8} == ".eOutput" ]
+        then
+            rm -f ${file}
+        fi
         if [ ${file: -3} == ".pt" ]
         then
             ssltrace "ptc -o2 -t2 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/parser.def -e > ${file%.*}.eOutput
