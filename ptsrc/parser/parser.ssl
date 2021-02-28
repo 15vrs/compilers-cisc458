@@ -68,7 +68,7 @@ Input :
         pSemicolon              ';'
         pColon                  ':'
         pEquals                 '='
-        pNotEqual               '!=' %K Changed from '<>'
+        pNotEqual               '!=' % CHANGED from '<>'
         pLess                   '<'
         pLessEqual              '<='
         pGreaterEqual           '>='
@@ -191,7 +191,7 @@ Block :
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
         {[
-            | 'val': %K Change from 'const'
+            | 'val': % CHANGED from 'const'
                 % .sConst
                 @ConstantDefinitions
             | 'var':
@@ -611,7 +611,7 @@ WhileStmt :
         .sWhileStmt
         @Expression
         .sExpnEnd
-        % 'do'
+% REMOVE 'do'
         @Block;
 
 RepeatStmt :
@@ -620,7 +620,7 @@ RepeatStmt :
             @Block
             [
                 | ';':
-                | 'while': %K Change from 'until'
+                | 'while': % CHANGED from 'until'
                     .sRepeatEnd
                     >
             ]
@@ -637,7 +637,7 @@ Expression :
         [
             | '==':
                 @SimpleExpression  .sEq
-            | '!=': %Changed from <>
+            | '!=': %CHANGED from <>
                 @SimpleExpression  .sNE
             | '<':
                 @SimpleExpression  .sLT
