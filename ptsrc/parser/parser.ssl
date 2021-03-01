@@ -169,7 +169,7 @@ rules
 Program :
         'using'  .sProgram
         % program name
-        pIdentifier
+% REMOVE        pIdentifier
         % program parameters
         {
             pIdentifier  .sIdentifier
@@ -202,14 +202,11 @@ Block :
                 % procedure name
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
-                .sBegin
-                @Block  ','
-                .sEnd
+                @Block
              | 'pkg':
                 .sPackage
                 pIdentifier .sIdentifier
                 'is'
-                .sBegin
                 @Block           
             | 'if':
                 % .sBegin
@@ -222,7 +219,6 @@ Block :
                 % .sBegin
                 @CaseStmt
             | 'repeat':
-                .sBegin
                 %K ADD
                 [
                     | 'while':
@@ -243,7 +239,6 @@ Block :
                         pIdentifier  .sIdentifier
                         .sPublic
                         @ProcedureHeading
-                        .sBegin
                         @Block  ','
                         .sEnd
                 ]
@@ -254,7 +249,6 @@ Block :
             | ';':
                 .sNullStmt
             | 'end':
-                % .sEnd
                 ';'
             | *:
                 >
@@ -420,9 +414,9 @@ ValueOrLike :
                 @Expression
                 .sExpnEnd
                 [
+                    | ';':
                     | ',':
                         @ValueOrLike
-                    | ';':
                 ]
             | ':': % like clause
                 @LikeClause
@@ -480,7 +474,7 @@ ProcedureHeading :
                 ')'
             | *:
         ]
-        ';'
+% REMOVE         ';'
         .sParmEnd;
 
 AssignmentOrCallStmt :
