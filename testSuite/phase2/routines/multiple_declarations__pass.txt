@@ -11,6 +11,15 @@ Expected result:
     .sInteger
   .sVar
    .sIdentifier
+   .sPublic
     .sLike
-     .sInteger
+      .sStringLiteral
+   .sConst
+   .sIdentifier
+    .sIdentifier
+  .sVar
+   .sIdentifier
+   .sInitialValue
+       .sInteger
+   .sExpnEnd
   .sEnd
