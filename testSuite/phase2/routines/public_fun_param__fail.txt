@@ -1,0 +1,4 @@
+Function declarations with incorrectly formatted paramters should result in an error when run with ssltrace -ei.
+
+Expected result:
+scan/parse error, line 2
