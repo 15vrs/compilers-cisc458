@@ -688,7 +688,7 @@ Term :
                 pInteger .sInteger
                 .sRepeatString
             | '|':
-                pStringLiteral .sStringLiteral
+                @Factor
                 @LikeString
                 .sConcatenate
 % END
