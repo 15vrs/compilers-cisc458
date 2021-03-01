@@ -1,2 +1,2 @@
 using output;
-public var x = 1;
+public val x = 1;
