@@ -416,7 +416,6 @@ ProcedureHeading :
                     % formal parameter identifier
                     [
                         | 'var':
-                            .sNot
                             pIdentifier  .sIdentifier
                             .sVar
                         | *:
@@ -430,7 +429,6 @@ ProcedureHeading :
                         | ')':
                             >
                         | ',':
-                            .sNot
                     ]
                 }
             | *:
