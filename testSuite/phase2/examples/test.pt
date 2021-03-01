@@ -1,0 +1,6 @@
+using output;
+
+var M : like integer;
+var ncompares : like integer;
+var cavg : like integer;
+cavg = ncompares / M;

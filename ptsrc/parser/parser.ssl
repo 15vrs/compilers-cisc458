@@ -294,10 +294,10 @@ ConstantValue :
                 @UnsignedIntegerConstant
             | pStringLiteral:
 % CHANGE
+                .sStringLiteral
                 @LikeString
-                % .sStringLiteral
             | '#':
-                pStringLiteral
+                pStringLiteral .sStringLiteral
                 @LikeString
                 .sLength
 % END
@@ -335,13 +335,13 @@ LikeClause :
                         .sIdentifier
                         [
                             | ';':
-                            | '*':
+                            | *:
                         ]
                     | *:
                         @ConstantValue
                         [
                             | ';':
-                            | '*':
+                            | *:
                         ]
                         
                 ]
@@ -353,6 +353,7 @@ LikeClause :
                         .sIdentifier
                         [
                             | ';':
+                            | *:
                         ]
                 ]
         ];
@@ -367,9 +368,10 @@ ValueOrLike :
                 @Expression
                 .sExpnEnd
                 [
-                    | ';':
                     | ',':
                         @ValueOrLike
+                    | ';':
+                    | *:
                 ]
             | ':': % like clause
                 @LikeClause
@@ -419,6 +421,8 @@ ProcedureHeading :
                     % type identifier
                     ':' @LikeClause
                     [
+                        % | ':':
+                        %     @LikeClause
                         | ')':
                             >
                         | ',':
@@ -662,11 +666,29 @@ Term :
             | '*':
                 @Factor  .sMultiply
             | '/':
-                @Factor  .sDivide
+% CHANGE
+                @Factor  
+                [
+                    | ':':
+                        @Factor
+                        .sSubstring
+                    | *:
+                        .sDivide
+                ]
+% END
             | '%':
                 @Factor  .sModulus
             | 'and':
                 .sInfixAnd  @Factor  .sAnd
+% ADD
+            | '||':
+                pInteger .sInteger
+                .sRepeatString
+            | '|':
+                @Factor
+                @LikeString
+                .sConcatenate
+% END
             | *:
                 >
         ]};
@@ -685,10 +707,10 @@ Factor :
                 .sNot
             | pStringLiteral:
 % CHANGE
+                .sStringLiteral
                 @LikeString
-                % .sStringLiteral
             | '#':
-                pStringLiteral
+                @Factor
                 @LikeString
                 .sLength
 % END
@@ -715,23 +737,20 @@ IdentifierExtension :
 
 % ADD
 LikeString :
-        % .sStringLiteral
         [
             | '/':
-                pInteger .sInteger
+                @Factor
                 ':'
-                pInteger .sInteger
+                @Factor
                 .sSubstring
             | '||':
-                pInteger .sInteger
+                @Factor
                 .sRepeatString
             | '|':
-                pStringLiteral
+                @Factor
                 @LikeString
                 .sConcatenate
             | *:
-        ]
-        ;
+        ];
 % END
 end
-
