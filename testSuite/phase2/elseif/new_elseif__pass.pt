@@ -1,8 +1,0 @@
-using output;
-if x == 42 then
-    i += 1;
-elseif y == 71 then
-    i += 2;
-else
-    i += 3;
-end;

@@ -1,0 +1,8 @@
+using output;
+if x > 1 then
+    ;
+elseif x > 2 then
+    ;
+    if x < 3 then
+        ;
+end;

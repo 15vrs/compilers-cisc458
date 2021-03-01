@@ -1,0 +1,39 @@
+This program includes an if statement within the elseif statement.
+As expected, the second if statement should not be handled as a separate block, but is nested within the elseif block.
+
+Expected Result:
+.sProgram
+.sIdentifier
+.sParmEnd
+.sBegin
+.sIfStmt
+    .sIdentifier
+    .sInteger
+.sGT
+.sExpnEnd
+.sThen
+.sBegin
+.sNullStmt
+.sEnd
+.sElse
+.sBegin
+.sIfStmt
+    .sIdentifier
+    .sInteger
+    .sGT
+.sExpnEnd
+.sThen
+    .sBegin
+    .sNullStmt
+    .sIfStmt
+        .sIdentifier
+        .sInteger
+    .sLT
+    .sExpnEnd
+    .sThen
+    .sBegin
+    .sNullStmt
+    .sEnd
+    .sEnd
+.sEnd
+.sEnd
