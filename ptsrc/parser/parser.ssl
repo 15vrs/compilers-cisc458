@@ -200,7 +200,6 @@ Block :
                 @ValueOrLike
             | 'fun':
                 .sProcedure
-                % procedure name
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
                 'is'
@@ -425,8 +424,6 @@ ProcedureHeading :
                         | ')':
                             >
                         | ',':
-                            @ProcedureHeading
-                        | *:
                     ]
                 }
             | *:

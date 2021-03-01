@@ -1,4 +1,4 @@
-Nested public function declarations are allowed.
+Public function declarations with variable parameters in Like typing.
 
 Expected result:
  .sProgram
@@ -8,13 +8,11 @@ Expected result:
   .sProcedure
   .sIdentifier
   .sPublic
+   .sIdentifier
+   .sVar
+    .sLike
+     .sInteger
    .sParmEnd
    .sBegin
-   .sProcedure
-   .sIdentifier
-   .sPublic
-    .sParmEnd
-    .sBegin
-    .sEnd
    .sEnd
   .sEnd
