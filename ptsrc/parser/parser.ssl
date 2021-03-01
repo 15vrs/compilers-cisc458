@@ -713,7 +713,7 @@ Factor :
                 .sStringLiteral
                 @LikeString
             | '#':
-                pStringLiteral .sStringLiteral
+                @Factor
                 @LikeString
                 .sLength
 % END
