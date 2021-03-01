@@ -741,15 +741,15 @@ IdentifierExtension :
 LikeString :
         [
             | '/':
-                pInteger .sInteger
+                @Factor
                 ':'
-                pInteger .sInteger
+                @Factor
                 .sSubstring
             | '||':
-                pInteger .sInteger
+                @Factor
                 .sRepeatString
             | '|':
-                pStringLiteral .sStringLiteral
+                @Factor
                 @LikeString
                 .sConcatenate
             | *:
