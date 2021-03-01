@@ -1,2 +1,2 @@
-using output:
+using output;
 val x = # "Hi there";

@@ -353,9 +353,10 @@ LikeClause :
                     | pIdentifier:
                         .sIdentifier
                         [
-                            | ';':
                             | ',':
                                 @ValueOrLike
+                            | ';':
+                            | *:
                         ]
                 ]
         ];
@@ -370,9 +371,10 @@ ValueOrLike :
                 @Expression
                 .sExpnEnd
                 [
-                    | ';':
                     | ',':
                         @ValueOrLike
+                    | ';':
+                    | *:
                 ]
             | ':': % like clause
                 @LikeClause
@@ -414,6 +416,7 @@ ProcedureHeading :
                     % formal parameter identifier
                     [
                         | 'var':
+                            .sNot
                             pIdentifier  .sIdentifier
                             .sVar
                         | *:
@@ -422,9 +425,12 @@ ProcedureHeading :
                     ':' @LikeClause
                     % type identifier
                     [
+                        % | ':':
+                        %     @LikeClause
                         | ')':
                             >
                         | ',':
+                            .sNot
                     ]
                 }
             | *:
@@ -665,11 +671,29 @@ Term :
             | '*':
                 @Factor  .sMultiply
             | '/':
-                @Factor  .sDivide
+% CHANGE
+                @Factor  
+                [
+                    | ':':
+                        @Factor
+                        .sSubstring
+                    | *:
+                        .sDivide
+                ]
+% END
             | '%':
                 @Factor  .sModulus
             | 'and':
                 .sInfixAnd  @Factor  .sAnd
+% ADD
+            | '||':
+                pInteger .sInteger
+                .sRepeatString
+            | '|':
+                pStringLiteral .sStringLiteral
+                @LikeString
+                .sConcatenate
+% END
             | *:
                 >
         ]};
@@ -713,12 +737,10 @@ IdentifierExtension :
                 .sExpnEnd
                 .sParmEnd
             | *:
-                @LikeString
         ];
 
 % ADD
 LikeString :
-        % .sStringLiteral
         [
             | '/':
                 pInteger .sInteger
@@ -733,7 +755,6 @@ LikeString :
                 @LikeString
                 .sConcatenate
             | *:
-        ]
-        ;
+        ];
 % END
 end
