@@ -335,15 +335,13 @@ LikeClause :
                         .sIdentifier
                         [
                             | ';':
-                            | ',':
-                                @ValueOrLike
+                            | '*':
                         ]
                     | *:
                         @ConstantValue
                         [
                             | ';':
-                            | ',':
-                                @ValueOrLike
+                            | '*':
                         ]
                         
                 ]
@@ -355,8 +353,6 @@ LikeClause :
                         .sIdentifier
                         [
                             | ';':
-                            | ',':
-                                @ValueOrLike
                         ]
                 ]
         ];
@@ -420,8 +416,8 @@ ProcedureHeading :
                         | *:
                             pIdentifier  .sIdentifier
                     ]
-                    ':' @LikeClause
                     % type identifier
+                    ':' @LikeClause
                     [
                         | ')':
                             >
@@ -714,11 +710,12 @@ IdentifierExtension :
                 .sExpnEnd
                 .sParmEnd
             | *:
+                @LikeString
         ];
 
 % ADD
 LikeString :
-        .sStringLiteral
+        % .sStringLiteral
         [
             | '/':
                 pInteger .sInteger
