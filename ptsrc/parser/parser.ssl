@@ -295,10 +295,10 @@ ConstantValue :
                 @UnsignedIntegerConstant
             | pStringLiteral:
 % CHANGE
+                .sStringLiteral
                 @LikeString
-                % .sStringLiteral
             | '#':
-                pStringLiteral
+                pStringLiteral .sStringLiteral
                 @LikeString
                 .sLength
 % END
@@ -690,10 +690,10 @@ Factor :
                 .sNot
             | pStringLiteral:
 % CHANGE
+                .sStringLiteral
                 @LikeString
-                % .sStringLiteral
             | '#':
-                pStringLiteral
+                pStringLiteral .sStringLiteral
                 @LikeString
                 .sLength
 % END
@@ -715,11 +715,12 @@ IdentifierExtension :
                 .sExpnEnd
                 .sParmEnd
             | *:
+                @LikeString
         ];
 
 % ADD
 LikeString :
-        .sStringLiteral
+        % .sStringLiteral
         [
             | '/':
                 pInteger .sInteger
@@ -730,7 +731,7 @@ LikeString :
                 pInteger .sInteger
                 .sRepeatString
             | '|':
-                pStringLiteral
+                pStringLiteral .sStringLiteral
                 @LikeString
                 .sConcatenate
             | *:
