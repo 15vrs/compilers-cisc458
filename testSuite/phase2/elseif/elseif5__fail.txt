@@ -1,5 +1,6 @@
 The else clause is not reached, because the elseif statements are invalid (no semicolon following).
 Therefore, only one sElse is emitted, and we never reach the else.
+The following syntax error is caught because the end keyword is given but a semicolon is expected: scan/parse error, line 6: syntax error at: else
 
 Expected Result:
 .sProgram
