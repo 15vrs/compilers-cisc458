@@ -170,7 +170,7 @@ rules
 Program :
         'using'  .sProgram
         % program name
-        pIdentifier
+% REMOVE        pIdentifier
         % program parameters
         {
             pIdentifier  .sIdentifier
@@ -205,20 +205,25 @@ Block :
                 @ProcedureHeading
                 'is'
                 @Block
+                'end' ';'
              | 'pkg':
                 .sPackage
                 pIdentifier .sIdentifier
                 'is'
-                @Block           
+                @Block
+                'end' ';'       
             | 'if':
                 @IfStmt
+                'end' ';'
             | 'choose':
                 @CaseStmt
+                'end' ';'
             | 'repeat':
 % ADD
                 [
                     | 'while':
                         @WhileStmt
+                        'end' ';'
                     |*:
                         @RepeatStmt
                 ]
@@ -236,15 +241,12 @@ Block :
                         @ProcedureHeading
                         'is'
                         @Block
+                        'end' ';'
                 ]
             | pIdentifier:
                 @AssignmentOrCallStmt
             | ';':
                 .sNullStmt
-            | 'end':
-                % .sEnd
-                ';'
-                >
             | *:
                 >
         ]}
@@ -425,8 +427,6 @@ ProcedureHeading :
                         | ')':
                             >
                         | ',':
-                            @ProcedureHeading
-                        | *:
                     ]
                 }
             | *:
