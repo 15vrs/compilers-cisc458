@@ -1,0 +1,5 @@
+Constant declarations in PT are not recognized in Like.
+This results in an error when running ssltrace with -i.
+
+Expected result:
+scan/parse error, line 2: syntax error at: a
