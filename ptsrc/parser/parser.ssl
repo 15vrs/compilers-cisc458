@@ -202,7 +202,6 @@ Block :
                 .sProcedure
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
-                'is'
                 @Block
                 'end' ';'
              | 'pkg':
@@ -238,7 +237,6 @@ Block :
                         pIdentifier  .sIdentifier
                         .sPublic
                         @ProcedureHeading
-                        'is'
                         @Block
                         'end' ';'
                 ]
@@ -293,14 +291,7 @@ ConstantValue :
             | '+':
                 @UnsignedIntegerConstant
             | pStringLiteral:
-% CHANGE
                 .sStringLiteral
-                @LikeString
-            | '#':
-                @Factor
-                @LikeString
-                .sLength
-% END
         ];
 
 UnsignedIntegerConstant :
@@ -363,16 +354,11 @@ ValueOrLike :
         % accepts either a initial value or a like clause
         pIdentifier  .sIdentifier
         [
-            | '=': % constant value declaration
+            | '=': % variable w initial value declaration
                 .sInitialValue
                 @Expression
                 .sExpnEnd
-                [
-                    | ',':
-                        @ValueOrLike
-                    | ';':
-                    | *:
-                ]
+                ';'
             | ':': % like clause
                 @LikeClause
             | '[':
@@ -421,8 +407,6 @@ ProcedureHeading :
                     % type identifier
                     ':' @LikeClause
                     [
-                        % | ':':
-                        %     @LikeClause
                         | ')':
                             >
                         | ',':
@@ -430,7 +414,8 @@ ProcedureHeading :
                 }
             | *:
         ]
-        .sParmEnd;
+        .sParmEnd
+        'is';
 
 AssignmentOrCallStmt :
         [
@@ -682,11 +667,10 @@ Term :
                 .sInfixAnd  @Factor  .sAnd
 % ADD
             | '||':
-                pInteger .sInteger
+                @Factor
                 .sRepeatString
             | '|':
                 @Factor
-                @LikeString
                 .sConcatenate
 % END
             | *:
@@ -708,10 +692,8 @@ Factor :
             | pStringLiteral:
 % CHANGE
                 .sStringLiteral
-                @LikeString
             | '#':
                 @Factor
-                @LikeString
                 .sLength
 % END
             | 'file':
@@ -734,22 +716,4 @@ IdentifierExtension :
             | *:
         ];
 
-% ADD
-LikeString :
-        [
-            | '/':
-                @Factor
-                ':'
-                @Factor
-                .sSubstring
-            | '||':
-                @Factor
-                .sRepeatString
-            | '|':
-                @Factor
-                @LikeString
-                .sConcatenate
-            | *:
-        ];
-% END
 end
