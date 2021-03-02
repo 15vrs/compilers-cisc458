@@ -200,7 +200,6 @@ Block :
                 @ValueOrLike
             | 'fun':
                 .sProcedure
-                % procedure name
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
                 'is'
@@ -353,8 +352,6 @@ LikeClause :
                     | pIdentifier:
                         .sIdentifier
                         [
-                            | ',':
-                                @ValueOrLike
                             | ';':
                             | *:
                         ]
@@ -421,8 +418,8 @@ ProcedureHeading :
                         | *:
                             pIdentifier  .sIdentifier
                     ]
-                    ':' @LikeClause
                     % type identifier
+                    ':' @LikeClause
                     [
                         % | ':':
                         %     @LikeClause
