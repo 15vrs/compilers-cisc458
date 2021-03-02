@@ -293,14 +293,7 @@ ConstantValue :
             | '+':
                 @UnsignedIntegerConstant
             | pStringLiteral:
-% CHANGE
                 .sStringLiteral
-                @LikeString
-            | '#':
-                @Factor
-                @LikeString
-                .sLength
-% END
         ];
 
 UnsignedIntegerConstant :
@@ -682,11 +675,10 @@ Term :
                 .sInfixAnd  @Factor  .sAnd
 % ADD
             | '||':
-                pInteger .sInteger
+                @Factor
                 .sRepeatString
             | '|':
                 @Factor
-                @LikeString
                 .sConcatenate
 % END
             | *:
@@ -708,10 +700,8 @@ Factor :
             | pStringLiteral:
 % CHANGE
                 .sStringLiteral
-                @LikeString
             | '#':
                 @Factor
-                @LikeString
                 .sLength
 % END
             | 'file':
@@ -734,22 +724,4 @@ IdentifierExtension :
             | *:
         ];
 
-% ADD
-LikeString :
-        [
-            | '/':
-                @Factor
-                ':'
-                @Factor
-                .sSubstring
-            | '||':
-                @Factor
-                .sRepeatString
-            | '|':
-                @Factor
-                @LikeString
-                .sConcatenate
-            | *:
-        ];
-% END
 end
