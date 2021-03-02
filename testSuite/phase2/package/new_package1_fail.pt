@@ -1,4 +1,4 @@
 using output;
-pkg flags is
+pkg is
  ;
 end;
