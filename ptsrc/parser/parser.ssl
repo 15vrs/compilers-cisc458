@@ -202,7 +202,6 @@ Block :
                 .sProcedure
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
-                'is'
                 @Block
                 'end' ';'
              | 'pkg':
@@ -238,7 +237,6 @@ Block :
                         pIdentifier  .sIdentifier
                         .sPublic
                         @ProcedureHeading
-                        'is'
                         @Block
                         'end' ';'
                 ]
@@ -423,7 +421,8 @@ ProcedureHeading :
                 }
             | *:
         ]
-        .sParmEnd;
+        .sParmEnd
+        'is';
 
 AssignmentOrCallStmt :
         [
