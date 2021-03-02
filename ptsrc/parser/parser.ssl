@@ -363,7 +363,7 @@ ValueOrLike :
         % accepts either a initial value or a like clause
         pIdentifier  .sIdentifier
         [
-            | '=': % constant value declaration
+            | '=': % variable w initial value declaration
                 .sInitialValue
                 @Expression
                 .sExpnEnd
@@ -416,8 +416,6 @@ ProcedureHeading :
                     % type identifier
                     ':' @LikeClause
                     [
-                        % | ':':
-                        %     @LikeClause
                         | ')':
                             >
                         | ',':
