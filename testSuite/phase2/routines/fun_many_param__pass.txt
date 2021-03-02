@@ -1,4 +1,4 @@
-A function with a parameter typed using Like is allowed. 
+Function declaration with variable parameters in Like typing.
 
 Expected result:
  .sProgram
@@ -11,8 +11,12 @@ Expected result:
    .sIdentifier
     .sLike
      .sInteger
+   .sIdentifier
+   .sVar
+    .sLike
+     .sStringLiteral
    .sParmEnd
+  % .sNewLine
    .sBegin
    .sEnd
-  % .sNewLine
   .sEnd

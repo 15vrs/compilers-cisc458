@@ -1,4 +1,4 @@
-A function with a parameter typed using Like is allowed. 
+Multiple functions declared are allowed.
 
 Expected result:
  .sProgram
@@ -12,7 +12,18 @@ Expected result:
     .sLike
      .sInteger
    .sParmEnd
+  % .sNewLine
    .sBegin
    .sEnd
   % .sNewLine
+  .sProcedure
+  .sIdentifier
+   .sIdentifier
+   .sVar
+    .sLike
+     .sStringLiteral
+   .sParmEnd
+  % .sNewLine
+   .sBegin
+   .sEnd
   .sEnd

@@ -1,4 +1,4 @@
-A function with a parameter typed using Like is allowed. 
+A publicly declared function with no parameters is allowed.
 
 Expected result:
  .sProgram
@@ -8,11 +8,9 @@ Expected result:
   .sBegin
   .sProcedure
   .sIdentifier
-   .sIdentifier
-    .sLike
-     .sInteger
+  .sPublic
    .sParmEnd
+  % .sNewLine
    .sBegin
    .sEnd
-  % .sNewLine
   .sEnd

@@ -1,21 +1,19 @@
-Public function declarations with variable parameters in Like typing.
+A function declaration with variable parameters in Like typing.
 
 Expected result:
  .sProgram
  .sIdentifier
  .sParmEnd
+ % .sNewLine
   .sBegin
   .sProcedure
   .sIdentifier
-  .sPublic
    .sIdentifier
    .sVar
     .sLike
      .sInteger
-     .sIdentifier
-      .sLike
-      .sIdentifier
    .sParmEnd
+  % .sNewLine
    .sBegin
    .sEnd
   .sEnd
