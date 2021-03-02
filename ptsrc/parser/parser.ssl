@@ -732,7 +732,6 @@ IdentifierExtension :
                 .sExpnEnd
                 .sParmEnd
             | *:
-                @LikeString
         ];
 
 % ADD
