@@ -1,6 +1,0 @@
-using output;
-
-if x < 7 then
-    ;
-end;
-var x = 0;
