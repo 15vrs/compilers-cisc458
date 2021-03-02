@@ -1,5 +1,15 @@
 A variable declared and typed in PT is not recognized in Like.
-This results in an error when running ssltrace with -i.
+This results in the error "scan/parse error, line 2: syntax error at: integer" when running ssltrace with -i.
 
 Expected result:
-scan/parse error, line 2: syntax error at: integer
+
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+  .sVar
+   .sIdentifier
+    .sLike
+     .sInteger
+  .sEnd
