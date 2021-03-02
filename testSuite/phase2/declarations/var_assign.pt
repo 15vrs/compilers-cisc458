@@ -1,2 +1,2 @@
 using output;
-var x y;
+var x = 1;

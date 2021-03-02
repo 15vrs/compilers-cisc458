@@ -16,7 +16,7 @@ for path in * ; do
         fi
         if [ ${file: -3} == ".pt" ]
         then
-            ssltrace "ptc -o2 -t2 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/parser.def -ei > ${file%.*}.eOutput
+            ssltrace "ptc -o2 -t2 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/parser.def -e > ${file%.*}.eOutput
         fi
     done
 done
