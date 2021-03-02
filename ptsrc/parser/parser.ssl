@@ -202,7 +202,6 @@ Block :
                 .sProcedure
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
-                'is'
                 @Block
                 'end' ';'
              | 'pkg':
@@ -238,7 +237,6 @@ Block :
                         pIdentifier  .sIdentifier
                         .sPublic
                         @ProcedureHeading
-                        'is'
                         @Block
                         'end' ';'
                 ]
@@ -363,16 +361,11 @@ ValueOrLike :
         % accepts either a initial value or a like clause
         pIdentifier  .sIdentifier
         [
-            | '=': % constant value declaration
+            | '=': % variable w initial value declaration
                 .sInitialValue
                 @Expression
                 .sExpnEnd
-                [
-                    | ',':
-                        @ValueOrLike
-                    | ';':
-                    | *:
-                ]
+                ';'
             | ':': % like clause
                 @LikeClause
             | '[':
@@ -421,8 +414,6 @@ ProcedureHeading :
                     % type identifier
                     ':' @LikeClause
                     [
-                        % | ':':
-                        %     @LikeClause
                         | ')':
                             >
                         | ',':
@@ -430,7 +421,8 @@ ProcedureHeading :
                 }
             | *:
         ]
-        .sParmEnd;
+        .sParmEnd
+        'is';
 
 AssignmentOrCallStmt :
         [
