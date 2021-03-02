@@ -1,5 +1,5 @@
 Missing 'is' while using package
-This results in the error "scan/parse error, line 3: syntax error at: ;" when running ssltrace with -i.
+This results in the error "scan/parse error, line 3: syntax error at: ;" when running ssltrace with -ei.
 
 Expected result:
  .sProgram

@@ -1,6 +1,6 @@
 A sequence of variable declarations separated by comma is not allowed in Like.
 
-This results in the error "scan/parse error, line 2: syntax error at: ," when running ssltrace with -i.
+This results in the error "scan/parse error, line 2: syntax error at: ," when running ssltrace with -ei.
 
 Expected result:
  .sProgram

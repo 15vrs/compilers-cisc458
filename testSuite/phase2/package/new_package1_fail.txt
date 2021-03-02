@@ -1,5 +1,5 @@
 Missing Identifier while using package
-This results in the error "scan/parse error, line 2: syntax error at: is" when running ssltrace with -i.
+This results in the error "scan/parse error, line 2: syntax error at: is" when running ssltrace with -ei.
 
 Expected result:
  .sProgram
