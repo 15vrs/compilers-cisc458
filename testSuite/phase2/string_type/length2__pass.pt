@@ -1,4 +1,3 @@
 using output;
-val x = # "Hi there";
 val a = "Hi there";
-val y = # a;
+var y = # a;
