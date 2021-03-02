@@ -367,12 +367,7 @@ ValueOrLike :
                 .sInitialValue
                 @Expression
                 .sExpnEnd
-                [
-                    | ',':
-                        @ValueOrLike
-                    | ';':
-                    | *:
-                ]
+                ';'
             | ':': % like clause
                 @LikeClause
             | '[':
