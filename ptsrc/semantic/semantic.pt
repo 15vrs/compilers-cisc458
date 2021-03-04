@@ -273,8 +273,17 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         tLineNumber = 74;
         tTrap = 75;
         lastCompoundTcode = 75;
-        tEndOfFile = 76;
-        lastTcode = 76;
+        tConcatenate = 76;
+        tRepeatString = 77;
+        tSubstring = 78;
+        tLength = 79;
+        tStringEQ = 80;
+        tInitialValue = 81;
+        tInitEnd = 82;
+        tCaseElse = 83;
+        tCaseElseEnd = 84;
+        tEndOfFile = 85;
+        lastTcode = 85;
 
         { Input/Output Tokens }
 
