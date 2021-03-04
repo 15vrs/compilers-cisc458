@@ -4,7 +4,9 @@
 # chmod +x runTests3.sh
 # Run this script from the command line while in the testSuite directory
 
-cd ../ptsrc/semantic
+cd ../ptsrc/parser
+make
+cd ../semantic
 make
 cd ../../testSuite/phase3
 for path in * ; do
