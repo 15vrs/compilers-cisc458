@@ -22,6 +22,7 @@ for path in * ; do
             else
                 ssltrace "ptc -o2 -t2 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/parser.def -e > ${file%.*}.eOutput
             fi
+
         fi
     done
 done

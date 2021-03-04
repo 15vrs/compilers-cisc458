@@ -6,3 +6,4 @@ cmd/ptc
 *.out
 *.o
 *.eOutput
+/.vscode
