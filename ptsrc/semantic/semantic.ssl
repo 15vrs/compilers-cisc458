@@ -174,7 +174,7 @@ Output :
         tTrap
         lastCompoundTcode = tTrap
 
-        %ADD
+%ADD
         tConcatenate
         tRepeatString
         tSubstring
@@ -185,7 +185,7 @@ Output :
         tInitEnd
         tCaseElse
         tCaseElseEnd
-        %END
+%END
 
         % End of file marker T-code
         tEndOfFile
@@ -810,6 +810,9 @@ Block :
         % The parser has flagged phase errors, but has emitted out-of-phase
         % definitions with the intent of providing better error repair.
 
+% ADD
+        sBegin
+% END
         {[
             | sProcedure:
                 @ProcedureDefinition
@@ -818,14 +821,34 @@ Block :
 % REMOVE
             % | sType:
             %     @TypeDefinitions
-            % | sVar:
-            %     @VariableDeclarations
+% END
+            | sVar:
+                @VariableDeclarations
+% ADD
+            | sAssignmentStmt:
+                @AssignmentStmt
+            | sCallStmt:
+                @CallStmt
+            | sIfStmt:
+                @IfStmt
+            | sWhileStmt:
+                @WhileStmt
+            | sCaseStmt:
+                @CaseStmt
+            | sRepeatStmt:
+                @RepeatStmt
+            | sNullStmt:
 % END
             | *:
                 >
         ]}
-        sBegin
-        @BeginStmt;
+% REMOVE
+        % sBegin
+        % @BeginStmt
+% END
+% ADD
+        sEnd;
+% END
 
 ConstantDefinitions :           % Process named constant definitions
         {[
@@ -1365,23 +1388,30 @@ ProcedurePrologue :
         oCountPop;
 
 Statement :
-        [
-            | sAssignmentStmt:
-                @AssignmentStmt
-            | sCallStmt:
-                @CallStmt
-            | sBegin:
-                @BeginStmt
-            | sIfStmt:
-                @IfStmt
-            | sWhileStmt:
-                @WhileStmt
-            | sCaseStmt:
-                @CaseStmt
-            | sRepeatStmt:
-                @RepeatStmt
-            | sNullStmt:
-        ];
+% ADD
+        oSymbolTblPushScope
+        @Block
+        oSymbolTblPopScope;
+% END
+% REMOVE
+        % [
+        %     | sAssignmentStmt:
+        %         @AssignmentStmt
+        %     | sCallStmt:
+        %         @CallStmt
+        %     | sBegin:
+        %         @BeginStmt
+        %     | sIfStmt:
+        %         @IfStmt
+        %     | sWhileStmt:
+        %         @WhileStmt
+        %     | sCaseStmt:
+        %         @CaseStmt
+        %     | sRepeatStmt:
+        %         @RepeatStmt
+        %     | sNullStmt:
+        % ];
+% END
 
 AssignmentStmt :
         sIdentifier  oSymbolStkPushIdentifier
@@ -1423,15 +1453,15 @@ EmitStore:
                 .tStoreBoolean
             | *:                
         ];
-
-BeginStmt :
-        {[
-            | sEnd:
-                >
-            | *:
-                @Statement
-        ]};
-
+% REMOVE
+% BeginStmt :
+%         {[
+%             | sEnd:
+%                 >
+%             | *:
+%                 @Statement
+%         ]};
+% END
 CallStmt :
         sIdentifier  oSymbolStkPushIdentifier   % Procedure being called
         [ oSymbolStkChooseKind
