@@ -24,7 +24,12 @@ for path in * ; do
             then
                 ssltrace "ptc -o3 -t3 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/semantic.def -ei > ${file%.*}.eOutput
             else
-                ssltrace "ptc -o3 -t3 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/semantic.def -e > ${file%.*}.eOutput
+                if [ "$1" == "g" ]
+                then
+                    ssltrace "ptc -o3 -t3 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/semantic.def | egrep "^ *[\.o%]" > ${file%.*}.eOutput
+                else
+                    ssltrace "ptc -o3 -t3 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/semantic.def -e > ${file%.*}.eOutput
+                fi
             fi
 
         fi
