@@ -951,7 +951,6 @@ TypeBody :
             | *:                
                 @SimpleType     % pushes type
         ]
-        .tNot
         % If it's a new type, enter it in the Type Table
         @TypeTblEnterIfNew;
 
@@ -967,16 +966,7 @@ IndexType :
 % CHANGE
         oValuePush(one)     % pushes lower bound index of 1
         @ConstantValue      % push upper bound
-        % [ oTypeStkChooseKind
-        %     | tpSubrange:
-        %         oValuePushTypeStkLowerBound
-        %         oValuePushTypeStkUpperBound
-        %     | *:
-        %         oValuePush(one)
-        %         oValuePush(two)
-        % ]
-        % oTypeStkPop      % index type
-
+       
         % Enter and check the bounds of the array type
         oTypeStkEnterBounds
         [ oTypeStkVerifyBounds
@@ -1015,6 +1005,7 @@ SimpleType :
                 oSymbolStkPrint
                 [ oSymbolStkChooseKind
                     | syConstant:
+                        .tAdd
                         oTypeStkPushSymbol
                     | syVariable:
                         oTypeStkPushSymbol
@@ -1027,16 +1018,16 @@ SimpleType :
                 ]
                 oSymbolStkPop
             | sInteger:
+                oSymbolStkPrint
                 oTypeStkPush(tpInteger)
                 oTypeStkLinkToStandardType(stdInteger)
             | *:
+                oSymbolStkPrint
                 #eSimpleTypeReqd
                 oTypeStkPush(tpInteger)
                 oTypeStkLinkToStandardType(stdInteger)
         ]
-        % oSymbolEnterType
-        oSymbolStkEnterTypeReference
-        oTypeStkPop;
+        oSymbolStkEnterTypeReference;
 
 SubrangeUpperBound :
         % Accept the upper bound of a subrange and push it on the value stack.
@@ -1269,38 +1260,28 @@ ProcedureHeading :
 ProcedureParameterType :
         % A local procedure's formal parameters must
         % be declared using named types.
+% CHANGE
 
-        sIdentifier  oSymbolStkPushIdentifier   % formal parameter type
-        [ oSymbolStkChooseKind
-            | syUndefined:
-                #eUndefinedIdentifier
-            | *:
-        ]
-        [ oSymbolStkChooseKind
-            | syType:
-                oTypeStkPushSymbol
-            | *:
-                #eTypeIdentifierReqd
-                oTypeStkPush(tpInteger)
-                oTypeStkLinkToStandardType(stdInteger)
-        ]
-        oSymbolStkPop                           % parameter type symbol
+        % [ oSymbolStkChooseKind
+        %     | syVariable:
+        %         [ oTypeStkChooseKind
+        %             | tpArray, tpFile:
+        %                 #eNonScalarValParm
+        %                 oTypeStkPop
+        %                 oTypeStkPush(tpInteger)
+        %                 oTypeStkLinkToStandardType(stdInteger)
+        %             | *:
+        %         ]
+        %     | *:
+        % ]
 
-        [ oSymbolStkChooseKind
-            | syVariable:
-                [ oTypeStkChooseKind
-                    | tpArray, tpFile:
-                        #eNonScalarValParm
-                        oTypeStkPop
-                        oTypeStkPush(tpInteger)
-                        oTypeStkLinkToStandardType(stdInteger)
-                    | *:
-                ]
-            | *:
-        ]
-        oSymbolStkEnterTypeReference
-        @AllocateVar                            % allocate formal parameter
-        oSymbolTblEnter;
+        % oSymbolStkEnterTypeReference
+        % @AllocateVar                            % allocate formal parameter
+        % oSymbolTblEnter
+        
+        @SimpleType;
+
+% END
 
 ProcedurePrologue :
         % Now all the formal parameter symbols are stacked on top of the

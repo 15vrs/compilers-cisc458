@@ -1,3 +1,2 @@
 using output;
-val x = 5;
-var y: like x;
+var y: like 5;
