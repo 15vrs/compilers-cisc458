@@ -948,6 +948,7 @@ TypeBody :
             | *:                
                 @SimpleType     % pushes type
         ]
+        .tNot
         % If it's a new type, enter it in the Type Table
         @TypeTblEnterIfNew;
 
@@ -1009,42 +1010,17 @@ SimpleType :
             | sIdentifier:
                 oSymbolStkPushIdentifier
                 [ oSymbolStkChooseKind
-                    | syConstant:       
+                    | syConstant:
                         oTypeStkPushSymbol
-                        [ oTypeStkChooseKind
-                            | tpInteger:        
-                                oValuePushSymbol
-                            | *:
-                                #eIntegerConstReqd
-                                oValuePush(one)
-                        ]
-                        [
-                            | sNegate:
-                                oValueNegate
-                            | *:
-                        ]
-                        oTypeStkPop
                     | syVariable:
-                        [ oTypeStkChooseKind
-                            | tpInteger:        
-                                oValuePushSymbol
-                            | *:
-                                #eIntegerConstReqd
-                                oValuePush(one)
-                        ]
-                        [
-                            | sNegate:
-                                oValueNegate
-                            | *:
-                        ]
+                        oTypeStkPushSymbol
                     | syUndefined:
                         #eUndefinedIdentifier
                         oValuePush(one)
                     | *:
-                        #eIntegerConstReqd
+                        #eSimpleTypeReqd
                         oValuePush(one)
                 ]
-                
                 oSymbolStkPop
             | sInteger:
                 oTypeStkPush(tpInteger)
@@ -1053,7 +1029,12 @@ SimpleType :
                 #eSimpleTypeReqd
                 oTypeStkPush(tpInteger)
                 oTypeStkLinkToStandardType(stdInteger)
-        ];
+        ]
+        % oSymbolEnterType
+        oSymbolStkEnterTypeReference
+        oTypeStkPop
+        oScopeEnterSymbol
+        oSymbolPop;
 
 SubrangeUpperBound :
         % Accept the upper bound of a subrange and push it on the value stack.
