@@ -1000,78 +1000,53 @@ ComponentType :
 
 SimpleType :
         % Accept a simple type and push a type stack entry for it.
+% CHANGE
+        sLike
         [
             | sIdentifier:
                 oSymbolStkPushIdentifier
-                [ 
-                    | sRange:                   % subrange specification
-                        [ oSymbolStkChooseKind
-                            | syConstant:       
-                                oTypeStkPushSymbol
-                                [ oTypeStkChooseKind
-                                    | tpInteger:        
-                                        oValuePushSymbol
-                                    | *:
-                                        #eIntegerConstReqd
-                                        oValuePush(one)
-                                ]
-                                [
-                                    | sNegate:
-                                        oValueNegate
-                                    | *:
-                                ]
-                                oTypeStkPop
-                            | syUndefined:
-                                #eUndefinedIdentifier
-                                oValuePush(one)
+                [ oSymbolStkChooseKind
+                    | syConstant:       
+                        oTypeStkPushSymbol
+                        [ oTypeStkChooseKind
+                            | tpInteger:        
+                                oValuePushSymbol
                             | *:
                                 #eIntegerConstReqd
                                 oValuePush(one)
                         ]
-                        @SubrangeUpperBound     % pushes value on value stack
-                        oTypeStkPush(tpSubrange)
-                        oTypeStkEnterBounds
-                        oValuePop
-                        oValuePop
-                    | *:        
-                        % type identifier
-                        [ oSymbolStkChooseKind
-                            | syType:
-                                oTypeStkPushSymbol
-                            | syUndefined:
-                                #eUndefinedIdentifier
-                                oSymbolStkPop
-                                oValuePush(one)
-                                oValuePush(one)
-                                oTypeStkPush(tpSubrange)
-                                oTypeStkEnterBounds
-                                oValuePop
-                                oValuePop
+                        [
+                            | sNegate:
+                                oValueNegate
                             | *:
-                                #eSimpleTypeReqd
-                                oSymbolStkPop
-                                oValuePush(one)
-                                oValuePush(one)
-                                oTypeStkPush(tpSubrange)
-                                oTypeStkEnterBounds
-                                oValuePop
-                                oValuePop
                         ]
-                ]
-                oSymbolStkPop
-            | sInteger:         % lower bound of subrange specification
-                oValuePushInteger
-                [
-                    | sNegate:
-                        oValueNegate
+                        oTypeStkPop
+                    | syVariable:
+                        [ oTypeStkChooseKind
+                            | tpInteger:        
+                                oValuePushSymbol
+                            | *:
+                                #eIntegerConstReqd
+                                oValuePush(one)
+                        ]
+                        [
+                            | sNegate:
+                                oValueNegate
+                            | *:
+                        ]
+                    | syUndefined:
+                        #eUndefinedIdentifier
+                        oValuePush(one)
                     | *:
+                        #eIntegerConstReqd
+                        oValuePush(one)
                 ]
-                sRange
-                @SubrangeUpperBound     % pushes value on value stack
-                oTypeStkPush(tpSubrange)
-                oTypeStkEnterBounds
-                oValuePop
-                oValuePop
+                
+            ]
+                oSymbolStkPop
+            | sInteger:
+                oTypeStkPush(tpInteger)
+                oTypeStkLinkToStandardType(stdInteger)
             | *:
                 #eSimpleTypeReqd
                 oTypeStkPush(tpInteger)
