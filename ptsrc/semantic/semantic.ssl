@@ -1005,7 +1005,6 @@ SimpleType :
                 oSymbolStkPrint
                 [ oSymbolStkChooseKind
                     | syConstant:
-                        .tAdd
                         oTypeStkPushSymbol
                     | syVariable:
                         oTypeStkPushSymbol
