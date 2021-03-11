@@ -396,6 +396,9 @@ mechanism SymbolStack :
 
     oSymbolStkSetKind (SymbolKind)
         % Set the top entry's kind field to the parameter value.
+    
+    oSymbolStkPrint
+    % print stack
 
 % ADD
     oSymbolStkSetPublicFlag
@@ -1009,6 +1012,7 @@ SimpleType :
         [
             | sIdentifier:
                 oSymbolStkPushIdentifier
+                oSymbolStkPrint
                 [ oSymbolStkChooseKind
                     | syConstant:
                         oTypeStkPushSymbol
@@ -1032,9 +1036,7 @@ SimpleType :
         ]
         % oSymbolEnterType
         oSymbolStkEnterTypeReference
-        oTypeStkPop
-        oScopeEnterSymbol
-        oSymbolPop;
+        oTypeStkPop;
 
 SubrangeUpperBound :
         % Accept the upper bound of a subrange and push it on the value stack.
