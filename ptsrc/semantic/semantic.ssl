@@ -397,6 +397,10 @@ mechanism SymbolStack :
     oSymbolStkSetKind (SymbolKind)
         % Set the top entry's kind field to the parameter value.
 
+% ADD
+    oSymbolStkSetPublicFlag
+% END
+
     oSymbolStkEnterValue
         % The value field of the top entry is set to the value
         % of the top value stack entry.
@@ -848,6 +852,13 @@ Block :
 % END
 % ADD
         sEnd;
+
+IsPublic :
+    [
+        | sPublic:
+            oSymbolStkSetPublicFlag
+        | *:
+    ];
 % END
 
 ConstantDefinitions :           % Process named constant definitions
@@ -864,6 +875,9 @@ ConstantDefinitions :           % Process named constant definitions
                         % The new definition will now obscure the old one
                 ]
                 oSymbolStkSetKind(syConstant)
+% ADD
+                @IsPublic
+% END
                 @ConstantValue
                 oSymbolStkEnterTypeReference
                 oTypeStkPop
@@ -917,34 +931,34 @@ ConstantValue :         % push the value and type of the constant value
             | sStringLiteral:
                 @StringLiteral  % pushes type and value, enters address
         ];
+% REMOVE
+% TypeDefinitions :       % process named type definitions
+%         {[
+%             | sIdentifier:
+%                 oSymbolStkPushLocalIdentifier
+%                 [ oSymbolStkChooseKind
+%                     | syUndefined:
+%                     | syExternal:
+%                         % Program parameters must be declared as file variables
+%                         #eExternalDeclare        % ignore this declaration
+%                     | *:
+%                         #eMultiplyDefined
+%                         % The new definition will obscure the old one
+%                 ]
+%                 oSymbolStkSetKind(syType)
 
-TypeDefinitions :       % process named type definitions
-        {[
-            | sIdentifier:
-                oSymbolStkPushLocalIdentifier
-                [ oSymbolStkChooseKind
-                    | syUndefined:
-                    | syExternal:
-                        % Program parameters must be declared as file variables
-                        #eExternalDeclare        % ignore this declaration
-                    | *:
-                        #eMultiplyDefined
-                        % The new definition will obscure the old one
-                ]
-                oSymbolStkSetKind(syType)
+%                 % Accepts a type specification and pushes its type to the Type Stack.
+%                 % Creates type table entries for the type and any new subtypes as necessary.
+%                 @TypeBody
 
-                % Accepts a type specification and pushes its type to the Type Stack.
-                % Creates type table entries for the type and any new subtypes as necessary.
-                @TypeBody
-
-                oSymbolStkEnterTypeReference
-                oTypeStkPop
-                oSymbolTblEnter
-                oSymbolStkPop
-            | *:
-                >
-        ]};
-
+%                 oSymbolStkEnterTypeReference
+%                 oTypeStkPop
+%                 oSymbolTblEnter
+%                 oSymbolStkPop
+%             | *:
+%                 >
+%         ]};
+% END
 TypeBody :
         % Accept a type specification and push a Type Stack entry for it.
         % Enter it and any new index or component subtypes into the Type Table as necessary. 
@@ -1126,7 +1140,9 @@ SubrangeUpperBound :
         ];
 
 VariableDeclarations :
-        {[
+% REMOVE LOOP
+        % {
+        [
             | sIdentifier:
                 oSymbolStkPushLocalIdentifier
 
@@ -1137,7 +1153,9 @@ VariableDeclarations :
                         #eMultiplyDefined
                         % The new definition will obscure the old one
                 ]
-
+% ADD
+                @IsPublic
+% END
                 % Accepts a type specification and pushes its type to the Type Stack.
                 % Creates type table entries for the type and any new subtypes as necessary.
                 @TypeBody
@@ -1145,9 +1163,12 @@ VariableDeclarations :
                 oTypeStkPop
                 oSymbolStkPop
             | *:
-                >
-        ]};
-
+% REMOVE
+                % >
+% END
+        ];
+        %};
+% END
 EnterVariableAttributes :
         % Enter the type on top of the Type Stack as the type of 
         % the new variable on top of the symbol stack
@@ -1658,6 +1679,15 @@ CaseStmt :
         .tCaseEnd
         oFixPopForwardBranch
         oEmitCaseBranchTable
+% ADD
+        [
+            | sCaseElse:
+                .tCaseElse
+                @Statement
+                .tCaseElseEnd
+            | *:
+        ]
+% END
         % emit merge branches for case alternatives
         {[ oCountChoose         % number of case alternatives
             | zero:

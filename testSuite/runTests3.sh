@@ -23,6 +23,9 @@ for path in * ; do
             if [ "$1" == "i" ]
             then
                 ssltrace "ptc -o3 -t3 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/semantic.def -ei > ${file%.*}.eOutput
+            elif [ "$1" == "g" ]
+            then
+                ssltrace "ptc -o3 -t3 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/semantic.def | egrep "^ *[\.o%]" > ${file%.*}.eOutput
             else
                 ssltrace "ptc -o3 -t3 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/semantic.def -e > ${file%.*}.eOutput
             fi
