@@ -1061,22 +1061,6 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
             symbolTblKind[pidRewrite] := syProcedure;
             symbolTblValue[pidRewrite] := -rtRewrite;
 
-            { put }
-            symbolTblKind[pidPut] := syProcedure;
-            symbolTblValue[pidPut] := -rtWrite;
-
-            { putln }
-            symbolTblKind[pidPutln] := syProcedure;
-            symbolTblValue[pidPutln] := -rtWriteln;
-
-            { get }
-            symbolTblKind[pidGet] := syProcedure;
-            symbolTblValue[pidGet] := -rtRead;
-
-            { getln }
-            symbolTblKind[pidGetln] := syProcedure;
-            symbolTblValue[pidGetln] := -rtReadln;
-
             { chr }
             symbolTblKind[pidChr] := syFunction;
             symbolTblValue[pidChr] := -rtChr;
@@ -1097,7 +1081,23 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
             symbolTblKind[pidAssign] := syProcedure;
             symbolTblValue[pidAssign] := -rtAssign;
 
-            Assert(lastPredeclaredId = pidAssign, assert58);
+            { get }
+            symbolTblKind[pidGet] := syProcedure;
+            symbolTblValue[pidGet] := -rtRead;
+
+            { getln }
+            symbolTblKind[pidGetln] := syProcedure;
+            symbolTblValue[pidGetln] := -rtReadln;
+
+            { put }
+            symbolTblKind[pidPut] := syProcedure;
+            symbolTblValue[pidPut] := -rtWrite;
+
+            { putln }
+            symbolTblKind[pidPutln] := syProcedure;
+            symbolTblValue[pidPutln] := -rtWriteln;
+
+            Assert(lastPredeclaredId = pidPutln, assert58);
 
             symbolTblTop := lastPredeclaredId;  { number of predefined symbols entered above }
             typeTblTop := lastPredeclaredType;  { number of predefined types entered above }
