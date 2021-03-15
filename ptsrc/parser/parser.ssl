@@ -224,6 +224,7 @@ Block :
                         'end' ';'
                     |*:
                         @RepeatStmt
+                        ';'
                 ]
             | 'public':
                 [
