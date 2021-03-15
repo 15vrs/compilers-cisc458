@@ -20,7 +20,9 @@ for path in * ; do
         fi
         if [ ${file: -3} == ".pt" ]
         then
-            if [ "$1" == "i" ]
+            if [ "$1" == "d" ]
+            then : # Just leave all *.eOutput files deleted
+            elif [ "$1" == "i" ]
             then
                 ssltrace "ptc -o3 -t3 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/semantic.def -ei > ${file%.*}.eOutput
             elif [ "$1" == "g" ]
@@ -29,7 +31,10 @@ for path in * ; do
             else
                 ssltrace "ptc -o3 -t3 -L ../../ptsrc/lib/pt ${file}" ../../ptsrc/lib/pt/semantic.def -e > ${file%.*}.eOutput
             fi
-
         fi
     done
 done
+if [ "$1" == "d" ]
+    then
+        echo "All *.eOutput files deleted."
+fi

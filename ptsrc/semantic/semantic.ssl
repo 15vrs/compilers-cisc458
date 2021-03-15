@@ -267,16 +267,16 @@ type PredeclaredId :
         pidFalse
         pidReset
         pidRewrite
-        pidWrite
-        pidWriteln
-        pidRead
-        pidReadln
         pidChr
         pidOrd
         pidEoln
         pidEof
         pidAssign
-        lastPredeclaredId = pidAssign
+        pidGet
+        pidGetln
+        pidPut
+        pidPutln
+        lastPredeclaredId = pidPutln
 
         % Predeclared program parameters
         pidInput
@@ -941,6 +941,9 @@ TypeBody :
         % Accept a type specification and push a Type Stack entry for it.
         % Enter it and any new index or component subtypes into the Type Table as necessary. 
         [
+            | sInitialValue:
+                @Expression
+                oSymbolStkPop
             | sArray:
                 oTypeStkPush(tpArray)
                 @IndexType
@@ -966,7 +969,8 @@ IndexType :
 % CHANGE
         oValuePush(one)     % pushes lower bound index of 1
         @ConstantValue      % push upper bound
-       
+% END
+        oTypeStkPop         % index type
         % Enter and check the bounds of the array type
         oTypeStkEnterBounds
         [ oTypeStkVerifyBounds
@@ -1002,7 +1006,6 @@ SimpleType :
         [
             | sIdentifier:
                 oSymbolStkPushIdentifier
-                oSymbolStkPrint
                 [ oSymbolStkChooseKind
                     | syConstant:
                         oTypeStkPushSymbol
@@ -1017,7 +1020,6 @@ SimpleType :
                 ]
                 oSymbolStkPop
             | sInteger:
-                oSymbolStkPrint
                 oTypeStkPush(tpInteger)
                 oTypeStkLinkToStandardType(stdInteger)
             | *:
