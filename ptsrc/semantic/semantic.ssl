@@ -1083,7 +1083,7 @@ VariableDeclarations :
                 @EnterVariableAttributes
                 .tLiteralInteger
                 .tLiteralAddress
-                .tStoreInteger
+                @EmitStore
             | *:
                 @TypeBody
                 @EnterVariableAttributes
