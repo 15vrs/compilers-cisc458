@@ -241,7 +241,11 @@ type Integer :
 
         % These two sizes are machine dependent
         byteSize = 1
-        wordSize = 4;
+        wordSize = 4
+
+        %ADD
+        stringSize = 256;
+        %END
 
 type Boolean :
         no
@@ -334,7 +338,8 @@ type SymbolKind :
         syFunction
         syExternal
         syExpression
-        syUndefined;
+        syUndefined
+        syPackage;
 
 type StdRoutine :
         rtReset = 1
@@ -402,6 +407,8 @@ mechanism SymbolStack :
 
 % ADD
     oSymbolStkSetPublicFlag
+
+    oSymbolTblMergePublicScope
 % END
 
     oSymbolStkEnterValue
@@ -458,7 +465,7 @@ type TypeKind :
         tpBoolean
         tpSubrange
         tpArray
-        tpString        % special type for string literals
+        %REMOVED tpString        % special type for string literals
         tpFile
         tpNull;
 
@@ -552,12 +559,17 @@ type TrapKind :
         trReadln = 4
         trWrite = 5
         trWriteln = 6
-        trWriteString = 7
+        %CHanged trWriteString = 7
+        trWriteString = 109
         trWriteInteger = 8
         trWriteChar = 9
         trReadInteger = 10
         trReadChar = 11
-        trAssign = 12;
+        trAssign = 12
+        %ADD
+        trReadString = 108;
+        %END
+        
 
 mechanism Emit :
     % Emit writes to the output "t-code" stream (the code area),
@@ -888,6 +900,10 @@ ConstantDefinitions :           % Process named constant definitions
                 oValuePop
                 oSymbolTblEnter
                 oSymbolStkPop
+% ADD
+            | sPublic:
+                oSymbolStkSetPublicFlag
+% END
             | *:
                 >
         ]};
@@ -1727,7 +1743,8 @@ Operand :
                         .tLiteralChar
                         oEmitValue
                     | *:
-                        .tLiteralString
+                        .tLiteralAddress %CHANGED .tLiteralString
+                        .tFetchChar
                         oEmitValue
                 ]
                 oValuePop
@@ -1742,42 +1759,64 @@ StringLiteral :
         % a single character or a packed array of characters.
         % Pushes the type and value. 
         % The value of a packed array is its address.
-
         oValuePushStringLength
-        [ oValueChoose
-            | zero:
-                #eNullString
-                oTypeStkPush(tpChar)
-                oTypeStkLinkToStandardType(stdChar)
-                oValuePop
-                oValuePush(zero)
-            | one:
-                oTypeStkPush(tpChar)
-                oTypeStkLinkToStandardType(stdChar)
-                oValuePop
-                oValuePushChar
-            | *:
-                % branch around the literal string since
-                % it is stored in the code area
-                .tSkipString
-                oFixPushForwardBranch
-                oEmitNullAddress
-                .tStringData
-                oEmitValue                      % string length
-                oValuePop
-                oValuePushCodeAddress           % The string's characters are in the code area
-                oValueNegate                    % encode that with a negative address
-                oEmitString                     % string's characters
-                oFixPopForwardBranch
-                oTypeStkPush(tpString)
-                oValuePush(one)                 % strings are indexed from 1
-                oValuePushStringLength
-                oTypeStkEnterBounds
-                oValuePop
-                oValuePop
-                oTypeTblEnter
-        ];
+        .tSkipString
+        oFixPushForwardBranch
+        oEmitNullAddress
+        .tStringData
+        oEmitValue                      % string length
+        oValuePop
+        oValuePushCodeAddress           % The string's characters are in the code area
+        oValueNegate                    % encode that with a negative address
+        oEmitString                     % string's characters
+        oFixPopForwardBranch
+        oTypeStkPush(tpChar)
+        oTypeStkLinkToStandardType(stdChar)
+        oValuePush(one)                 % strings are indexed from 1
+        oValuePushStringLength
+        oTypeStkEnterBounds
+        oValuePushCHar
+        oValuePop
+        oValuePop
+        oTypeTblEnter;
 
+        %REMOVED
+        % [ oValueChoose
+        %     | zero:
+        %         #eNullString
+        %         oTypeStkPush(tpChar)
+        %         oTypeStkLinkToStandardType(stdChar)
+        %         oValuePop
+        %         oValuePush(zero)
+        %     | one:
+        %         oTypeStkPush(tpChar)
+        %         oTypeStkLinkToStandardType(stdChar)
+        %         oValuePop
+        %         oValuePushChar
+        %     | *:
+        %         % branch around the literal string since
+        %         % it is stored in the code area
+        %         .tSkipString
+        %         oFixPushForwardBranch
+        %         oEmitNullAddress
+        %         .tStringData
+        %         oEmitValue                      % string length
+        %         oValuePop
+        %         oValuePushCodeAddress           % The string's characters are in the code area
+        %         oValueNegate                    % encode that with a negative address
+        %         oEmitString                     % string's characters
+        %         oFixPopForwardBranch
+        %         %oTypeStkPush(tpString)
+        %         oValuePush(one)                 % strings are indexed from 1
+        %         oValuePushStringLength
+        %         oTypeStkEnterBounds
+        %         oValuePop
+        %         oValuePop
+        %         oTypeTblEnter
+        
+        % ];
+        %END
+        
 UnaryOperator :
         [
             | sNegate:
@@ -1892,13 +1931,15 @@ CompareAndSwapTypes :
                     | *:
                         #eTypeMismatch
                 ]
-            | tpString:
-                oTypeStkSwap
-                [ oTypeStkChooseKind
-                    | tpString:
-                    | *:
-                        #eTypeMismatch
-                ]
+            %REMOVED
+            % | tpString:
+            %     oTypeStkSwap
+            %     [ oTypeStkChooseKind
+            %         | tpString:
+            %         | *:
+            %             #eTypeMismatch
+            %     ]
+            %END
             | tpFile:
                 oTypeStkSwap
                 [ oTypeStkChooseKind
@@ -2071,9 +2112,11 @@ ConstantOperand :
             | tpBoolean:
                 .tLiteralBoolean
                 oEmitValue
-            | tpString:         % a named literal string
-                .tLiteralString
-                oEmitValue
+            %REMOVED
+            % | tpString:         % a named literal string
+            %     .tLiteralString
+            %     oEmitValue
+            %END
         ]
         oValuePop;
 
@@ -2259,8 +2302,10 @@ AssignProcedure :
                     | *:
                         @Expression                     % pushes symbol and type
                         [ oTypeStkChooseKind
-                            | tpString:
-                                % literal string
+                            %REMOVED
+                            % | tpString:
+                            %     % literal string
+                            %END
                             | tpArray:
                                 % a char array with lower bound 1
                                 oTypeStkPushComponent
@@ -2291,16 +2336,18 @@ AssignProcedure :
                         ]
                         .tParmEnd
                         % need the length of the file name as well
-                        [ oTypeStkChooseKind
-                            | tpString, tpArray:   
-                                .tLiteralInteger
-                                oValuePushTypeStkUpperBound
-                                oEmitValue
-                                oValuePop
-                                sParmEnd
-                            | *:
-                                % already reported above
-                        ]
+                        %REMOVED
+                        % [ oTypeStkChooseKind
+                        %     | tpString, tpArray:   
+                        %         .tLiteralInteger
+                        %         oValuePushTypeStkUpperBound
+                        %         oEmitValue
+                        %         oValuePop
+                        %         sParmEnd
+                        %     | *:
+                        %         % already reported above
+                        % ]
+                        %REMOVED
                         .tParmEnd
                         oSymbolStkPop
                         oTypeStkPop
@@ -2488,8 +2535,10 @@ WriteText :
                 [ oTypeStkChooseKind    % of expression being written
                     | tpInteger, tpSubrange:
                         oValuePush(ten)
-                    | tpString:
-                        oValuePushTypeStkUpperBound     % actual length of string
+                    %REMOVED
+                    % | tpString:
+                    %     oValuePushTypeStkUpperBound     % actual length of string
+                    %END
                     | *:        
                         % error flagged below
                         oValuePush(zero)
@@ -2506,9 +2555,11 @@ WriteText :
             | tpInteger, tpSubrange:
                 .tTrap
                 oEmitTrapKind(trWriteInteger)
-            | tpString: 
-                .tTrap
-                oEmitTrapKind(trWriteString)
+            %REMOVED
+            % | tpString: 
+            %     .tTrap
+            %     oEmitTrapKind(trWriteString)
+            %END
             | tpArray:                  % must be a char array 
                 oTypeStkPushComponent
                 [ oTypeStkChooseKind
