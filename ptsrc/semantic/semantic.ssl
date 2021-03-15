@@ -1079,7 +1079,7 @@ VariableDeclarations :
                 % The new definition will obscure the old one
         ]
 
-         @IsPublic
+        @IsPublic
 
         % Accepts a type specification and pushes its type to the Type Stack.
         % Creates type table entries for the type and any new subtypes as necessary.
@@ -1262,26 +1262,7 @@ ProcedureParameterType :
         % A local procedure's formal parameters must
         % be declared using named types.
 % CHANGE
-
-        % [ oSymbolStkChooseKind
-        %     | syVariable:
-        %         [ oTypeStkChooseKind
-        %             | tpArray, tpFile:
-        %                 #eNonScalarValParm
-        %                 oTypeStkPop
-        %                 oTypeStkPush(tpInteger)
-        %                 oTypeStkLinkToStandardType(stdInteger)
-        %             | *:
-        %         ]
-        %     | *:
-        % ]
-
-        % oSymbolStkEnterTypeReference
-        % @AllocateVar                            % allocate formal parameter
-        % oSymbolTblEnter
-        
         @SimpleType;
-
 % END
 
 ProcedurePrologue :
