@@ -944,6 +944,11 @@ TypeBody :
             | sArray:
                 oTypeStkPush(tpArray)
                 @IndexType
+                [
+                    | sFile:
+                        #eScalarReqd
+                    | *:
+                ]
                 @ComponentType
             | sFile:
                 oTypeStkPush(tpFile)
@@ -1080,6 +1085,7 @@ VariableDeclarations :
             | sInitialValue:
                 @Expression
                 oSymbolStkPop
+                @TypeTblEnterIfNew
                 @EnterVariableAttributes
                 .tLiteralInteger
                 .tLiteralAddress
