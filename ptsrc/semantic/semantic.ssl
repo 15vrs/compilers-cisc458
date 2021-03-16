@@ -1006,6 +1006,13 @@ SimpleType :
 % CHANGE
         sLike
         [
+            | sInteger:
+                oTypeStkPush(tpInteger)
+                oTypeStkLinkToStandardType(stdInteger)
+                [
+                    | sNegate:
+                    | *:
+                ]
             | sIdentifier:
                 oSymbolStkPushIdentifier
                 [ oSymbolStkChooseKind
@@ -1020,10 +1027,16 @@ SimpleType :
                         #eSimpleTypeReqd
                         oValuePush(one)
                 ]
+                [
+                    | sNegate:
+                        [ oTypeStkChooseKind
+                            | tpInteger:
+                            | *:
+                                #eOperandOperatorTypeMismatch
+                        ]
+                    | *:
+                ]
                 oSymbolStkPop
-            | sInteger:
-                oTypeStkPush(tpInteger)
-                oTypeStkLinkToStandardType(stdInteger)
             | *:
                 oSymbolStkPrint
                 #eSimpleTypeReqd
