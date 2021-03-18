@@ -1810,11 +1810,18 @@ UnaryOperator :
                 oTypeStkPush(tpBoolean) % result type
                 @CompareAndSwapTypes
                 oTypeStkPop
+% ADD
             | sLength:
                 .tLength
-                oTypeStkPush(tpInteger)
-                @CompareAndSwapTypes
+                oTypeStkPush(tpInteger) % result type
+                oTypeStkSwap
+                [ oTypeStkChooseKind
+                    | tpChar:
+                    | *:
+                        #eTypeMismatch
+                ]
                 oTypeStkPop
+% END
             | *:
                 >>
         ]
@@ -1834,13 +1841,38 @@ BinaryOperator :
             | sRepeatString:
                 .tRepeatString
                 oTypeStkPush(tpChar) % result type
-                @CompareOperandAndResultTypes
+                oTypeStkSwap
+                [ oTypeStkChooseKind
+                    | tpInteger:
+                    | *:
+                        #eTypeMismatch
+                ]
+                oTypeStkPop
+                @CompareAndSwapTypes
+                oTypeStkPop             % only result type remains
+                oSymbolStkPop
+                oSymbolStkSetKind(syExpression)
             | sSubstring:
                 .tSubstring
                 oTypeStkPush(tpChar) % result type
-                oTypeStkPush(tpChar) % result type
-                @CompareOperandAndResultTypes
-                @CompareOperandAndResultTypes
+                oTypeStkSwap
+                [ oTypeStkChooseKind
+                    | tpInteger:
+                    | *:
+                        #eTypeMismatch
+                ]
+                oTypeStkPop
+                oTypeStkSwap
+                [ oTypeStkChooseKind
+                    | tpInteger:
+                    | *:
+                        #eTypeMismatch
+                ]
+                oTypeStkPop
+                @CompareAndSwapTypes
+                oTypeStkPop             % only result type remains
+                oSymbolStkPop
+                oSymbolStkSetKind(syExpression)
 % END
             | sAdd:
                 .tAdd
@@ -1916,9 +1948,6 @@ CompareAndSwapTypes :
                 oTypeStkSwap
                 [ oTypeStkChooseKind
                     | tpInteger, tpSubrange:
-% ADD
-                    | tpChar:
-% END
                     | *:
                         #eTypeMismatch
                 ]
@@ -1926,9 +1955,6 @@ CompareAndSwapTypes :
                 oTypeStkSwap
                 [ oTypeStkChooseKind
                     | tpChar:
-% ADD
-                    | tpInteger:
-% END
                     | *:
                         #eTypeMismatch
                 ]
@@ -1991,13 +2017,15 @@ CompareRelationalOperandTypes :
                     | *:
                         #eOperandOperatorTypeMismatch
                 ]
-            | tpChar:
-                oTypeStkPop
-                [ oTypeStkChooseKind
-                    | tpChar:
-                    | *:
-                        #eOperandOperatorTypeMismatch
-                ]
+% REMOVE
+            % | tpChar:
+            %     oTypeStkPop
+            %     [ oTypeStkChooseKind
+            %         | tpChar:
+            %         | *:
+            %             #eOperandOperatorTypeMismatch
+            %     ]
+% END
             | *:
                 #eOperandOperatorTypeMismatch
                 oTypeStkPop
