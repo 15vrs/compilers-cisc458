@@ -1027,15 +1027,6 @@ SimpleType :
                         #eSimpleTypeReqd
                         oValuePush(one)
                 ]
-                [
-                    | sNegate:
-                        [ oTypeStkChooseKind
-                            | tpInteger:
-                            | *:
-                                #eOperandOperatorTypeMismatch
-                        ]
-                    | *:
-                ]
                 oSymbolStkPop
             | *:
                 oSymbolStkPrint
@@ -1044,7 +1035,7 @@ SimpleType :
                 oTypeStkLinkToStandardType(stdInteger)
         ]
         oSymbolStkEnterTypeReference;
-
+% END
 SubrangeUpperBound :
         % Accept the upper bound of a subrange and push it on the value stack.
         [
