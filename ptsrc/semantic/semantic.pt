@@ -338,6 +338,9 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         ten = 10;
         byteSize = 1;
         wordSize = 4;
+{ ADD }
+        stringSize = 256;
+{ END }
         { Type 14 }
         no = 0;
         yes = 1;
@@ -2314,7 +2317,10 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                         { Push the value of the last string token to be accepted }
                         begin
                             Assert((compoundToken = sStringLiteral), assert37);
-                            ValueStackPush(compoundTokenText[1]);
+{ CHANGE }
+                            { ValueStackPush(compoundTokenText[1]); }
+                            ValueStackPush(codeAreaEnd);
+{ END }
                         end;
 
                     oValuePushStringLength:
@@ -2382,7 +2388,11 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                         case typeStkKind[typeStkTop] of
                             tpInteger, tpSubrange:
                                 dataAreaEnd := dataAreaEnd + wordSize;
-                            tpChar, tpBoolean:
+{ CHANGE }
+                            tpChar: 
+                                dataAreaEnd := dataAreaEnd + stringSize;
+                            tpBoolean:
+{ END }
                                 dataAreaEnd := dataAreaEnd + byteSize;
                             tpArray:
                                 begin
@@ -2495,7 +2505,10 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                                 begin
                                     EmitOutputToken(compoundTokenText[i]);
                                     i := i + 1;
-                                end
+                                end;
+{ ADD }
+                            EmitOutputToken(null);
+{ END }
                         end;
 
                     oEmitCaseBranchTable:
