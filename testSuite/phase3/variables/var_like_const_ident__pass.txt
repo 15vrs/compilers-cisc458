@@ -1,4 +1,4 @@
-A public variable declared with an initial value is a valid declaration.
+A variable declared like a constant identifier is a valid declaration.
 
 Expected output when run with grep command "./runTests3.sh g":
 
@@ -29,25 +29,27 @@ Expected output when run with grep command "./runTests3.sh g":
   oValuePop
  oCountPop
    oSymbolStkPushLocalIdentifier
-    oSymbolStkSetPublicFlag
-     oValuePushInteger
-     oSymbolStkPush(syExpression)
-     oTypeStkPush(tpInteger)
-     oTypeStkLinkToStandardType(stdInteger)
-     .tLiteralInteger
-     oEmitValue
-     % value emitted 1
-     oValuePop
+   oSymbolStkSetKind(syConstant)
+    oTypeStkPush(tpInteger)
+    oTypeStkLinkToStandardType(stdInteger)
+    oValuePushInteger
+   oSymbolStkEnterTypeReference
+   oTypeStkPop
+   oSymbolStkEnterValue
+   oValuePop
+   oSymbolTblEnter
    oSymbolStkPop
+   oSymbolStkPushLocalIdentifier
+     oSymbolStkPushIdentifier
+     oTypeStkPushSymbol
+     oSymbolStkPop
+     oSymbolStkEnterTypeReference
     oSymbolStkSetKind(syVariable)
      oAllocateAlignOnWord
      oSymbolStkEnterDataAddress
      oAllocateVariable
     oSymbolStkEnterTypeReference
     oSymbolTblEnter
-   .tLiteralInteger
-   .tLiteralAddress
-    .tStoreInteger
    oTypeStkPop
    oSymbolStkPop
  oSymbolTblPopScope

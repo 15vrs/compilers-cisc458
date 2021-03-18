@@ -1,4 +1,4 @@
-A public variable declared like a constant identifier is a valid declaration.
+A declared array of constant identifiers is a valid declaration.
 
 Expected output when run with grep command "./runTests3.sh g":
 
@@ -40,14 +40,46 @@ Expected output when run with grep command "./runTests3.sh g":
    oSymbolTblEnter
    oSymbolStkPop
    oSymbolStkPushLocalIdentifier
-    oSymbolStkSetPublicFlag
-     oSymbolStkPushIdentifier
-     oTypeStkPushSymbol
-     oSymbolStkPop
-     oSymbolStkEnterTypeReference
+    oTypeStkPush(tpArray)
+     oValuePush(one)
+      oTypeStkPush(tpInteger)
+      oTypeStkLinkToStandardType(stdInteger)
+      oValuePushInteger
+     oTypeStkPop
+     oTypeStkEnterBounds
+     oValuePop
+     oValuePop
+      oSymbolStkPushIdentifier
+      oTypeStkPushSymbol
+      oSymbolStkPop
+      oSymbolStkEnterTypeReference
+     oTypeStkEnterComponentReference
+     oTypeStkPop
+     oTypeTblEnter
     oSymbolStkSetKind(syVariable)
+     .tArrayDescriptor
      oAllocateAlignOnWord
      oSymbolStkEnterDataAddress
+     .tLiteralInteger
+     oValuePushTypeStkLowerBound
+     oEmitValue
+     % value emitted 1
+     oValuePop
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 4
+     .tStoreInteger
+     oAllocateDescriptor
+     .tLiteralInteger
+     oValuePushTypeStkUpperBound
+     oEmitValue
+     % value emitted 10
+     oValuePop
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 8
+     .tStoreInteger
+     oAllocateDescriptor
      oAllocateVariable
     oSymbolStkEnterTypeReference
     oSymbolTblEnter

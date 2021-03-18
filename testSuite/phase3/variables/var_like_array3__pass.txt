@@ -1,4 +1,4 @@
-A public variable declared with an initial value is a valid declaration.
+A declared array of variables is a valid declaration.
 
 Expected output when run with grep command "./runTests3.sh g":
 
@@ -29,7 +29,6 @@ Expected output when run with grep command "./runTests3.sh g":
   oValuePop
  oCountPop
    oSymbolStkPushLocalIdentifier
-    oSymbolStkSetPublicFlag
      oValuePushInteger
      oSymbolStkPush(syExpression)
      oTypeStkPush(tpInteger)
@@ -48,6 +47,52 @@ Expected output when run with grep command "./runTests3.sh g":
    .tLiteralInteger
    .tLiteralAddress
     .tStoreInteger
+   oTypeStkPop
+   oSymbolStkPop
+   oSymbolStkPushLocalIdentifier
+    oTypeStkPush(tpArray)
+     oValuePush(one)
+      oTypeStkPush(tpInteger)
+      oTypeStkLinkToStandardType(stdInteger)
+      oValuePushInteger
+     oTypeStkPop
+     oTypeStkEnterBounds
+     oValuePop
+     oValuePop
+      oSymbolStkPushIdentifier
+      oTypeStkPushSymbol
+      oSymbolStkPop
+      oSymbolStkEnterTypeReference
+     oTypeStkEnterComponentReference
+     oTypeStkPop
+     oTypeTblEnter
+    oSymbolStkSetKind(syVariable)
+     .tArrayDescriptor
+     oAllocateAlignOnWord
+     oSymbolStkEnterDataAddress
+     .tLiteralInteger
+     oValuePushTypeStkLowerBound
+     oEmitValue
+     % value emitted 1
+     oValuePop
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 8
+     .tStoreInteger
+     oAllocateDescriptor
+     .tLiteralInteger
+     oValuePushTypeStkUpperBound
+     oEmitValue
+     % value emitted 10
+     oValuePop
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 12
+     .tStoreInteger
+     oAllocateDescriptor
+     oAllocateVariable
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
    oTypeStkPop
    oSymbolStkPop
  oSymbolTblPopScope

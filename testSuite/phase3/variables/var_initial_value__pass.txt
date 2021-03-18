@@ -1,6 +1,6 @@
 A variable declared with an initial value is a valid declaration.
 
-Expected output:
+Expected output when run with grep command "./runTests3.sh g":
 
  oSymbolStkPush(syProcedure)
  oSymbolTblPushScope

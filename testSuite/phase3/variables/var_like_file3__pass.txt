@@ -1,4 +1,4 @@
-A public variable declared with an initial value is a valid declaration.
+A file declared like a variable is a valid declaration.
 
 Expected output when run with grep command "./runTests3.sh g":
 
@@ -29,7 +29,6 @@ Expected output when run with grep command "./runTests3.sh g":
   oValuePop
  oCountPop
    oSymbolStkPushLocalIdentifier
-    oSymbolStkSetPublicFlag
      oValuePushInteger
      oSymbolStkPush(syExpression)
      oTypeStkPush(tpInteger)
@@ -48,6 +47,35 @@ Expected output when run with grep command "./runTests3.sh g":
    .tLiteralInteger
    .tLiteralAddress
     .tStoreInteger
+   oTypeStkPop
+   oSymbolStkPop
+   oSymbolStkPushLocalIdentifier
+    oTypeStkPush(tpFile)
+      oSymbolStkPushIdentifier
+      oTypeStkPushSymbol
+      oSymbolStkPop
+      oSymbolStkEnterTypeReference
+     oTypeStkEnterComponentReference
+     oTypeStkPop
+     oTypeTblEnter
+    oSymbolStkSetKind(syVariable)
+    oSymbolStkEnterTypeReference
+    oValuePush(zero)
+     .tFileDescriptor
+     oAllocateAlignOnWord
+     oSymbolStkEnterDataAddress
+     .tLiteralInteger
+     oEmitValue
+     % value emitted 0
+     .tFileBind
+     .tLiteralAddress
+     oEmitDataAddress
+     % value emitted 8
+     .tStoreInteger
+     oAllocateDescriptor
+    oValuePop
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
    oTypeStkPop
    oSymbolStkPop
  oSymbolTblPopScope

@@ -1,6 +1,6 @@
 A public variable declared like a variable identifier is a valid declaration.
 
-Expected output:
+Expected output when run with grep command "./runTests3.sh g":
 
  oSymbolStkPush(syProcedure)
  oSymbolTblPushScope
