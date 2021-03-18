@@ -1046,9 +1046,6 @@ SimpleType :
                         oTypeStkLinkToStandardType(stdInteger)
                 ]
                 oSymbolStkPop
-            | sInteger:
-                oTypeStkPush(tpInteger)
-                oTypeStkLinkToStandardType(stdInteger)
             | sStringLiteral:
                 oTypeStkPush(tpChar)
                 oTypeStkLinkToStandardType(stdInteger)
@@ -1790,8 +1787,6 @@ StringLiteral :
         oTypeStkPush(tpChar)
         oTypeStkLinkToStandardType(stdChar)
         oValuePop;
-        %oValuePop
-        %oTypeTblEnter;
         %REMOVED
         % [ oValueChoose
         %     | zero:
