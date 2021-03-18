@@ -313,7 +313,10 @@ mechanism SymbolTable :
     oSymbolTblPopScope
         % Pop the lexic level stack and unlink all names local to the scope.
         % Remove all local entries from the symbol and type tables.
-
+% ADD
+    oSymbolTblMergePublicScope
+        % unlink non-public entries and merge with enclosing scope
+% END
     oSymbolTblPreserveParameters
         % Restore procedure parameter entries to the symbol table 
         % after popping the scope.
@@ -3021,68 +3024,24 @@ FlushActuals :
 % ADD
 PackageDefinition :
     %  modified ProcedureDefinition rule
-    % sIdentifier  oSymbolStkPushLocalIdentifier      % package name
+    sIdentifier  oSymbolStkPushLocalIdentifier      % package name
 
-    % oSymbolStkSetKind(syPackage)
-    % oTypeStkPush(tpNull)
-    % oTypeTblEnter
-    % oSymbolStkEnterTypeReference
-    % oSymbolTblEnter
+    oSymbolStkSetKind(syPackage)
+    oTypeStkPush(tpNull)
+    oTypeTblEnter
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
 
-    % oSymbolTblPushScope     % package scope
+    oSymbolTblPushScope     % package scope
 
-    % @Block
+    @Block
 
-    % oTypeTblUpdate
-    % oTypeStkPop
-    % oSymbolTblUpdate
-    % oSymbolStkPop
+    oTypeTblUpdate
+    oTypeStkPop
+    oSymbolTblUpdate
+    oSymbolStkPop
 
-    % oSymbolTblMergePublicScope;
-
-    sIdentifier  oSymbolStkPushLocalIdentifier      % procedure name
-        % [ oSymbolStkChooseKind
-        %     | syUndefined:
-        %     | syExternal:
-        %         % Program parameters must be declared as file variables
-        %         #eExternalDeclare
-        %     | *:
-        %         #eMultiplyDefined
-        %         % New definition obscures old one.
-        % ]
-        % % Procedure bodies only execute when the routine is called
-        % % so we need to branch around the procedure's code
-        % .tSkipProc              % branch around procedure definition
-        % oFixPushForwardBranch
-        % oEmitNullAddress
-
-        oSymbolStkSetKind(syProcedure)
-        % oValuePushCodeAddress
-        % oSymbolStkEnterValue
-        % oValuePop
-        oTypeStkPush(tpNull)
-        % oTypeStkSetRecursionFlag(yes)
-        oTypeTblEnter
-        oSymbolStkEnterTypeReference
-        oSymbolTblEnter
-
-        oSymbolTblPushScope     % procedure scope
-
-        @ProcedureHeading
-        @Block
-
-        % oTypeStkSetRecursionFlag(no)
-        oTypeTblUpdate
-        oTypeStkPop
-        oSymbolTblUpdate
-        oSymbolStkPop
-
-        oSymbolTblPopScope
-        % oSymbolTblPreserveParameters
-
-        % .tProcedureEnd
-        % oFixPopForwardBranch
-        ; 
+    oSymbolTblMergePublicScope;
 % END
 
 end
