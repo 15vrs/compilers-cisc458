@@ -724,6 +724,9 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         { Symbol Table }
         symbolTblIdentLink:     array [1 .. symbolTblSize] of integer;
         symbolTblKind:          array [1 .. symbolTblSize] of SymbolKinds;
+{ ADD }
+        symbolTblPublicFlag:    array [1 .. symbolTblSize] of Boolean   { initially false};
+{ END }
         symbolTblValue:         array [1 .. symbolTblSize] of integer;
         symbolTblTypeTblLink:   array [1 .. symbolTblSize] of TypeTblReference;
         symbolTblTop:  SymbolTblReference;      { initially 0 }
@@ -1346,6 +1349,9 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                     symbolStkSymbolTblRef[symbolStkTop] := null;
                     symbolStkTypeTblLink[symbolStkTop] := null;
                     symbolStkValue[symbolStkTop] := null;
+{ ADD }
+                    symbolStkPublicFlag[symbolStkTop] := null;
+{ END }
                 end
             else
                 Error(eSymbolStkOvfl);
@@ -1367,6 +1373,9 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                     symbolStkIdentTblRef[symbolStkTop] := compoundTokenValue;
                     symbolStkSymbolTblRef[symbolStkTop] := symbolRef;
                     symbolStkKind[symbolStkTop] := symbolTblKind[symbolRef];
+{ ADD }
+                    symbolStkPublicFlag[symbolStkTop] := symbolTblPublicFlag[symbolRef];
+{ END }
                     symbolStkValue[symbolStkTop] := symbolTblValue[symbolRef];
                     symbolStkTypeTblLink[symbolStkTop] :=
                         symbolTblTypeTblLink[symbolRef]
@@ -1720,6 +1729,9 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                                 symbolTblTop := symbolTblTop + 1;
                                 symbolTblKind[symbolTblTop] := symbolStkKind[symbolStkTop];
                                 symbolTblValue[symbolTblTop] := symbolStkValue[symbolStkTop];
+{ ADD }
+                                symbolTblPublicFlag[symbolTblTop] := symbolStkPublicFlag[symbolStkTop];
+{ END }
                                 symbolTblTypeTblLink[symbolTblTop] := 
                                     symbolStkTypeTblLink[symbolStkTop];
                                 symbolStkSymbolTblRef[symbolStkTop] := symbolTblTop;
