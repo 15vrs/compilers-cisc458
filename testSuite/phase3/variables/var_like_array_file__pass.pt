@@ -1,2 +1,2 @@
 using output;
-var x [10]: file like 1;
+var x: like -1;
