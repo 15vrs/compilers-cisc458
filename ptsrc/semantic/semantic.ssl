@@ -837,6 +837,8 @@ Block :
             | sVar:
                 @VariableDeclarations
 % ADD
+            | sPackage:
+                @PackageDefinition
             | sAssignmentStmt:
                 @AssignmentStmt
             | sCallStmt:
