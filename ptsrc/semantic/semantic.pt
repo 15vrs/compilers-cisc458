@@ -1350,7 +1350,8 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                     symbolStkTypeTblLink[symbolStkTop] := null;
                     symbolStkValue[symbolStkTop] := null;
 { ADD }
-                    symbolStkPublicFlag[symbolStkTop] := null;
+                    { set to false by default to avoid type clash }
+                    symbolStkPublicFlag[symbolStkTop] := false;
 { END }
                 end
             else
