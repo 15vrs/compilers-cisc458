@@ -1022,10 +1022,12 @@ SimpleType :
                         oTypeStkPushSymbol
                     | syUndefined:
                         #eUndefinedIdentifier
-                        oValuePush(one)
+                        oTypeStkPush(tpInteger)
+                        oTypeStkLinkToStandardType(stdInteger)
                     | *:
                         #eSimpleTypeReqd
-                        oValuePush(one)
+                        oTypeStkPush(tpInteger)
+                        oTypeStkLinkToStandardType(stdInteger)
                 ]
                 oSymbolStkPop
             | *:
