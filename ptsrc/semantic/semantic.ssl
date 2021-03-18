@@ -241,7 +241,10 @@ type Integer :
 
         % These two sizes are machine dependent
         byteSize = 1
-        wordSize = 4;
+        wordSize = 4
+% ADD
+        stringSize = 256;
+% END
 
 type Boolean :
         no
@@ -458,7 +461,9 @@ type TypeKind :
         tpBoolean
         tpSubrange
         tpArray
-        tpString        % special type for string literals
+% REMOVE
+        % tpString        % special type for string literals
+% END
         tpFile
         tpNull;
 
@@ -1722,17 +1727,22 @@ Operand :
                 oEmitValue
                 oValuePop
             | sStringLiteral:
+% CHANGE
                 oSymbolStkPush(syExpression)
                 @StringLiteral  % pushes type and value
-                [ oTypeStkChooseKind
-                    | tpChar:
-                        .tLiteralChar
-                        oEmitValue
-                    | *:
-                        .tLiteralString
-                        oEmitValue
-                ]
+                % [ oTypeStkChooseKind
+                %     | tpChar:
+                %         .tLiteralChar
+                %         oEmitValue
+                %     | *:
+                %         .tLiteralString
+                %         oEmitValue
+                % ]
+                .tLiteralAddress
+                oEmitValue
+                .tFetchChar
                 oValuePop
+% END
             | sFile:
                 @Expression
                 @FileOperand
@@ -1746,39 +1756,47 @@ StringLiteral :
         % The value of a packed array is its address.
 
         oValuePushStringLength
-        [ oValueChoose
-            | zero:
-                #eNullString
-                oTypeStkPush(tpChar)
-                oTypeStkLinkToStandardType(stdChar)
-                oValuePop
-                oValuePush(zero)
-            | one:
-                oTypeStkPush(tpChar)
-                oTypeStkLinkToStandardType(stdChar)
-                oValuePop
-                oValuePushChar
-            | *:
-                % branch around the literal string since
-                % it is stored in the code area
-                .tSkipString
-                oFixPushForwardBranch
-                oEmitNullAddress
-                .tStringData
-                oEmitValue                      % string length
-                oValuePop
-                oValuePushCodeAddress           % The string's characters are in the code area
-                oValueNegate                    % encode that with a negative address
-                oEmitString                     % string's characters
-                oFixPopForwardBranch
-                oTypeStkPush(tpString)
-                oValuePush(one)                 % strings are indexed from 1
-                oValuePushStringLength
-                oTypeStkEnterBounds
-                oValuePop
-                oValuePop
-                oTypeTblEnter
-        ];
+% REMOVE
+        % [ oValueChoose
+        %     | zero:
+        %         #eNullString
+        %         oTypeStkPush(tpChar)
+        %         oTypeStkLinkToStandardType(stdChar)
+        %         oValuePop
+        %         oValuePush(zero)
+        %     | one:
+        %         oTypeStkPush(tpChar)
+        %         oTypeStkLinkToStandardType(stdChar)
+        %         oValuePop
+        %         oValuePushChar
+        %     | *:
+% END
+        % branch around the literal string since
+        % it is stored in the code area
+        .tSkipString
+        oFixPushForwardBranch
+        oEmitNullAddress
+        .tStringData
+        oEmitValue                      % string length
+        oValuePop
+        oValuePushCodeAddress           % The string's characters are in the code area
+        oValueNegate                    % encode that with a negative address
+        oEmitString                     % string's characters
+        oFixPopForwardBranch
+% CHANGE
+        % oTypeStkPush(tpString)
+        oTypeStkPush(tpChar)
+        oTypeStkLinkToStandardType(stdChar)
+% END
+        oValuePush(one)                 % strings are indexed from 1
+        oValuePushStringLength
+        oTypeStkEnterBounds
+        oValuePop
+        oValuePop
+        oTypeTblEnter;
+% REMOVE
+        % ];
+% END
 
 UnaryOperator :
         [
@@ -1792,6 +1810,11 @@ UnaryOperator :
                 oTypeStkPush(tpBoolean) % result type
                 @CompareAndSwapTypes
                 oTypeStkPop
+            | sLength:
+                .tLength
+                oTypeStkPush(tpInteger)
+                @CompareAndSwapTypes
+                oTypeStkPop
             | *:
                 >>
         ]
@@ -1803,6 +1826,22 @@ BinaryOperator :
         % Could make this a cycle (comment applies to UnaryOperator as well)
         % but that would probably be less efficient on average.
         [
+% ADD
+            | sConcatenate:
+                .tConcatenate
+                oTypeStkPush(tpChar) % result type
+                @CompareOperandAndResultTypes
+            | sRepeatString:
+                .tRepeatString
+                oTypeStkPush(tpChar) % result type
+                @CompareOperandAndResultTypes
+            | sSubstring:
+                .tSubstring
+                oTypeStkPush(tpChar) % result type
+                oTypeStkPush(tpChar) % result type
+                @CompareOperandAndResultTypes
+                @CompareOperandAndResultTypes
+% END
             | sAdd:
                 .tAdd
                 oTypeStkPush(tpInteger) % result type
@@ -1824,11 +1863,18 @@ BinaryOperator :
                 oTypeStkPush(tpBoolean)
                 @CompareOperandAndResultTypes
             | sEq:
-                .tEQ
+% REMOVE
+                % .tEQ
+% END
                 @CompareEqualityOperandTypes
             | sNE:
-                .tNE
+% REMOVE
+                % .tNE
+% END
                 @CompareEqualityOperandTypes
+% ADD
+                .tNot
+% END
             | sGT:
                 .tGT
                 @CompareRelationalOperandTypes
@@ -1870,6 +1916,9 @@ CompareAndSwapTypes :
                 oTypeStkSwap
                 [ oTypeStkChooseKind
                     | tpInteger, tpSubrange:
+% ADD
+                    | tpChar:
+% END
                     | *:
                         #eTypeMismatch
                 ]
@@ -1877,6 +1926,9 @@ CompareAndSwapTypes :
                 oTypeStkSwap
                 [ oTypeStkChooseKind
                     | tpChar:
+% ADD
+                    | tpInteger:
+% END
                     | *:
                         #eTypeMismatch
                 ]
@@ -1894,13 +1946,15 @@ CompareAndSwapTypes :
                     | *:
                         #eTypeMismatch
                 ]
-            | tpString:
-                oTypeStkSwap
-                [ oTypeStkChooseKind
-                    | tpString:
-                    | *:
-                        #eTypeMismatch
-                ]
+% REMOVE
+            % | tpString:
+            %     oTypeStkSwap
+            %     [ oTypeStkChooseKind
+            %         | tpString:
+            %         | *:
+            %             #eTypeMismatch
+            %     ]
+% EBD
             | tpFile:
                 oTypeStkSwap
                 [ oTypeStkChooseKind
@@ -1962,6 +2016,9 @@ CompareEqualityOperandTypes :
 
         [ oTypeStkChooseKind
             | tpInteger, tpSubrange:
+% ADD
+                .tEQ
+% END
                 oTypeStkPop
                 [ oTypeStkChooseKind
                     | tpInteger, tpSubrange:
@@ -1969,6 +2026,9 @@ CompareEqualityOperandTypes :
                         #eOperandOperatorTypeMismatch
                 ]
             | tpChar:
+% ADD
+                .tStringEQ
+% END
                 oTypeStkPop
                 [ oTypeStkChooseKind
                     | tpChar:
@@ -1976,6 +2036,9 @@ CompareEqualityOperandTypes :
                         #eOperandOperatorTypeMismatch
                 ]
             | tpBoolean:
+% ADD
+                .tEQ
+% END
                 oTypeStkPop
                 [ oTypeStkChooseKind
                     | tpBoolean:
@@ -1983,6 +2046,9 @@ CompareEqualityOperandTypes :
                         #eOperandOperatorTypeMismatch
                 ]
             | *:
+% ADD
+                .tEQ
+% END
                 #eOperandOperatorTypeMismatch
                 oTypeStkPop
         ]
@@ -2073,9 +2139,11 @@ ConstantOperand :
             | tpBoolean:
                 .tLiteralBoolean
                 oEmitValue
-            | tpString:         % a named literal string
-                .tLiteralString
-                oEmitValue
+% REMOVE
+            % | tpString:         % a named literal string
+            %     .tLiteralString
+            %     oEmitValue
+% END
         ]
         oValuePop;
 
@@ -2260,41 +2328,46 @@ AssignProcedure :
                         #eFileNameReqd
                     | *:
                         @Expression                     % pushes symbol and type
-                        [ oTypeStkChooseKind
-                            | tpString:
-                                % literal string
-                            | tpArray:
-                                % a char array with lower bound 1
-                                oTypeStkPushComponent
-                                [ oTypeStkChooseKind
-                                    | tpChar:
-                                    | *:
-                                        #eFileNameReqd
-                                ]
-                                oTypeStkPop
-                                oValuePushTypeStkLowerBound
-                                [ oValueChoose
-                                    | one:
-                                    | *:        
-                                        #eFileNameReqd
-                                ]
-                                oValuePop
-                                % need the address of the first element, not the array descriptor
-                                .tSubscriptBegin
-                                .tLiteralInteger
-                                oValuePush(one)
-                                oEmitValue
-                                oValuePop
-                                .tSubscriptChar
-                                .tVarParm
-                            | *:
-                                #eFileNameReqd
-                                @FlushActuals
-                        ]
+% REMOVE
+                        % [ oTypeStkChooseKind
+                        %     | tpString:
+                        %         % literal string
+                        %     | tpArray:
+                        %         % a char array with lower bound 1
+                        %         oTypeStkPushComponent
+                        %         [ oTypeStkChooseKind
+                        %             | tpChar:
+                        %             | *:
+                        %                 #eFileNameReqd
+                        %         ]
+                        %         oTypeStkPop
+                        %         oValuePushTypeStkLowerBound
+                        %         [ oValueChoose
+                        %             | one:
+                        %             | *:        
+                        %                 #eFileNameReqd
+                        %         ]
+                        %         oValuePop
+                        %         % need the address of the first element, not the array descriptor
+                        %         .tSubscriptBegin
+                        %         .tLiteralInteger
+                        %         oValuePush(one)
+                        %         oEmitValue
+                        %         oValuePop
+                        %         .tSubscriptChar
+                        %         .tVarParm
+                        %     | *:
+                        %         #eFileNameReqd
+                        %         @FlushActuals
+                        % ]
+% END
                         .tParmEnd
                         % need the length of the file name as well
                         [ oTypeStkChooseKind
-                            | tpString, tpArray:   
+% CHANGE
+                            % | tpString, 
+                            | tpArray:   
+% END
                                 .tLiteralInteger
                                 oValuePushTypeStkUpperBound
                                 oEmitValue
@@ -2490,8 +2563,10 @@ WriteText :
                 [ oTypeStkChooseKind    % of expression being written
                     | tpInteger, tpSubrange:
                         oValuePush(ten)
-                    | tpString:
-                        oValuePushTypeStkUpperBound     % actual length of string
+% REMOVE
+                    % | tpString:
+                    %     oValuePushTypeStkUpperBound     % actual length of string
+% END
                     | *:        
                         % error flagged below
                         oValuePush(zero)
@@ -2508,26 +2583,28 @@ WriteText :
             | tpInteger, tpSubrange:
                 .tTrap
                 oEmitTrapKind(trWriteInteger)
-            | tpString: 
-                .tTrap
-                oEmitTrapKind(trWriteString)
-            | tpArray:                  % must be a char array 
-                oTypeStkPushComponent
-                [ oTypeStkChooseKind
-                    | tpChar:
-                    | *:
-                        #eWriteExpn
-                ]
-                oTypeStkPop             % component type
-                oValuePushTypeStkLowerBound
-                [ oValueChoose
-                    | one:
-                    | *:                % strings have lower bound one
-                        #eWriteExpn
-                ]
-                oValuePop
-                .tTrap
-                oEmitTrapKind(trWriteString)
+% REMOVE
+            % | tpString: 
+            %     .tTrap
+            %     oEmitTrapKind(trWriteString)
+            % | tpArray:                  % must be a char array 
+            %     oTypeStkPushComponent
+            %     [ oTypeStkChooseKind
+            %         | tpChar:
+            %         | *:
+            %             #eWriteExpn
+            %     ]
+            %     oTypeStkPop             % component type
+            %     oValuePushTypeStkLowerBound
+            %     [ oValueChoose
+            %         | one:
+            %         | *:                % strings have lower bound one
+            %             #eWriteExpn
+            %     ]
+            %     oValuePop
+            %     .tTrap
+            %     oEmitTrapKind(trWriteString)
+% END
             | *:
                 #eWriteExpn
         ]
