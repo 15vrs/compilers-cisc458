@@ -2541,7 +2541,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                                 begin
                                     EmitOutputToken(compoundTokenText[i]);
                                     i := i + 1;
-                                end
+                                end;
                             {ADD}
                             EmitOutputToken(0);
                             {END}
