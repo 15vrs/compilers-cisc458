@@ -1289,7 +1289,9 @@ ProcedureParameterType :
         % A local procedure's formal parameters must
         % be declared using named types.
 % CHANGE
-        @SimpleType;
+        @SimpleType
+        @AllocateVar
+        oSymbolTblEnter;
 % END
 
 ProcedurePrologue :
