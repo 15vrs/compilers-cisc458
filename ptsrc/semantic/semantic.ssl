@@ -1006,6 +1006,13 @@ SimpleType :
 % CHANGE
         sLike
         [
+            | sInteger:
+                oTypeStkPush(tpInteger)
+                oTypeStkLinkToStandardType(stdInteger)
+                [
+                    | sNegate:
+                    | *:
+                ]
             | sIdentifier:
                 oSymbolStkPushIdentifier
                 [ oSymbolStkChooseKind
@@ -1021,9 +1028,6 @@ SimpleType :
                         oValuePush(one)
                 ]
                 oSymbolStkPop
-            | sInteger:
-                oTypeStkPush(tpInteger)
-                oTypeStkLinkToStandardType(stdInteger)
             | *:
                 oSymbolStkPrint
                 #eSimpleTypeReqd
@@ -1031,7 +1035,7 @@ SimpleType :
                 oTypeStkLinkToStandardType(stdInteger)
         ]
         oSymbolStkEnterTypeReference;
-
+% END
 SubrangeUpperBound :
         % Accept the upper bound of a subrange and push it on the value stack.
         [
