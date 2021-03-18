@@ -1038,10 +1038,13 @@ SimpleType :
             | sInteger:
                 oTypeStkPush(tpInteger)
                 oTypeStkLinkToStandardType(stdInteger)
+            | sStringLiteral:
+                oTypeStkPush(tpChar)
+                oTypeStkLinkToStandardType(stdInteger)
             | *:
                 oSymbolStkPrint
                 #eSimpleTypeReqd
-                oTypeStkPush(tpInteger)
+                oTypeStkPush(tpChar)
                 oTypeStkLinkToStandardType(stdInteger)
         ]
         oSymbolStkEnterTypeReference;
@@ -1759,27 +1762,20 @@ StringLiteral :
         % a single character or a packed array of characters.
         % Pushes the type and value. 
         % The value of a packed array is its address.
-        oValuePushStringLength
         .tSkipString
-        oFixPushForwardBranch
-        oEmitNullAddress
-        .tStringData
-        oEmitValue                      % string length
-        oValuePop
-        oValuePushCodeAddress           % The string's characters are in the code area
-        oValueNegate                    % encode that with a negative address
-        oEmitString                     % string's characters
-        oFixPopForwardBranch
         oTypeStkPush(tpChar)
         oTypeStkLinkToStandardType(stdChar)
         oValuePush(one)                 % strings are indexed from 1
         oValuePushStringLength
         oTypeStkEnterBounds
-        oValuePushCHar
+        oValuePushChar
         oValuePop
         oValuePop
-        oTypeTblEnter;
-
+        oTypeTblEnter
+        .tLiteralAddress
+        .tFetchChar
+        
+        ;
         %REMOVED
         % [ oValueChoose
         %     | zero:
@@ -2107,7 +2103,7 @@ ConstantOperand :
                 .tLiteralInteger
                 oEmitValue
             | tpChar:
-                .tLiteralChar
+                .tLiteralAddress %CHANGED .tLiteralChar
                 oEmitValue
             | tpBoolean:
                 .tLiteralBoolean
@@ -2551,7 +2547,7 @@ WriteText :
         [ oTypeStkChooseKind
             | tpChar:
                 .tTrap
-                oEmitTrapKind(trWriteChar)
+                oEmitTrapKind(trWriteString) %CHANGED trWriteChar
             | tpInteger, tpSubrange:
                 .tTrap
                 oEmitTrapKind(trWriteInteger)
@@ -2838,7 +2834,7 @@ ReadText :
         [ oTypeStkChooseKind
             | tpChar:
                 .tTrap
-                oEmitTrapKind(trReadChar)
+                oEmitTrapKind(trReadString) %CHANGED trReadChar
             | tpInteger, tpSubrange:
                 .tTrap
                 oEmitTrapKind(trReadInteger)

@@ -2358,7 +2358,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                         { Push the value of the last string token to be accepted }
                         begin
                             Assert((compoundToken = sStringLiteral), assert37);
-                            ValueStackPush(codeAreaEnd); {CHARGED ValueStackPush(compoundTokenText[1]);}
+                            ValueStackPush(codeAreaEnd); {CHANGED ValueStackPush(compoundTokenText[1]);}
                         end;
 
                     oValuePushStringLength:
