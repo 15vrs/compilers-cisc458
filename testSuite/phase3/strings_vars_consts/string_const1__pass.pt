@@ -1,2 +1,2 @@
 using output;
-val x = "string value";
+val x = "Hello";
