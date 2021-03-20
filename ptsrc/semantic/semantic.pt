@@ -1934,12 +1934,18 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                             write('SymbolTblRef ');
                             write('symbolKind ');
                             write('symbolValue ');
+                            write('valueStack ');
                             writeln;
                             repeat
                                 write(symbolStkIdentTblRef[i]);
                                 write(symbolStkSymbolTblRef[i]);
                                 write(symbolStkKind[i]);
                                 write(symbolStkValue[i]);
+                                if(i < valueStackSize) then
+                                begin
+                                    write(valueStackTop);
+                                    write(valueStack[i]);
+                                end;
                                 writeln;
                                 i := i + 1;
                             until i > symbolStkSize;
@@ -2521,6 +2527,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
 
                     oEmitValue:
                         begin
+                            write(valueStackTop);
                             Assert((valueStackTop >= 1), assert44);
                             EmitOutputToken(valueStack[valueStackTop]);
                         end;

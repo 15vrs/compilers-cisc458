@@ -896,6 +896,7 @@ ConstantDefinitions :           % Process named constant definitions
                 @ConstantValue
                 oSymbolStkEnterTypeReference
                 oTypeStkPop
+                %fail here
                 oSymbolStkEnterValue
                 oValuePop
                 oSymbolTblEnter
@@ -1785,8 +1786,9 @@ StringLiteral :
         oEmitString                     % string's characters
         oFixPopForwardBranch
         oTypeStkPush(tpChar)
-        oTypeStkLinkToStandardType(stdChar)
-        oValuePop;
+        oTypeStkLinkToStandardType(stdChar);
+
+        %oValuePop;
         %REMOVED
         % [ oValueChoose
         %     | zero:
