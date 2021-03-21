@@ -1,0 +1,3 @@
+Test the semantics of calling a public function in a package.
+
+Expected result:
