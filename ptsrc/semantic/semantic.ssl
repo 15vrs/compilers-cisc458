@@ -1264,8 +1264,8 @@ ProcedureDefinition :
         oSymbolTblUpdate
         oSymbolStkPop
 
-        % oSymbolTblPopScope
-        oSymbolTblMergePublicScope
+        oSymbolTblPopScope
+        % oSymbolTblMergePublicScope
         oSymbolTblPreserveParameters
 
         .tProcedureEnd
@@ -1349,7 +1349,7 @@ Statement :
 % ADD
         oSymbolTblPushScope
         @Block
-        oSymbolTblMergePublicScope;
+        oSymbolTblPopScope;
 % END
 % REMOVE
         % [
