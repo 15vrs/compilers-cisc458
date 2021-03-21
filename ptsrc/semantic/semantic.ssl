@@ -342,8 +342,7 @@ type SymbolKind :
         syFunction
         syExternal
         syExpression
-        syUndefined
-        syPackage;
+        syUndefined;
 
 type StdRoutine :
         rtReset = 1
