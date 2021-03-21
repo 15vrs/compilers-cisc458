@@ -1113,11 +1113,12 @@ VariableDeclarations :
         @IsPublic
         [
             | sInitialValue:
+                .tInitialValue
                 @Expression
                 oSymbolStkPop
                 @TypeTblEnterIfNew
                 @EnterVariableAttributes
-                .tLiteralInteger
+                .tLiteralInteger %solutions use .tInitEnd
                 .tLiteralAddress
                 @EmitStore
             | *:
@@ -1761,7 +1762,6 @@ Operand :
                 %         oEmitValue
                 % ]
                 .tLiteralAddress
-                oSymbolStkPrint
                 oEmitValue
                 .tFetchChar
                 oValuePop
