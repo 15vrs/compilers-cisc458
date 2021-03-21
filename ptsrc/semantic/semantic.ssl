@@ -1049,12 +1049,12 @@ SimpleType :
                 oSymbolStkPop
             | sStringLiteral:
                 oTypeStkPush(tpChar)
-                oTypeStkLinkToStandardType(stdInteger)
+                oTypeStkLinkToStandardType(stdChar)
             | *:
                 oSymbolStkPrint
                 #eSimpleTypeReqd
                 oTypeStkPush(tpChar)
-                oTypeStkLinkToStandardType(stdInteger)
+                oTypeStkLinkToStandardType(stdChar)
         ]
         oSymbolStkEnterTypeReference;
 % END
