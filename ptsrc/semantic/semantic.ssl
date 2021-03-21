@@ -905,10 +905,6 @@ ConstantDefinitions :           % Process named constant definitions
                 oValuePop
                 oSymbolTblEnter
                 oSymbolStkPop
-% ADD
-            | sPublic:
-                oSymbolStkSetPublicFlag
-% END
             | *:
                 >
         ]};
@@ -1267,7 +1263,8 @@ ProcedureDefinition :
         oSymbolTblUpdate
         oSymbolStkPop
 
-        oSymbolTblPopScope
+        % oSymbolTblPopScope
+        oSymbolTblMergePublicScope
         oSymbolTblPreserveParameters
 
         .tProcedureEnd
@@ -1351,7 +1348,7 @@ Statement :
 % ADD
         oSymbolTblPushScope
         @Block
-        oSymbolTblPopScope;
+        oSymbolTblMergePublicScope;
 % END
 % REMOVE
         % [
