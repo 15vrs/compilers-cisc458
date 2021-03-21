@@ -2546,7 +2546,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
 
                     oEmitValue:
                         begin
-                            write(valueStackTop);
+                            {write(valueStackTop);}
                             Assert((valueStackTop >= 1), assert44);
                             EmitOutputToken(valueStack[valueStackTop]);
                         end;
