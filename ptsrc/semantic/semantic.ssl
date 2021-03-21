@@ -1891,6 +1891,7 @@ BinaryOperator :
                 @CompareAndSwapTypes
                 oTypeStkPop             % only result type remains
                 oSymbolStkPop
+                oSymbolStkPop
                 oSymbolStkSetKind(syExpression)
 % END
             | sAdd:
