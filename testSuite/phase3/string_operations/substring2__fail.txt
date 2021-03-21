@@ -1,6 +1,7 @@
-Calling a public constant variable in a package is valid
+The first term in a substring operations must be a string.
+Error "#eTypeMismatch" on line 3.
 
-Expected output when run with grep command "./runTests3.sh g":
+Expected Output:
  oSymbolStkPush(syProcedure)
  oSymbolTblPushScope
  oCountPush(three)
@@ -15,7 +16,6 @@ Expected output when run with grep command "./runTests3.sh g":
    oSymbolStkEnterDataAddress
    .tLiteralInteger
    oEmitValue
-   % value emitted 2
    .tFileBind
    .tLiteralAddress
    oEmitDataAddress
@@ -28,57 +28,15 @@ Expected output when run with grep command "./runTests3.sh g":
   oValuePop
  oCountPop
    oSymbolStkPushLocalIdentifier
-   oSymbolStkSetKind(syPackage)
-   oTypeStkPush(tpNull)
-   oTypeTblEnter
-   oSymbolStkEnterTypeReference
-   oSymbolTblEnter
-   oSymbolTblPushScope
-     oSymbolStkPushLocalIdentifier
-     oSymbolStkSetKind(syConstant)
-      oSymbolStkSetPublicFlag
-      oTypeStkPush(tpInteger)
-      oTypeStkLinkToStandardType(stdInteger)
-      oValuePushInteger
-     oSymbolStkEnterTypeReference
-     oTypeStkPop
-     oSymbolStkEnterValue
-     oValuePop
-     oSymbolTblEnter
-     oSymbolStkPop
-   oTypeTblUpdate
-   oTypeStkPop
-   oSymbolTblUpdate
-   oSymbolStkPop
-   oSymbolTblMergePublicScope
-   oSymbolStkPushLocalIdentifier
    .tInitialValue
-     oSymbolStkPushIdentifier
-      oTypeStkPushSymbol
-      oValuePushSymbol
-      .tLiteralInteger
-      oEmitValue
-      % value emitted 1
-      oValuePop
      oValuePushInteger
      oSymbolStkPush(syExpression)
      oTypeStkPush(tpInteger)
      oTypeStkLinkToStandardType(stdInteger)
      .tLiteralInteger
      oEmitValue
-     % value emitted 1
      oValuePop
-     .tAdd
-     oTypeStkPush(tpInteger)
-       oTypeStkSwap
-      oTypeStkPop
-       oTypeStkSwap
-      oTypeStkPop
-      oSymbolStkPop
-      oSymbolStkSetKind(syExpression)
-     oSymbolStkSetKind(syExpression)
    oSymbolStkPop
-    oTypeTblEnter
     oSymbolStkSetKind(syVariable)
      oAllocateAlignOnWord
      oSymbolStkEnterDataAddress
@@ -88,6 +46,53 @@ Expected output when run with grep command "./runTests3.sh g":
    .tLiteralInteger
    .tLiteralAddress
     .tStoreInteger
+   oTypeStkPop
+   oSymbolStkPop
+   oSymbolStkPushLocalIdentifier
+   .tInitialValue
+     oSymbolStkPushIdentifier
+      .tLiteralAddress
+      oValuePushSymbol
+      oEmitValue
+      oValuePop
+      oTypeStkPushSymbol
+      .tFetchInteger
+     oValuePushInteger
+     oSymbolStkPush(syExpression)
+     oTypeStkPush(tpInteger)
+     oTypeStkLinkToStandardType(stdInteger)
+     .tLiteralInteger
+     oEmitValue
+     oValuePop
+     oValuePushInteger
+     oSymbolStkPush(syExpression)
+     oTypeStkPush(tpInteger)
+     oTypeStkLinkToStandardType(stdInteger)
+     .tLiteralInteger
+     oEmitValue
+     oValuePop
+     .tSubstring
+     oTypeStkPush(tpChar)
+     oTypeStkSwap
+     oTypeStkPop
+     oTypeStkSwap
+     oTypeStkPop
+      oTypeStkSwap
+     oTypeStkPop
+     oSymbolStkPop
+     oSymbolStkPop
+     oSymbolStkSetKind(syExpression)
+     oSymbolStkSetKind(syExpression)
+   oSymbolStkPop
+    oTypeTblEnter
+    oSymbolStkSetKind(syVariable)
+     oSymbolStkEnterDataAddress
+     oAllocateVariable
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+   .tLiteralInteger
+   .tLiteralAddress
+    .tStoreChar
    oTypeStkPop
    oSymbolStkPop
  oSymbolTblPopScope

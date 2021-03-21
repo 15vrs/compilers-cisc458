@@ -1,6 +1,7 @@
-Calling a public constant variable in a package is valid
+The variable must be a char array type for a valid length operation.
+Error "#eTypeMismatch" on line 3.
 
-Expected output when run with grep command "./runTests3.sh g":
+Expected Output:
  oSymbolStkPush(syProcedure)
  oSymbolTblPushScope
  oCountPush(three)
@@ -15,7 +16,6 @@ Expected output when run with grep command "./runTests3.sh g":
    oSymbolStkEnterDataAddress
    .tLiteralInteger
    oEmitValue
-   % value emitted 2
    .tFileBind
    .tLiteralAddress
    oEmitDataAddress
@@ -28,54 +28,39 @@ Expected output when run with grep command "./runTests3.sh g":
   oValuePop
  oCountPop
    oSymbolStkPushLocalIdentifier
-   oSymbolStkSetKind(syPackage)
-   oTypeStkPush(tpNull)
-   oTypeTblEnter
-   oSymbolStkEnterTypeReference
-   oSymbolTblEnter
-   oSymbolTblPushScope
-     oSymbolStkPushLocalIdentifier
-     oSymbolStkSetKind(syConstant)
-      oSymbolStkSetPublicFlag
-      oTypeStkPush(tpInteger)
-      oTypeStkLinkToStandardType(stdInteger)
-      oValuePushInteger
-     oSymbolStkEnterTypeReference
-     oTypeStkPop
-     oSymbolStkEnterValue
-     oValuePop
-     oSymbolTblEnter
-     oSymbolStkPop
-   oTypeTblUpdate
-   oTypeStkPop
-   oSymbolTblUpdate
-   oSymbolStkPop
-   oSymbolTblMergePublicScope
-   oSymbolStkPushLocalIdentifier
    .tInitialValue
-     oSymbolStkPushIdentifier
-      oTypeStkPushSymbol
-      oValuePushSymbol
-      .tLiteralInteger
-      oEmitValue
-      % value emitted 1
-      oValuePop
      oValuePushInteger
      oSymbolStkPush(syExpression)
      oTypeStkPush(tpInteger)
      oTypeStkLinkToStandardType(stdInteger)
      .tLiteralInteger
      oEmitValue
-     % value emitted 1
      oValuePop
-     .tAdd
+   oSymbolStkPop
+    oSymbolStkSetKind(syVariable)
+     oAllocateAlignOnWord
+     oSymbolStkEnterDataAddress
+     oAllocateVariable
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+   .tLiteralInteger
+   .tLiteralAddress
+    .tStoreInteger
+   oTypeStkPop
+   oSymbolStkPop
+   oSymbolStkPushLocalIdentifier
+   .tInitialValue
+     oSymbolStkPushIdentifier
+      .tLiteralAddress
+      oValuePushSymbol
+      oEmitValue
+      oValuePop
+      oTypeStkPushSymbol
+      .tFetchInteger
+     .tLength
      oTypeStkPush(tpInteger)
-       oTypeStkSwap
-      oTypeStkPop
-       oTypeStkSwap
-      oTypeStkPop
-      oSymbolStkPop
-      oSymbolStkSetKind(syExpression)
+     oTypeStkSwap
+     oTypeStkPop
      oSymbolStkSetKind(syExpression)
    oSymbolStkPop
     oTypeTblEnter

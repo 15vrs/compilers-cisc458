@@ -1,6 +1,7 @@
-Declaring an empty package is valid.
+Only char arrays are valid for sLength operations.
+Error "#eTypeMismatch" on line 2.
 
-Expected output when run with grep command "./runTests3.sh g":
+Expected Output:
  oSymbolStkPush(syProcedure)
  oSymbolTblPushScope
  oCountPush(three)
@@ -15,7 +16,6 @@ Expected output when run with grep command "./runTests3.sh g":
    oSymbolStkEnterDataAddress
    .tLiteralInteger
    oEmitValue
-   % value emitted 2
    .tFileBind
    .tLiteralAddress
    oEmitDataAddress
@@ -28,17 +28,32 @@ Expected output when run with grep command "./runTests3.sh g":
   oValuePop
  oCountPop
    oSymbolStkPushLocalIdentifier
-   oSymbolStkSetKind(syPackage)
-   oTypeStkPush(tpNull)
-   oTypeTblEnter
-   oSymbolStkEnterTypeReference
-   oSymbolTblEnter
-   oSymbolTblPushScope
-   oTypeTblUpdate
-   oTypeStkPop
-   oSymbolTblUpdate
+   .tInitialValue
+     oValuePushInteger
+     oSymbolStkPush(syExpression)
+     oTypeStkPush(tpInteger)
+     oTypeStkLinkToStandardType(stdInteger)
+     .tLiteralInteger
+     oEmitValue
+     oValuePop
+     .tLength
+     oTypeStkPush(tpInteger)
+     oTypeStkSwap
+     oTypeStkPop
+     oSymbolStkSetKind(syExpression)
    oSymbolStkPop
-   oSymbolTblMergePublicScope
+    oTypeTblEnter
+    oSymbolStkSetKind(syVariable)
+     oAllocateAlignOnWord
+     oSymbolStkEnterDataAddress
+     oAllocateVariable
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+   .tLiteralInteger
+   .tLiteralAddress
+    .tStoreInteger
+   oTypeStkPop
+   oSymbolStkPop
  oSymbolTblPopScope
  oSymbolStkPop
  .tTrapBegin

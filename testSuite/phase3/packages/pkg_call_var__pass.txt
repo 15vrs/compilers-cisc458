@@ -1,4 +1,4 @@
-Calling a public constant variable in a package is valid
+Calling a public variable from a packaged is valid.
 
 Expected output when run with grep command "./runTests3.sh g":
  oSymbolStkPush(syProcedure)
@@ -35,31 +35,49 @@ Expected output when run with grep command "./runTests3.sh g":
    oSymbolTblEnter
    oSymbolTblPushScope
      oSymbolStkPushLocalIdentifier
-     oSymbolStkSetKind(syConstant)
       oSymbolStkSetPublicFlag
-      oTypeStkPush(tpInteger)
-      oTypeStkLinkToStandardType(stdInteger)
-      oValuePushInteger
-     oSymbolStkEnterTypeReference
+     .tInitialValue
+       oValuePushInteger
+       oSymbolStkPush(syExpression)
+       oTypeStkPush(tpInteger)
+       oTypeStkLinkToStandardType(stdInteger)
+       .tLiteralInteger
+       oEmitValue
+       % value emitted 1
+       oValuePop
+     oSymbolStkPop
+      oSymbolStkSetKind(syVariable)
+       oAllocateAlignOnWord
+       oSymbolStkEnterDataAddress
+       oAllocateVariable
+      oSymbolStkEnterTypeReference
+      oSymbolTblEnter
+     .tLiteralInteger
+     .tLiteralAddress
+      .tStoreInteger
      oTypeStkPop
-     oSymbolStkEnterValue
-     oValuePop
-     oSymbolTblEnter
      oSymbolStkPop
    oTypeTblUpdate
    oTypeStkPop
    oSymbolTblUpdate
    oSymbolStkPop
    oSymbolTblMergePublicScope
-   oSymbolStkPushLocalIdentifier
-   .tInitialValue
+   oSymbolStkPushIdentifier
+   .tAssignBegin
+    .tLiteralAddress
+    oValuePushSymbol
+    oEmitValue
+    % value emitted 4
+    oValuePop
+    oTypeStkPushSymbol
      oSymbolStkPushIdentifier
-      oTypeStkPushSymbol
+      .tLiteralAddress
       oValuePushSymbol
-      .tLiteralInteger
       oEmitValue
-      % value emitted 1
+      % value emitted 4
       oValuePop
+      oTypeStkPushSymbol
+      .tFetchInteger
      oValuePushInteger
      oSymbolStkPush(syExpression)
      oTypeStkPush(tpInteger)
@@ -77,17 +95,10 @@ Expected output when run with grep command "./runTests3.sh g":
       oSymbolStkPop
       oSymbolStkSetKind(syExpression)
      oSymbolStkSetKind(syExpression)
+    oTypeStkSwap
+    .tAssignInteger
+   oTypeStkPop
    oSymbolStkPop
-    oTypeTblEnter
-    oSymbolStkSetKind(syVariable)
-     oAllocateAlignOnWord
-     oSymbolStkEnterDataAddress
-     oAllocateVariable
-    oSymbolStkEnterTypeReference
-    oSymbolTblEnter
-   .tLiteralInteger
-   .tLiteralAddress
-    .tStoreInteger
    oTypeStkPop
    oSymbolStkPop
  oSymbolTblPopScope

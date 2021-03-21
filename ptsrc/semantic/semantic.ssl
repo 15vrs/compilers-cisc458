@@ -1114,8 +1114,10 @@ VariableDeclarations :
                 oSymbolStkPop
                 @TypeTblEnterIfNew
                 @EnterVariableAttributes
+                %ask fav TA
                 .tLiteralInteger %solutions use .tInitEnd
                 .tLiteralAddress
+                %solutions use oEmitValue
                 @EmitStore
             | *:
                 @TypeBody
@@ -1890,6 +1892,7 @@ BinaryOperator :
                 oTypeStkPop
                 @CompareAndSwapTypes
                 oTypeStkPop             % only result type remains
+                oSymbolStkPop
                 oSymbolStkPop
                 oSymbolStkSetKind(syExpression)
 % END
