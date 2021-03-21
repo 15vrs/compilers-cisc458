@@ -242,9 +242,10 @@ type Integer :
         % These two sizes are machine dependent
         byteSize = 1
         wordSize = 4
-% ADD
+
+        %ADD
         stringSize = 256;
-% END
+        %END
 
 type Boolean :
         no
@@ -337,7 +338,8 @@ type SymbolKind :
         syFunction
         syExternal
         syExpression
-        syUndefined;
+        syUndefined
+        syPackage;
 
 type StdRoutine :
         rtReset = 1
@@ -405,6 +407,8 @@ mechanism SymbolStack :
 
 % ADD
     oSymbolStkSetPublicFlag
+
+    oSymbolTblMergePublicScope
 % END
 
     oSymbolStkEnterValue
@@ -461,9 +465,7 @@ type TypeKind :
         tpBoolean
         tpSubrange
         tpArray
-% REMOVE
-        % tpString        % special type for string literals
-% END
+        %REMOVED tpString        % special type for string literals
         tpFile
         tpNull;
 
@@ -557,12 +559,17 @@ type TrapKind :
         trReadln = 4
         trWrite = 5
         trWriteln = 6
-        trWriteString = 7
+        %CHanged trWriteString = 7
+        trWriteString = 109
         trWriteInteger = 8
         trWriteChar = 9
         trReadInteger = 10
         trReadChar = 11
-        trAssign = 12;
+        trAssign = 12
+        %ADD
+        trReadString = 108;
+        %END
+        
 
 mechanism Emit :
     % Emit writes to the output "t-code" stream (the code area),
@@ -889,10 +896,15 @@ ConstantDefinitions :           % Process named constant definitions
                 @ConstantValue
                 oSymbolStkEnterTypeReference
                 oTypeStkPop
+                %fail here
                 oSymbolStkEnterValue
                 oValuePop
                 oSymbolTblEnter
                 oSymbolStkPop
+% ADD
+            | sPublic:
+                oSymbolStkSetPublicFlag
+% END
             | *:
                 >
         ]};
@@ -1035,10 +1047,13 @@ SimpleType :
                         oTypeStkLinkToStandardType(stdInteger)
                 ]
                 oSymbolStkPop
+            | sStringLiteral:
+                oTypeStkPush(tpChar)
+                oTypeStkLinkToStandardType(stdInteger)
             | *:
                 oSymbolStkPrint
                 #eSimpleTypeReqd
-                oTypeStkPush(tpInteger)
+                oTypeStkPush(tpChar)
                 oTypeStkLinkToStandardType(stdInteger)
         ]
         oSymbolStkEnterTypeReference;
@@ -1726,8 +1741,8 @@ Operand :
                 .tLiteralInteger
                 oEmitValue
                 oValuePop
+            %ADD
             | sStringLiteral:
-% CHANGE
                 oSymbolStkPush(syExpression)
                 @StringLiteral  % pushes type and value
                 % [ oTypeStkChooseKind
@@ -1742,7 +1757,6 @@ Operand :
                 oEmitValue
                 .tFetchChar
                 oValuePop
-% END
             | sFile:
                 @Expression
                 @FileOperand
@@ -1755,6 +1769,10 @@ StringLiteral :
         % Pushes the type and value. 
         % The value of a packed array is its address.
 
+        .tSkipString
+        oFixPushForwardBranch
+        oEmitNullAddress
+        .tStringData
         oValuePushStringLength
 % REMOVE
         % [ oValueChoose
@@ -1980,7 +1998,7 @@ CompareAndSwapTypes :
             %         | *:
             %             #eTypeMismatch
             %     ]
-% EBD
+% END
             | tpFile:
                 oTypeStkSwap
                 [ oTypeStkChooseKind
@@ -2162,7 +2180,7 @@ ConstantOperand :
                 .tLiteralInteger
                 oEmitValue
             | tpChar:
-                .tLiteralChar
+                .tLiteralAddress %CHANGED .tLiteralChar
                 oEmitValue
             | tpBoolean:
                 .tLiteralBoolean
@@ -2607,7 +2625,7 @@ WriteText :
         [ oTypeStkChooseKind
             | tpChar:
                 .tTrap
-                oEmitTrapKind(trWriteChar)
+                oEmitTrapKind(trWriteString) %CHANGED trWriteChar
             | tpInteger, tpSubrange:
                 .tTrap
                 oEmitTrapKind(trWriteInteger)
@@ -2894,7 +2912,7 @@ ReadText :
         [ oTypeStkChooseKind
             | tpChar:
                 .tTrap
-                oEmitTrapKind(trReadChar)
+                oEmitTrapKind(trReadString) %CHANGED trReadChar
             | tpInteger, tpSubrange:
                 .tTrap
                 oEmitTrapKind(trReadInteger)
