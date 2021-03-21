@@ -14,5 +14,5 @@ while in the /testSuite directory with the command: ./runTestsX.sh
 There are multiple flags that can be used when running runTests3.sh:
   - "./runTests3.sh i" will run the ssltrace command with the -ei flag
   - "./runTests3.sh g" will egrep the ssltrace output
-  - "./runTests3.sh d" will delete all of the *.eOutput files within the phase3 directory
+  - "./runTests3.sh d" will delete all of the *.eOutput files recursively within the phase3 directory
   - "./runTests3.sh" (no flag) will run the ssltrace command with the -e flag
