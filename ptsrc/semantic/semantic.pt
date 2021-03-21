@@ -1766,6 +1766,9 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                             symbolRef := symbolStkSymbolTblRef[symbolStkTop];
                             symbolTblKind[symbolRef] := symbolStkKind[symbolStkTop];
                             symbolTblValue[symbolRef] := symbolStkValue[symbolStkTop];
+{ ADD }
+                            symbolTblPublicFlag[symbolRef] := symbolStkPublicFlag[symbolStkTop];
+{ END }
                             symbolTblTypeTblLink[symbolRef] := symbolStkTypeTblLink[symbolStkTop];
                         end;
 
@@ -1818,8 +1821,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                     oSymbolTblMergePublicScope:
                         { Unlink non-public entries and merge with enclosing scope }
                         begin
-                        { is the assertion needed??? }
-                            { Assert((lexicLevelStackTop >= 1), assert31); }
+                            Assert((lexicLevelStackTop >= 1), assert31);
                             i := symbolTblTop;
                             { Set the identifier table pointer to the identifier entry in the 
                               closest enclosing scope if there is one. }
@@ -1845,10 +1847,10 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                             { Pop non-public symbol and type table frames for scope }
                             if symbolTblPublicFlag[symbolTblDisplay[lexicLevelStackTop]] = false then
                                 begin
-                                    symbolTblTop := symbolTblDisplay[lexicLevelStackTop];
-                                    typeTblTop := typeTblDisplay[lexicLevelStackTop];
+                                    {symbolTblTop := symbolTblDisplay[lexicLevelStackTop];
+                                    typeTblTop := typeTblDisplay[lexicLevelStackTop];}
+                                    lexicLevelStackTop := lexicLevelStackTop - 1;
                                 end;
-                            lexicLevelStackTop := lexicLevelStackTop - 1;
                         end;
 { END }
                     oSymbolTblPreserveParameters:
