@@ -1,6 +1,7 @@
-Calling a public constant variable in a package is valid
+Cannot compare the equality of two values of different types.
+Error "#eOperandOperatorTypeMismatch" on line 3.
 
-Expected output when run with grep command "./runTests3.sh g":
+Expected Output:
  oSymbolStkPush(syProcedure)
  oSymbolTblPushScope
  oCountPush(three)
@@ -15,7 +16,6 @@ Expected output when run with grep command "./runTests3.sh g":
    oSymbolStkEnterDataAddress
    .tLiteralInteger
    oEmitValue
-   % value emitted 2
    .tFileBind
    .tLiteralAddress
    oEmitDataAddress
@@ -28,66 +28,74 @@ Expected output when run with grep command "./runTests3.sh g":
   oValuePop
  oCountPop
    oSymbolStkPushLocalIdentifier
-   oSymbolStkSetKind(syPackage)
-   oTypeStkPush(tpNull)
-   oTypeTblEnter
-   oSymbolStkEnterTypeReference
-   oSymbolTblEnter
-   oSymbolTblPushScope
-     oSymbolStkPushLocalIdentifier
-     oSymbolStkSetKind(syConstant)
-      oSymbolStkSetPublicFlag
-      oTypeStkPush(tpInteger)
-      oTypeStkLinkToStandardType(stdInteger)
-      oValuePushInteger
-     oSymbolStkEnterTypeReference
-     oTypeStkPop
-     oSymbolStkEnterValue
-     oValuePop
-     oSymbolTblEnter
-     oSymbolStkPop
-   oTypeTblUpdate
-   oTypeStkPop
-   oSymbolTblUpdate
-   oSymbolStkPop
-   oSymbolTblMergePublicScope
-   oSymbolStkPushLocalIdentifier
-   .tInitialValue
-     oSymbolStkPushIdentifier
-      oTypeStkPushSymbol
-      oValuePushSymbol
-      .tLiteralInteger
-      oEmitValue
-      % value emitted 1
-      oValuePop
-     oValuePushInteger
      oSymbolStkPush(syExpression)
-     oTypeStkPush(tpInteger)
-     oTypeStkLinkToStandardType(stdInteger)
-     .tLiteralInteger
+      .tSkipString
+      oFixPushForwardBranch
+      oEmitNullAddress
+      % value emitted -32767
+      .tStringData
+      oValuePushStringLength
+      oEmitValue
+      oValuePop
+      oValuePushCodeAddress
+      oValueNegate
+      oEmitString
+      % value emitted 104
+      % value emitted 101
+      % value emitted 108
+      % value emitted 108
+      % value emitted 111
+      % value emitted 0
+      oFixPopForwardBranch
+      oTypeStkPush(tpChar)
+      oTypeStkLinkToStandardType(stdChar)
+     .tLiteralAddress
+     .tFetchChar
      oEmitValue
-     % value emitted 1
      oValuePop
-     .tAdd
-     oTypeStkPush(tpInteger)
-       oTypeStkSwap
-      oTypeStkPop
-       oTypeStkSwap
-      oTypeStkPop
-      oSymbolStkPop
-      oSymbolStkSetKind(syExpression)
-     oSymbolStkSetKind(syExpression)
    oSymbolStkPop
-    oTypeTblEnter
     oSymbolStkSetKind(syVariable)
-     oAllocateAlignOnWord
      oSymbolStkEnterDataAddress
      oAllocateVariable
     oSymbolStkEnterTypeReference
     oSymbolTblEnter
    .tLiteralInteger
    .tLiteralAddress
-    .tStoreInteger
+    .tStoreChar
+   oTypeStkPop
+   oSymbolStkPop
+   oSymbolStkPushLocalIdentifier
+     oSymbolStkPushIdentifier
+      .tLiteralAddress
+      oValuePushSymbol
+      oEmitValue
+      oValuePop
+      oTypeStkPushSymbol
+      .tFetchChar
+     oValuePushInteger
+     oSymbolStkPush(syExpression)
+     oTypeStkPush(tpInteger)
+     oTypeStkLinkToStandardType(stdInteger)
+     .tLiteralInteger
+     oEmitValue
+     oValuePop
+      .tEQ
+      oTypeStkPop
+      oTypeStkPop
+      oTypeStkPush(tpBoolean)
+      oSymbolStkPop
+      oSymbolStkSetKind(syExpression)
+     oSymbolStkSetKind(syExpression)
+   oSymbolStkPop
+    oTypeTblEnter
+    oSymbolStkSetKind(syVariable)
+     oSymbolStkEnterDataAddress
+     oAllocateVariable
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+   .tLiteralInteger
+   .tLiteralAddress
+    .tStoreBoolean
    oTypeStkPop
    oSymbolStkPop
  oSymbolTblPopScope
