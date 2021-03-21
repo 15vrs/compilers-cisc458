@@ -1113,6 +1113,7 @@ VariableDeclarations :
         @IsPublic
         [
             | sInitialValue:
+                .tInitialValue
                 @Expression
                 oSymbolStkPop
                 @TypeTblEnterIfNew
@@ -1892,6 +1893,7 @@ BinaryOperator :
                 oTypeStkPop
                 @CompareAndSwapTypes
                 oTypeStkPop             % only result type remains
+                oSymbolStkPop
                 oSymbolStkPop
                 oSymbolStkSetKind(syExpression)
 % END
