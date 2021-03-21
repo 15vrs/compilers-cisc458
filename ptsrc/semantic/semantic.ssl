@@ -1754,8 +1754,8 @@ Operand :
                 %         oEmitValue
                 % ]
                 .tLiteralAddress
-                oEmitValue
                 .tFetchChar
+                oEmitValue
                 oValuePop
             | sFile:
                 @Expression
