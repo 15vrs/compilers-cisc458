@@ -317,43 +317,69 @@ OptionallySignedIntegerConstant :
 
 
 % ADD
-LikeClause :
-        % Handles stuff following 'like'
-        [
-            | 'like':
-                .sLike
-                [
-                    | pIdentifier:
-                        .sIdentifier
-                        [
-                            | ';':
-                            | *:
-                        ]
-                    | *:
-                        @ConstantValue
-                        [
-                            | ';':
-                            | *:
-                        ]
+% LikeClause :
+%         % Handles stuff following 'like'
+%         [
+%             | 'like':
+%                 .sLike
+%                 [
+%                     | pIdentifier:
+%                         .sIdentifier
+%                         [
+%                             | ';':
+%                             | *:
+%                         ]
+%                     | *:
+%                         @ConstantValue
+%                         [
+%                             | ';':
+%                             | *:
+%                         ]
                         
-                ]
+%                 ]
+%             | 'file':
+%                 .sFile 
+%                 'like' .sLike
+%                 [
+%                     | pIdentifier:
+%                         .sIdentifier
+%                         [
+%                             | ';':
+%                             | *:
+%                         ]
+%                     | *:
+%                         @ConstantValue
+%                         [
+%                             | ';':
+%                             | *:
+%                         ]
+%                 ]
+%         ];
+
+LikeClause :
+        [
+            | '[':
+                .sArray
+                @ConstantValue
+                ']'
+            | *:
+        ]
+        ':' 
+        [
             | 'file':
-                .sFile 
-                'like' .sLike
-                [
-                    | pIdentifier:
-                        .sIdentifier
-                        [
-                            | ';':
-                            | *:
-                        ]
-                    | *:
-                        @ConstantValue
-                        [
-                            | ';':
-                            | *:
-                        ]
-                ]
+                .sFile
+            | *:
+        ]
+        'like' .sLike
+        @VariableOrConstant
+        ';';
+
+VariableOrConstant :
+        [
+            | pIdentifier:
+                .sIdentifier
+            | *:
+                @ConstantValue
         ];
 
 ValueOrLike :
@@ -366,14 +392,16 @@ ValueOrLike :
                 @Expression
                 .sExpnEnd
                 ';'
-            | ':': % like clause
+            | *:
                 @LikeClause
-            | '[':
-                .sArray
-                @ConstantValue
-                ']'
-                ':'
-                @LikeClause
+            % | ':': % like clause
+            %     @LikeClause
+            % | '[':
+            %     .sArray
+            %     @ConstantValue
+            %     ']'
+            %     ':'
+            %     @LikeClause
         ];
 
 
@@ -382,20 +410,13 @@ PublicValueOrLike :
         pIdentifier  .sIdentifier
         .sPublic
         [
-            | '=': % constant value declaration
+            | '=': % variable w initial value declaration
                 .sInitialValue
                 @Expression
                 .sExpnEnd
                 ';'
-            | ':': % like clause
-                @LikeClause
-            | '[':
-                .sArray
-                @ConstantValue
-                ']'
-                ':'
-                @LikeClause
             | *:
+                @LikeClause
         ];
 % END
 
