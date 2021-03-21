@@ -7,6 +7,12 @@ Kevin Tran      20084019    17kt11
 
 We added subdirectories to the /testSuite directory to organize the test
 files by phase, and then by topic being tested. with a corresponding script
-to automatically generate all the ssltrace outputs. The runTests.sh (script
-for phase 1) and runTests2.sh (script for phase 2) should be run while in
-the /testSuite directory with the command: ./runTests.sh
+to automatically generate all the ssltrace outputs. The runTests.sh (for phase 1),
+runTests2.sh (for phase 2), and runTests3.sh (for phase 3) scripts should be run 
+while in the /testSuite directory with the command: ./runTestsX.sh
+
+There are multiple flags that can be used when running runTests3.sh:
+  - "./runTest3.sh i" will run the ssltrace command with the -ei flag
+  - "./runTest3.sh g" will egrep the ssltrace output
+  - "./runTest3.sh d" will delete all of the *.eOutput files within the phase3 directory
+  - "./runTest3.sh" (no flag) will run the ssltrace command with the -e flag
