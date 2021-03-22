@@ -243,9 +243,9 @@ type Integer :
         byteSize = 1
         wordSize = 4
 
-        %ADD
+% ADD
         stringSize = 256;
-        %END
+% END
 
 type Boolean :
         no
