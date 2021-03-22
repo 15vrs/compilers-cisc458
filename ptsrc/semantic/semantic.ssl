@@ -1111,6 +1111,7 @@ VariableDeclarations :
             | sInitialValue:
                 .tInitialValue
                 @Expression
+                .tInitEnd
                 oSymbolStkPop
                 @TypeTblEnterIfNew
                 @EnterVariableAttributes
