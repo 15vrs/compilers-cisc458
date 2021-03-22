@@ -1115,10 +1115,8 @@ VariableDeclarations :
                 oSymbolStkPop
                 @TypeTblEnterIfNew
                 @EnterVariableAttributes
-                %ask fav TA
-                .tLiteralInteger %solutions use .tInitEnd
+                .tLiteralInteger
                 .tLiteralAddress
-                %solutions use oEmitValue
                 @EmitStore
             | *:
                 @TypeBody
