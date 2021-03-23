@@ -561,7 +561,7 @@ type TrapKind :
         trReadln = 4
         trWrite = 5
         trWriteln = 6
-        %CHanged trWriteString = 7
+        %Changed trWriteString = 7
         trWriteString = 109
         trWriteInteger = 8
         trWriteChar = 9
@@ -1051,7 +1051,6 @@ SimpleType :
                 oTypeStkPush(tpChar)
                 oTypeStkLinkToStandardType(stdChar)
             | *:
-                oSymbolStkPrint
                 #eSimpleTypeReqd
                 oTypeStkPush(tpChar)
                 oTypeStkLinkToStandardType(stdChar)
@@ -1763,6 +1762,7 @@ Operand :
                 oEmitValue
                 .tFetchChar
                 oValuePop
+            %END
             | sFile:
                 @Expression
                 @FileOperand
@@ -1807,7 +1807,7 @@ StringLiteral :
         %         oValueNegate                    % encode that with a negative address
         %         oEmitString                     % string's characters
         %         oFixPopForwardBranch
-        %         %oTypeStkPush(tpString)
+        %         oTypeStkPush(tpString)
         %         oValuePush(one)                 % strings are indexed from 1
         %         oValuePushStringLength
         %         oTypeStkEnterBounds
