@@ -404,9 +404,6 @@ mechanism SymbolStack :
 
     oSymbolStkSetKind (SymbolKind)
         % Set the top entry's kind field to the parameter value.
-    
-    oSymbolStkPrint
-    % print stack
 
 % ADD
     oSymbolStkSetPublicFlag
