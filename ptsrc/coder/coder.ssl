@@ -138,6 +138,9 @@ type Integer:
         four = 4
         eight = 8
         twelve = 12
+% ADD
+        twofiftysix = 256
+% END
 
         % Temporary registers
         regAX = 1   %eax
