@@ -23,7 +23,7 @@ Input:
         % T-code tokens - must match output tokens in semantic.ssl exactly!
 
         % Non-compound T-codes - T-code operations take no operands
-        tMultiply
+        tMultiply 
         firstTcode = tMultiply
         tDivide
         tModulus
@@ -104,6 +104,19 @@ Input:
         tLineNumber
         tTrap
         lastCompoundTcode = tTrap
+
+%ADD
+        tConcatenate
+        tRepeatString
+        tSubstring
+        tLength
+        tStringEQ
+
+        tInitialValue
+        tInitEnd
+        tCaseElse
+        tCaseElseEnd
+%END
 
         % End of file marker T-code
         tEndOfFile
