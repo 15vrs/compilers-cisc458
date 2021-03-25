@@ -174,7 +174,7 @@ Output :
         tTrap
         lastCompoundTcode = tTrap
 
-%ADD
+% ADD
         tConcatenate
         tRepeatString
         tSubstring
@@ -185,7 +185,7 @@ Output :
         tInitEnd
         tCaseElse
         tCaseElseEnd
-%END
+% END
 
         % End of file marker T-code
         tEndOfFile
@@ -558,16 +558,25 @@ type TrapKind :
         trReadln = 4
         trWrite = 5
         trWriteln = 6
-        %Changed trWriteString = 7
-        trWriteString = 109
+% REMOVE
+        % trWriteString = 7
+% END
         trWriteInteger = 8
         trWriteChar = 9
         trReadInteger = 10
         trReadChar = 11
         trAssign = 12
-        %ADD
-        trReadString = 108;
-        %END
+% ADD
+        trAssignString = 101
+        trChrString = 102
+        trConcatenate = 103
+        trSubstring = 104
+        trLength = 105
+        trStringEqual = 107
+        trReadString = 108
+        trWriteString = 109
+        trRepeatString = 110;
+% END
         
 
 mechanism Emit :
@@ -1742,7 +1751,7 @@ Operand :
                 .tLiteralInteger
                 oEmitValue
                 oValuePop
-            %ADD
+% ADD
             | sStringLiteral:
                 oSymbolStkPush(syExpression)
                 @StringLiteral  % pushes type and value
@@ -1758,7 +1767,7 @@ Operand :
                 oEmitValue
                 .tFetchChar
                 oValuePop
-            %END
+% END
             | sFile:
                 @Expression
                 @FileOperand
@@ -1812,7 +1821,7 @@ StringLiteral :
         %         oTypeTblEnter
 
         % ];
-%END
+% END
 
 UnaryOperator :
         [

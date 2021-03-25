@@ -153,12 +153,25 @@ type Integer:
         trReadln = 4
         trWrite = 5
         trWriteln = 6
-        trWriteString = 7
+% REMOVE
+        % trWriteString = 7
+% END
         trWriteInteger = 8
         trWriteChar = 9
         trReadInteger = 10
         trReadChar = 11
         trAssign = 12
+% ADD
+        trAssignString = 101
+        trChrString = 102
+        trConcatenate = 103
+        trSubstring = 104
+        trLength = 105
+        trStringEqual = 107
+        trReadString = 108
+        trWriteString = 109
+        trRepeatString = 110
+% END
         trSubscriptAbort = 13
         trCaseAbort = 14
         trEoln = 15
@@ -166,7 +179,10 @@ type Integer:
 
         % Data kinds
         byte = 1
-        word = 2;   % 4 bytes on x86
+        word = 2   % 4 bytes on x86
+% ADD
+        string = 3;
+% END
 
 
 type Boolean:
