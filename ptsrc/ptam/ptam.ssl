@@ -100,11 +100,15 @@ type INSTRUCTION :      % corresponds to semantic.ssl output
         tLiteralAddress 
         firstCompoundTcode = tLiteralAddress
         tLiteralInteger
-        tLiteralChar
+% REMOVE
+        % tLiteralChar
+% END
         tLiteralBoolean
         tSkipString
         tStringData
-        tLiteralString
+% REMOVE
+        % tLiteralString
+% END
         tIfThen
         tIfMerge
         tCaseSelect
@@ -407,13 +411,15 @@ PTmachine :
                                 oCUmoveMDRtoR
                                 oALUpushR
                                 oCUincPC
-                        | tLiteralChar :                % push literal char
-                                oCUincPC
-                                oCUmovePCtoMAR
-                                oMemoryFetchOperand
-                                oCUmoveMDRtoR
-                                oALUpushR
-                                oCUincPC
+% REMOVE
+                        % | tLiteralChar :                % push literal char
+                        %         oCUincPC
+                        %         oCUmovePCtoMAR
+                        %         oMemoryFetchOperand
+                        %         oCUmoveMDRtoR
+                        %         oALUpushR
+                        %         oCUincPC
+% END
                         | tLiteralBoolean :             % push literal boolean
                                 oCUincPC
                                 oCUmovePCtoMAR
@@ -421,14 +427,15 @@ PTmachine :
                                 oCUmoveMDRtoR
                                 oALUpushR
                                 oCUincPC
-                        | tLiteralString :              % push literal string's code address
-                                oCUincPC                % prepare to fetch operand
-                                oCUmovePCtoMAR
-                                oMemoryFetchOperand     % get it
-                                oCUmoveMDRtoR
-                                oALUpushR               % push it onto the expn stack
-                                oCUincPC
-
+% REMOVE
+                        % | tLiteralString :              % push literal string's code address
+                        %         oCUincPC                % prepare to fetch operand
+                        %         oCUmovePCtoMAR
+                        %         oMemoryFetchOperand     % get it
+                        %         oCUmoveMDRtoR
+                        %         oALUpushR               % push it onto the expn stack
+                        %         oCUincPC
+% END
                         | tSubscriptAddress, tSubscriptInteger, tSubscriptChar, tSubscriptBoolean :
                                 % perform subscripting calculation
                                 oALUpopR                % subscript value

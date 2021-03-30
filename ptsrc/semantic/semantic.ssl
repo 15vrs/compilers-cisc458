@@ -155,11 +155,15 @@ Output :
         tLiteralAddress
         firstCompoundTcode = tLiteralAddress
         tLiteralInteger
-        tLiteralChar
+% REMOVE
+        % tLiteralChar
+% END
         tLiteralBoolean
         tSkipString
         tStringData
-        tLiteralString
+% REMOVE
+        % tLiteralString
+% END
         tIfThen
         tIfMerge
         tCaseSelect

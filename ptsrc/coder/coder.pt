@@ -173,35 +173,33 @@ program Coder (output, coderSsl, tCode, object, options);
         tLiteralAddress = 57;
         firstCompoundTcode = 57;
         tLiteralInteger = 58;
-        tLiteralChar = 59;
-        tLiteralBoolean = 60;
-        tSkipString = 61;
-        tStringData = 62;
-        tLiteralString = 63;
-        tIfThen = 64;
-        tIfMerge = 65;
-        tCaseSelect = 66;
-        tCaseMerge = 67;
-        tCaseEnd = 68;
-        tWhileTest = 69;
-        tWhileEnd = 70;
-        tRepeatTest = 71;
-        tSkipProc = 72;
-        tCallEnd = 73;
-        tLineNumber = 74;
-        tTrap = 75;
-        lastCompoundTcode = 75;
-        tConcatenate = 76;
-        tRepeatString = 77;
-        tSubstring = 78;
-        tLength = 79;
-        tStringEQ = 80;
-        tInitialValue = 81;
-        tInitEnd = 82;
-        tCaseElse = 83;
-        tCaseElseEnd = 84;
-        tEndOfFile = 85;
-        lastTcode = 85;
+        tLiteralBoolean = 59;
+        tSkipString = 60;
+        tStringData = 61;
+        tIfThen = 62;
+        tIfMerge = 63;
+        tCaseSelect = 64;
+        tCaseMerge = 65;
+        tCaseEnd = 66;
+        tWhileTest = 67;
+        tWhileEnd = 68;
+        tRepeatTest = 69;
+        tSkipProc = 70;
+        tCallEnd = 71;
+        tLineNumber = 72;
+        tTrap = 73;
+        lastCompoundTcode = 73;
+        tConcatenate = 74;
+        tRepeatString = 75;
+        tSubstring = 76;
+        tLength = 77;
+        tStringEQ = 78;
+        tInitialValue = 79;
+        tInitEnd = 80;
+        tCaseElse = 81;
+        tCaseElseEnd = 82;
+        tEndOfFile = 83;
+        lastTcode = 83;
 
         { Output Tokens }
 
@@ -222,6 +220,7 @@ program Coder (output, coderSsl, tCode, object, options);
         four = 4;
         eight = 8;
         twelve = 12;
+        twofiftysix = 256;
         regAX = 1;
         regBX = 2;
         regCX = 3;
@@ -233,18 +232,27 @@ program Coder (output, coderSsl, tCode, object, options);
         trReadln = 4;
         trWrite = 5;
         trWriteln = 6;
-        trWriteString = 7;
         trWriteInteger = 8;
         trWriteChar = 9;
         trReadInteger = 10;
         trReadChar = 11;
         trAssign = 12;
+        trAssignString = 101;
+        trChrString = 102;
+        trConcatenate = 103;
+        trSubstring = 104;
+        trLength = 105;
+        trStringEqual = 107;
+        trReadString = 108;
+        trWriteString = 109;
+        trRepeatString = 110;
         trSubscriptAbort = 13;
         trCaseAbort = 14;
         trEoln = 15;
         trEof = 16;
         byte = 1;
         word = 2;
+        string = 3;
         { Type 14 }
         no = 0;
         yes = 1;
@@ -311,12 +319,12 @@ program Coder (output, coderSsl, tCode, object, options);
         EmitProgramPrologue = 7;
         Block = 65;
         EmitProgramEpilogue = 58;
-        OperandAssignIntegerPopPop = 3137;
+        OperandAssignIntegerPopPop = 3120;
         Routine = 143;
         Statements = 249;
         OperandNextArgument = 234;
-        OperandAssignCharPopPop = 3160;
-        OperandAssignBooleanPopPop = 3170;
+        OperandAssignCharPopPop = 3143;
+        OperandAssignBooleanPopPop = 3153;
         AssignStmt = 311;
         CallStmt = 319;
         IfStmt = 394;
@@ -326,89 +334,89 @@ program Coder (output, coderSsl, tCode, object, options);
         WriteProc = 780;
         ReadProc = 864;
         TrapStmt = 955;
-        OperandPushVariable = 1263;
-        OperandPushExpressionAssignPopPop = 1825;
+        OperandPushVariable = 1251;
+        OperandPushExpressionAssignPopPop = 1813;
         OperandPushExpression = 1073;
-        OperandConvertJumpConditionToData = 3207;
-        OperandForceAddressIntoTemp = 3557;
-        OperandForceToStack = 3709;
-        OperandPopAndFreeTemp = 3182;
+        OperandConvertJumpConditionToData = 3190;
+        OperandForceAddressIntoTemp = 3540;
+        OperandForceToStack = 3692;
+        OperandPopAndFreeTemp = 3165;
         OperandPushBooleanControlExpression = 448;
         FoldIfStmt = 489;
-        OperandComplementJumpCondition = 3073;
-        OperandInfixOr = 3099;
+        OperandComplementJumpCondition = 3056;
+        OperandInfixOr = 3082;
         OperandForceToJumpCondition = 453;
-        EmitTst = 3914;
+        EmitTst = 3897;
         SkipToEndIf = 539;
         SkipToEndWhile = 597;
-        OperandFreeTemp = 3195;
+        OperandFreeTemp = 3178;
         CaseSelect = 676;
         CaseVariant = 679;
         CaseEnd = 687;
         EmitDefaultCaseAbort = 697;
         EmitCaseSubscriptJump = 721;
-        OperandForceIntoTemp = 3495;
-        OperandSubtractRightFromLeftPop = 2284;
+        OperandForceIntoTemp = 3478;
+        OperandSubtractRightFromLeftPop = 2267;
         WriteParameter = 795;
         ReadParameter = 879;
-        EmitStringAddress = 1260;
-        OperandNegate = 2109;
-        OperandAddPop = 2187;
-        OperandSubtractPop = 2306;
-        OperandMultiplyPop = 2457;
-        OperandDividePop = 2602;
-        OperandModPop = 2627;
-        OperandNot = 3068;
-        OperandOrPop = 3121;
-        OperandEqualPop = 3304;
-        OperandGreaterPop = 3379;
-        OperandLessPop = 3467;
-        OperandChr = 2759;
-        OperandOrd = 2765;
-        OperandEolnFunction = 2789;
-        OperandEofFunction = 2915;
-        OperandSubscriptIntegerPop = 1330;
-        OperandSubscriptCharPop = 1359;
-        OperandSubscriptBooleanPop = 1391;
-        OperandSubscriptNonManifestIntegerPop = 1423;
-        OperandSubscriptNonManifestCharPop = 1687;
-        OperandCheckedSubscriptNonManifestIntegerPop = 1436;
-        OperandUncheckedSubscriptNonManifestIntegerPop = 1609;
-        EmitSubscriptRangeCheck = 1554;
-        OperandPushArrayLowerBound = 1521;
-        OperandPushArrayUpperBound = 1535;
-        EmitCmp = 3824;
-        EmitSubscriptAbort = 1588;
-        OperandCheckedSubscriptNonManifestCharPop = 1700;
-        OperandUncheckedSubscriptNonManifestCharPop = 1772;
-        OperandNegateAssignPopPop = 2084;
-        OperandAddAssignPopPopPop = 2124;
-        OperandSubtractAssignPopPopPop = 2264;
-        OperandMultiplyAssignPopPopPop = 2349;
-        OperandDivideAssignPopPopPop = 2556;
-        OperandNotAssignPopPop = 2977;
-        EmitMove = 3880;
-        OperandAddRightToLeftPop = 2157;
-        EmitAdd = 3794;
-        OperandForceLeftIntoTemp = 3543;
-        EmitSub = 3809;
-        OperandMultiplyLeftByRightPop = 2382;
-        OperandDivideLeftByRightPop = 2576;
-        OperandEmitDividePopPop = 2652;
-        SaveTempRegsToStack = 2851;
-        RestoreTempRegsFromStack = 2883;
-        OperandPushTrueTemp = 3272;
-        OperandPushFalseTemp = 3288;
-        OperandPushTempByte = 3700;
-        OperandFoldComparisonPopPop = 3471;
-        OperandPushTempWord = 3691;
-        OperandForceAddressIntoNewTemp = 3619;
-        OperandAreLeftAndRightManifest = 3736; >>14
-        OperandLeftOrRightIsTemp = 3765; >>14
+        OperandNegate = 2092;
+        OperandAddPop = 2170;
+        OperandSubtractPop = 2289;
+        OperandMultiplyPop = 2440;
+        OperandDividePop = 2585;
+        OperandModPop = 2610;
+        OperandNot = 3051;
+        OperandOrPop = 3104;
+        OperandEqualPop = 3287;
+        OperandGreaterPop = 3362;
+        OperandLessPop = 3450;
+        OperandChr = 2742;
+        OperandOrd = 2748;
+        OperandEolnFunction = 2772;
+        OperandEofFunction = 2898;
+        EmitStringAddress = 1248;
+        OperandSubscriptIntegerPop = 1318;
+        OperandSubscriptCharPop = 1347;
+        OperandSubscriptBooleanPop = 1379;
+        OperandSubscriptNonManifestIntegerPop = 1411;
+        OperandSubscriptNonManifestCharPop = 1675;
+        OperandCheckedSubscriptNonManifestIntegerPop = 1424;
+        OperandUncheckedSubscriptNonManifestIntegerPop = 1597;
+        EmitSubscriptRangeCheck = 1542;
+        OperandPushArrayLowerBound = 1509;
+        OperandPushArrayUpperBound = 1523;
+        EmitCmp = 3807;
+        EmitSubscriptAbort = 1576;
+        OperandCheckedSubscriptNonManifestCharPop = 1688;
+        OperandUncheckedSubscriptNonManifestCharPop = 1760;
+        OperandNegateAssignPopPop = 2067;
+        OperandAddAssignPopPopPop = 2107;
+        OperandSubtractAssignPopPopPop = 2247;
+        OperandMultiplyAssignPopPopPop = 2332;
+        OperandDivideAssignPopPopPop = 2539;
+        OperandNotAssignPopPop = 2960;
+        EmitMove = 3863;
+        OperandAddRightToLeftPop = 2140;
+        EmitAdd = 3777;
+        OperandForceLeftIntoTemp = 3526;
+        EmitSub = 3792;
+        OperandMultiplyLeftByRightPop = 2365;
+        OperandDivideLeftByRightPop = 2559;
+        OperandEmitDividePopPop = 2635;
+        SaveTempRegsToStack = 2834;
+        RestoreTempRegsFromStack = 2866;
+        OperandPushTrueTemp = 3255;
+        OperandPushFalseTemp = 3271;
+        OperandPushTempByte = 3683;
+        OperandFoldComparisonPopPop = 3454;
+        OperandPushTempWord = 3674;
+        OperandForceAddressIntoNewTemp = 3602;
+        OperandAreLeftAndRightManifest = 3719; >>14
+        OperandLeftOrRightIsTemp = 3748; >>14
         }
 
         { S/SL Table Parameters }
-        sslTblSize = 3949;
+        sslTblSize = 3932;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 
@@ -476,6 +484,9 @@ program Coder (output, coderSsl, tCode, object, options);
 
         { Machine word size }
         wordSize = 4;           { longword (4 bytes) on SUN }
+{ ADD }
+        stringSize = 256;
+{ END }
 
         { Temporary regs - %ebx, %ecx, %esi, %edi }
         firstTempReg = 1;       
@@ -733,8 +744,10 @@ program Coder (output, coderSsl, tCode, object, options);
                             write ('compound token tCode is not tLiteralAddress in oOperandPushVariable');
                         assert18:
                             write ('compound token tCode is not tLiteralInteger in oOperandPushInteger');
-                        assert19:
-                            write ('compound token tCode is not tLiteralChar in oOperandPushChar');
+{ REMOVE } 
+                        {assert19:
+                            write ('compound token tCode is not tLiteralChar in oOperandPushChar');}
+{ END } 
                         assert20:
                             write ('compound token tCode is not tLiteralBoolean in oOperandPushBoolean');
                         assert21:
@@ -749,8 +762,10 @@ program Coder (output, coderSsl, tCode, object, options);
                             write ('compound token tCode is not tStringData in oEmitString');
                         assert27:
                             write ('compound token tCode is not tCallEnd in oOperandPushProcedure');
-                        assert28:
-                            write ('compound token tCode is not tLiteralString in oOperandPushStringAddress');
+{ REMOVE }
+                        {assert28:
+                            write ('compound token tCode is not tLiteralString in oOperandPushStringAddress');}
+{ END }
                         assert29:
                             write ('less than two operands in operand stack in oOperandFoldManifestSubscript');
                         assert30:
@@ -1326,7 +1341,8 @@ program Coder (output, coderSsl, tCode, object, options);
                 EmitX86Label ('p', tCodeAddress)
         end { EmitProcLabel };
 
-    procedure EmitString;
+{ REMOVE }
+    (*procedure EmitString;
         { Emit the text associated with the last tLiteralString token accepted 
           (packed one character per byte). }
         begin
@@ -1334,7 +1350,8 @@ program Coder (output, coderSsl, tCode, object, options);
             { The string's T-code address is used as its label }
             EmitX86Label ('s', tCodeAddress);
             EmitX86StringLiteral;
-        end { EmitString };
+        end { EmitString };*)
+{ END }
 
     procedure EmitForwardBranch (branchOperation: integer; labelNumber: integer);
         { Emit a forward branch instruction with the 
@@ -1561,12 +1578,14 @@ program Coder (output, coderSsl, tCode, object, options);
             OperandPush (mProc, compoundTokenValue, undefined, word);
         end { OperandPushProcedure };
 
-    procedure OperandPushStringAddress;
+{ REMOVE }
+    (*procedure OperandPushStringAddress;
         { Push an operand stack entry for the string's address }
         begin
             Assert ( (compoundToken = tLiteralString), assert28);
             OperandPush (mStatic, compoundTokenValue, undefined, word);
-        end { OperandPushStringAddress };
+        end { OperandPushStringAddress };*)
+{ END }
 
     procedure OperandPushArrayLowerBound;
         { Push and operand stack entry which is the manifest value of
@@ -1782,13 +1801,29 @@ program Coder (output, coderSsl, tCode, object, options);
                 begin
                     subscript := subscript - lowerBound;
                     if operandStkLength[operandStkTop-1] = word then
-                        { Convert a byte offset to a word offset }
-                        subscript := subscript * wordSize;
-                    { Set the subscripted varable's address.  Note that the array variable's 
-                      address points to the base of a 2 word descriptor (lower, upper bound). }
-                    operandStkValue[operandStkTop-1] := 
-                        operandStkValue[operandStkTop-1] +
-                        subscript + 2 * wordSize;  { size of 2 word descriptor }
+{ ADD }
+                        begin
+{ END }
+                            { Convert a byte offset to a word offset }
+                            subscript := subscript * wordSize;
+                            { Set the subscripted varable's address.  Note that the array variable's 
+                            address points to the base of a 2 word descriptor (lower, upper bound). }
+                            operandStkValue[operandStkTop-1] := 
+                                operandStkValue[operandStkTop-1] +
+                                subscript + 2 * wordSize;  { size of 2 word descriptor }
+{ ADD }
+                        end
+                    else
+                        begin
+                            { Convert a byte offset to a string offset }
+                            subscript := subscript * stringSize;
+                            { Set the subscripted varable's address.  Note that the array variable's 
+                            address points to the base of a 2 string descriptor (lower, upper bound). }
+                            operandStkValue[operandStkTop-1] := 
+                                operandStkValue[operandStkTop-1] +
+                                subscript + 2 * stringSize;  { size of 256 string descriptor }
+                        end
+{ END }
                 end;
         end { OperandFoldManifestSubscript };
 
@@ -1839,8 +1874,8 @@ program Coder (output, coderSsl, tCode, object, options);
                     nextTCodeAddress := nextTCodeAddress + 1;
 
                     case compoundToken of
-                        tLiteralAddress, tLiteralInteger, tLiteralChar,
-                        tLiteralBoolean, tLiteralString, tSkipString,
+                        tLiteralAddress, tLiteralInteger, {tLiteralChar,}
+                        tLiteralBoolean, {tLiteralString,} tSkipString,
                         tWhileTest, tWhileEnd, tRepeatTest, tCallEnd,
                         tLineNumber, tTrap, tIfThen, tIfMerge, tSkipProc,
                         tCaseSelect, tCaseMerge:
@@ -1869,6 +1904,7 @@ program Coder (output, coderSsl, tCode, object, options);
                                         i := i + 1
                                     end;
                                 nextTCodeAddress := nextTCodeAddress + compoundTokenLength;
+                                nextTCodeAddress := nextTCodeAddress + 1;
                             end;
                     end         { case compoundToken }
                 end;
@@ -2146,10 +2182,10 @@ program Coder (output, coderSsl, tCode, object, options);
 
                     oEmitDouble:
                         EmitDouble (parameterValue);
-
-                    oEmitString:
-                        EmitString;
-
+{ REMOVE }
+                    (*oEmitString:
+                        EmitString;*)
+{ END }
                     oEmitConditionalForwardBranch:
                         EmitConditionalForwardBranch;
 
@@ -2219,11 +2255,13 @@ program Coder (output, coderSsl, tCode, object, options);
                             OperandPush (mManifest, compoundTokenValue, undefined, word)
                         end;
 
-                    oOperandPushChar:
+{ REMOVE } 
+                    (*oOperandPushChar:
                         begin
                             Assert ( (compoundToken = tLiteralChar), assert19);
                             OperandPush (mManifest, compoundTokenValue, undefined, byte)
-                        end;
+                        end;*)
+{ END } 
 
                     oOperandPushBoolean:
                         begin
@@ -2269,13 +2307,14 @@ program Coder (output, coderSsl, tCode, object, options);
 
                     oOperandPushCaseHigh:
                         OperandPush (mManifest, caseHigh, undefined, word);
-
-                    oOperandPushProcedure:
-                        OperandPushProcedure;
-
-                    oOperandPushStringAddress:
-                        OperandPushStringAddress;
-
+{ REMOVE }
+                    (*oOperandPushProcedure:
+                        OperandPushProcedure;*)
+{ END }
+{ REMOVE }
+                    (*oOperandPushStringAddress:
+                        OperandPushStringAddress;*)
+{ END }
                     oOperandPushTrap:
                         begin
                             Assert ( (compoundToken = tTrap), assert22);

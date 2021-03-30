@@ -151,26 +151,24 @@ program PTAM (input, output, ptamSsl, tCode, options);
         tLiteralAddress = 57;
         firstCompoundTcode = 57;
         tLiteralInteger = 58;
-        tLiteralChar = 59;
-        tLiteralBoolean = 60;
-        tSkipString = 61;
-        tStringData = 62;
-        tLiteralString = 63;
-        tIfThen = 64;
-        tIfMerge = 65;
-        tCaseSelect = 66;
-        tCaseMerge = 67;
-        tCaseEnd = 68;
-        tWhileTest = 69;
-        tWhileEnd = 70;
-        tRepeatTest = 71;
-        tSkipProc = 72;
-        tCallEnd = 73;
-        tLineNumber = 74;
-        tTrap = 75;
-        lastCompoundTcode = 75;
-        tEndOfFile = 76;
-        lastTcode = 76;
+        tLiteralBoolean = 59;
+        tSkipString = 60;
+        tStringData = 61;
+        tIfThen = 62;
+        tIfMerge = 63;
+        tCaseSelect = 64;
+        tCaseMerge = 65;
+        tCaseEnd = 66;
+        tWhileTest = 67;
+        tWhileEnd = 68;
+        tRepeatTest = 69;
+        tSkipProc = 70;
+        tCallEnd = 71;
+        tLineNumber = 72;
+        tTrap = 73;
+        lastCompoundTcode = 73;
+        tEndOfFile = 74;
+        lastTcode = 74;
         { Type 15 }
         trHalt = 0;
         trReset = 1;
@@ -196,7 +194,7 @@ program PTAM (input, output, ptamSsl, tCode, options);
         }
 
         { S/SL Table Parameters }
-        sslTblSize = 544;
+        sslTblSize = 524;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 

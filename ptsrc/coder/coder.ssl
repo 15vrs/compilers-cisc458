@@ -86,11 +86,15 @@ Input:
         tLiteralAddress
         firstCompoundTcode = tLiteralAddress
         tLiteralInteger
-        tLiteralChar
+% REMOVE
+        % tLiteralChar
+% END
         tLiteralBoolean
         tSkipString
         tStringData
-        tLiteralString
+% REMOVE
+        % tLiteralString
+% END
         tIfThen
         tIfMerge
         tCaseSelect
@@ -812,7 +816,7 @@ Routine:
                             oOperandSetLength(word)
                             @OperandAssignIntegerPopPop
                         | tStoreChar:
-                            oOperandSetLength(byte)
+                            oOperandSetLength(string) % CHANGE FROM byte
                             @OperandAssignCharPopPop
                         | tStoreBoolean:
                             oOperandSetLength(byte)
@@ -1474,14 +1478,18 @@ OperandPushExpression:
             @OperandPushVariable
         | tLiteralInteger:
             oOperandPushInteger
-        | tLiteralChar:
-            oOperandPushChar
+% REMOVE
+        % | tLiteralChar:
+        %     oOperandPushChar
+% END
         | tLiteralBoolean:
             oOperandPushBoolean
-        | tLiteralString:
-            % Get a string literal's address
-            oOperandPushStringAddress
-            @EmitStringAddress                  %       lea     sNNN, %T
+% REMOVE
+        % | tLiteralString:
+        %     % Get a string literal's address
+        %     oOperandPushStringAddress
+        %     @EmitStringAddress                  %       lea     sNNN, %T
+% END
         | tSkipString:
             % Emit string literal to data area
             oEmitNone(iData)                    %       .data
@@ -1575,7 +1583,11 @@ OperandPushVariable:
     ]
     [
         | tFetchInteger:
-        | tFetchChar, tFetchBoolean:
+% CHANGE
+        | tFetchChar:
+            oOperandSetLength(string)
+        | tFetchBoolean:
+% END
             oOperandSetLength(byte)
         | *: 
             % Value is not to be loaded
@@ -1615,7 +1627,7 @@ OperandSubscriptCharPop:
                     @OperandSubscriptNonManifestCharPop
                 | *:
                     % tell the folder we are working on bytes
-                    oOperandSetLength(byte)     
+                    oOperandSetLength(string) % CHANGE FROM byte
                     oOperandSwap
                     oOperandFoldManifestSubscript
                     oOperandPop
@@ -1870,7 +1882,14 @@ OperandCheckedSubscriptNonManifestCharPop:
     @OperandPushArrayLowerBound                 % ... %T, arraydesc, lower
     oOperandSwapLeftAndDest                     % ... arraydesc, %T, lower
     @OperandSubtractPop                         %       subl lower, %T
-
+% ADD
+    % Scale subscript by string size              % ... arraydesc, %T
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(eight)                       % ... arraydesc, %T, 2
+    oEmitDouble(iShl)                           %       shll    $2, %T
+    oOperandPop                                 % ... arraydesc, %T
+% END
     % Add normalized subscript to array address
     oOperandSwap                                % ... %T, arraydesc
     [ oOperandChooseMode
@@ -1920,14 +1939,23 @@ OperandUncheckedSubscriptNonManifestCharPop:
             oOperandSwap                        % ... arraydesc, subscript
             @OperandForceIntoTemp               %       movl    subscript, %T
             oOperandSwap                        % ... %T, arraydesc
-
+% ADD
+            % Scale subscript by integer element size 
+            @OperandForceIntoTemp               %       movl    subscript, %T
+            oOperandPushMode(mManifest)
+            oOperandSetLength(word)
+            oOperandSetValue(eight)
+            oEmitDouble(iShl)                   %       shl     $2, %T
+            oOperandPop
+            oOperandSwap                        % ... %T, arraydesc
+% END
             % Fold lower bound into array address to avoid normalizing
             % subscript at run time
             oOperandPushArrayLowerBound         % ... %T, arraydesc, lower
             oOperandSwap                        % ... %T, lower, arraydesc
             oOperandSetMode(mManifest)          % (eliminate indirection)
             oOperandPushMode(mManifest)         % ... %T, lower, arraydesc, 8
-            oOperandSetLength(word)
+            oOperandSetLength(string) % CHANGE FROM word
             oOperandSetValue(eight)
             oOperandAddManifestValues           % ... %T, lower, arraydesc+8, 8
             oOperandPop                         % ... %T, lower, arraydesc+8
@@ -1958,8 +1986,18 @@ OperandPushExpressionAssignPopPop:
             @OperandPushVariable
         | tLiteralInteger:
             oOperandPushInteger
-        | tLiteralChar:
-            oOperandPushChar
+% REMOVE
+        % | tLiteralChar:
+        %     oOperandPushChar
+% END
+% ADD
+        | tSkipString:
+            % Emit string literal to data area
+            oEmitNone(iData)                    %       .data
+            tStringData
+            oEmitString                         % sNNN: .asciz  "SSSSS"
+            oEmitNone(iText)                    %       .text
+% END
         | tLiteralBoolean:
             oOperandPushBoolean
         | tAssignInteger:
@@ -2798,6 +2836,8 @@ OperandAssignCharPopPop:
     % Generate code to assign the right (top) operand's value to
     % the left (second) operand and pop both operands.
 
+% ADD
+% END
     oOperandSetLength(byte)
     @EmitMove                   %       movb    y, x
     @OperandPopAndFreeTemp
@@ -3041,13 +3081,26 @@ OperandForceIntoTemp:
             [ oOperandChooseLength
                 | byte:
                     @OperandPushTempByte
+% ADD
+                    oOperandSwap
+                    oEmitDouble(iMov)   % mov(b) operand, dN
+                    @OperandPopAndFreeTemp
+                    oOperandSetMode(mTemp)
+% END
                 | word:
                     @OperandPushTempWord
+% REMOVE
+            % ]
+% END
+                    oOperandSwap
+                    oEmitDouble(iMov)   % mov(b) operand, dN
+                    @OperandPopAndFreeTemp
+                    oOperandSetMode(mTemp)
+% ADD
+                | string:
+                    @OperandForceAddressIntoTemp
             ]
-            oOperandSwap
-            oEmitDouble(iMov)   % mov(b) operand, dN
-            @OperandPopAndFreeTemp
-            oOperandSetMode(mTemp)
+% END
     ];
 
 
@@ -3166,6 +3219,10 @@ OperandForceToStack:
                 @OperandForceIntoTemp
                 oOperandSetLength(word)
         | word:
+% ADD
+        | string:
+            @OperandForceAddressIntoTemp
+% END
     ]
     oEmitSingle(iPush)
     @OperandPopAndFreeTemp
