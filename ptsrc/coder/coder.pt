@@ -45,71 +45,70 @@ program Coder (output, coderSsl, tCode, object, options);
         oOperandPushBoolean = 21;
         oOperandPushJumpCondition = 22; { (15) }
         oOperandChooseJumpCondition = 23; { >>15 }
-        oOperandPushStringAddress = 24;
-        oOperandPushProcedure = 25;
-        oOperandPushTrap = 26;
-        oOperandPushCaseLow = 27;
-        oOperandPushCaseHigh = 28;
-        oOperandPushArrayLowerBound = 29;
-        oOperandPushArrayUpperBound = 30;
-        oOperandPushCopy = 31;
-        oOperandPushTemp = 32;
-        oOperandSetMode = 33; { (16) }
-        oOperandSetLength = 34; { (13) }
-        oOperandSetRegnum = 35; { (13) }
-        oOperandChooseLength = 36; { >>13 }
-        oOperandSetValue = 37; { (13) }
-        oOperandChooseValue = 38; { >>13 }
-        oOperandChooseManifestValue = 39; { >>13 }
-        oOperandIsValueNegative = 40; { >>14 }
-        oOperandEnterValueFromCaseTableAddress = 41;
-        oOperandEnterValueFromCodeAddress = 42;
-        oOperandEnterValueFromDataAreaSize = 43;
-        oOperandCompareLeftAndRight = 44; { >>14 }
-        oOperandCompareRightAndDest = 45; { >>14 }
-        oOperandIsJumpCondition = 46; { >>14 }
-        oOperandComplementJumpCondition = 47;
-        oOperandAddManifestValues = 48;
-        oOperandSubtractManifestValues = 49;
-        oOperandMultiplyManifestValues = 50;
-        oOperandNegateManifestValue = 51;
-        oOperandCompareManifestValues = 52; { >>14 }
-        oOperandMergeShuntsWithAddress = 53;
-        oOperandMergeShunts = 54;
-        oOperandFoldManifestSubscript = 55;
-        oOperandSwap = 56;
-        oOperandSwapRightAndDest = 57;
-        oOperandSwapLeftAndDest = 58;
-        oOperandPop = 59;
-        oFixPushAddress = 60;
-        oFixPushLastAddress = 61;
-        oFixSwapAddresses = 62;
-        oFixAndFreeShuntList = 63;
-        oFixAndFreeFalseBranches = 64;
-        oFixForwardBranch = 65;
-        oFixPopAddress = 66;
-        oEmitProcLabel = 67; { (16) }
-        oEmitNone = 68; { (17) }
-        oEmitSingle = 69; { (17) }
-        oEmitDouble = 70; { (17) }
-        oEmitString = 71;
-        oEmitConditionalForwardBranch = 72;
-        oEmitUnconditionalForwardBranch = 73;
-        oEmitConditionalBackwardBranch = 74;
-        oEmitUnconditionalBackwardBranch = 75;
-        oEmitSourceCoordinate = 76;
-        oEmitMergeSourceCoordinate = 77;
-        oEmitCaseMergeBranch = 78;
-        oEmitCaseBranchTable = 79;
-        oCasePush = 80;
-        oCasePop = 81;
-        oCaseEnterTCodeAddress = 82;
-        oCaseEnterVariantAddress = 83;
-        oCaseEnterMergeAddress = 84;
-        oCaseEnterAbortAddress = 85;
-        oArrayEnterLowerBound = 86;
-        oArrayEnterUpperBound = 87;
-        oOptionTestChecking = 88; { >>14 }
+        oOperandPushProcedure = 24;
+        oOperandPushTrap = 25;
+        oOperandPushCaseLow = 26;
+        oOperandPushCaseHigh = 27;
+        oOperandPushArrayLowerBound = 28;
+        oOperandPushArrayUpperBound = 29;
+        oOperandPushCopy = 30;
+        oOperandPushTemp = 31;
+        oOperandSetMode = 32; { (16) }
+        oOperandSetLength = 33; { (13) }
+        oOperandSetRegnum = 34; { (13) }
+        oOperandChooseLength = 35; { >>13 }
+        oOperandSetValue = 36; { (13) }
+        oOperandChooseValue = 37; { >>13 }
+        oOperandChooseManifestValue = 38; { >>13 }
+        oOperandIsValueNegative = 39; { >>14 }
+        oOperandEnterValueFromCaseTableAddress = 40;
+        oOperandEnterValueFromCodeAddress = 41;
+        oOperandEnterValueFromDataAreaSize = 42;
+        oOperandCompareLeftAndRight = 43; { >>14 }
+        oOperandCompareRightAndDest = 44; { >>14 }
+        oOperandIsJumpCondition = 45; { >>14 }
+        oOperandComplementJumpCondition = 46;
+        oOperandAddManifestValues = 47;
+        oOperandSubtractManifestValues = 48;
+        oOperandMultiplyManifestValues = 49;
+        oOperandNegateManifestValue = 50;
+        oOperandCompareManifestValues = 51; { >>14 }
+        oOperandMergeShuntsWithAddress = 52;
+        oOperandMergeShunts = 53;
+        oOperandFoldManifestSubscript = 54;
+        oOperandSwap = 55;
+        oOperandSwapRightAndDest = 56;
+        oOperandSwapLeftAndDest = 57;
+        oOperandPop = 58;
+        oFixPushAddress = 59;
+        oFixPushLastAddress = 60;
+        oFixSwapAddresses = 61;
+        oFixAndFreeShuntList = 62;
+        oFixAndFreeFalseBranches = 63;
+        oFixForwardBranch = 64;
+        oFixPopAddress = 65;
+        oEmitProcLabel = 66; { (16) }
+        oEmitNone = 67; { (17) }
+        oEmitSingle = 68; { (17) }
+        oEmitDouble = 69; { (17) }
+        oEmitString = 70;
+        oEmitConditionalForwardBranch = 71;
+        oEmitUnconditionalForwardBranch = 72;
+        oEmitConditionalBackwardBranch = 73;
+        oEmitUnconditionalBackwardBranch = 74;
+        oEmitSourceCoordinate = 75;
+        oEmitMergeSourceCoordinate = 76;
+        oEmitCaseMergeBranch = 77;
+        oEmitCaseBranchTable = 78;
+        oCasePush = 79;
+        oCasePop = 80;
+        oCaseEnterTCodeAddress = 81;
+        oCaseEnterVariantAddress = 82;
+        oCaseEnterMergeAddress = 83;
+        oCaseEnterAbortAddress = 84;
+        oArrayEnterLowerBound = 85;
+        oArrayEnterUpperBound = 86;
+        oOptionTestChecking = 87; { >>14 }
 
         { Input Tokens }
         tMultiply = 0;
@@ -319,12 +318,12 @@ program Coder (output, coderSsl, tCode, object, options);
         EmitProgramPrologue = 7;
         Block = 65;
         EmitProgramEpilogue = 58;
-        OperandAssignIntegerPopPop = 3276;
+        OperandAssignIntegerPopPop = 3727;
         Routine = 143;
         Statements = 249;
         OperandNextArgument = 234;
-        OperandAssignCharPopPop = 3299;
-        OperandAssignBooleanPopPop = 3309;
+        OperandAssignCharPopPop = 3750;
+        OperandAssignBooleanPopPop = 3797;
         AssignStmt = 311;
         CallStmt = 319;
         IfStmt = 394;
@@ -334,92 +333,97 @@ program Coder (output, coderSsl, tCode, object, options);
         WriteProc = 780;
         ReadProc = 864;
         TrapStmt = 955;
-        OperandPushVariable = 1251;
-        OperandPushExpressionAssignPopPop = 1956;
+        OperandPushVariable = 1281;
+        OperandPushExpressionAssignPopPop = 2027;
         OperandPushExpression = 1073;
-        OperandConvertJumpConditionToData = 3346;
-        OperandForceAddressIntoTemp = 3711;
-        OperandForceToStack = 3863;
-        OperandPopAndFreeTemp = 3321;
+        OperandConvertJumpConditionToData = 3834;
+        OperandForceAddressIntoTemp = 4194;
+        OperandForceToStack = 4346;
+        OperandPopAndFreeTemp = 3809;
         OperandPushBooleanControlExpression = 448;
         FoldIfStmt = 489;
-        OperandComplementJumpCondition = 3212;
-        OperandInfixOr = 3238;
+        OperandComplementJumpCondition = 3663;
+        OperandInfixOr = 3689;
         OperandForceToJumpCondition = 453;
-        EmitTst = 4074;
+        EmitTst = 4557;
         SkipToEndIf = 539;
         SkipToEndWhile = 597;
-        OperandFreeTemp = 3334;
+        OperandFreeTemp = 3822;
         CaseSelect = 676;
         CaseVariant = 679;
         CaseEnd = 687;
         EmitDefaultCaseAbort = 697;
         EmitCaseSubscriptJump = 721;
-        OperandForceIntoTemp = 3634;
-        OperandSubtractRightFromLeftPop = 2423;
+        OperandForceIntoTemp = 4122;
+        OperandSubtractRightFromLeftPop = 2874;
         WriteParameter = 795;
         ReadParameter = 879;
-        OperandNegate = 2248;
-        OperandAddPop = 2326;
-        OperandSubtractPop = 2445;
-        OperandMultiplyPop = 2596;
-        OperandDividePop = 2741;
-        OperandModPop = 2766;
-        OperandNot = 3207;
-        OperandOrPop = 3260;
-        OperandEqualPop = 3443;
-        OperandGreaterPop = 3518;
-        OperandLessPop = 3606;
-        OperandChr = 2898;
-        OperandOrd = 2904;
-        OperandEolnFunction = 2928;
-        OperandEofFunction = 3054;
-        EmitStringAddress = 1248;
-        OperandSubscriptIntegerPop = 1323;
-        OperandSubscriptCharPop = 1528;
-        OperandSubscriptBooleanPop = 1711;
-        OperandSubscriptNonManifestIntegerPop = 1352;
-        OperandCheckedSubscriptNonManifestIntegerPop = 1365;
-        OperandUncheckedSubscriptNonManifestIntegerPop = 1450;
-        EmitSubscriptRangeCheck = 1901;
-        OperandPushArrayLowerBound = 1868;
-        OperandSubscriptNonManifestCharPop = 1560;
-        OperandCheckedSubscriptNonManifestCharPop = 1573;
-        OperandUncheckedSubscriptNonManifestCharPop = 1645;
-        OperandSubscriptNonManifestBooleanPop = 1698;
-        OperandCheckedSubscriptNonManifestBooleanPop = 1743;
-        OperandUncheckedSubscriptNonManifestBooleanPop = 1815;
-        OperandPushArrayUpperBound = 1882;
-        EmitCmp = 3984;
-        EmitSubscriptAbort = 1935;
-        OperandNegateAssignPopPop = 2223;
-        OperandAddAssignPopPopPop = 2263;
-        OperandSubtractAssignPopPopPop = 2403;
-        OperandMultiplyAssignPopPopPop = 2488;
-        OperandDivideAssignPopPopPop = 2695;
-        OperandNotAssignPopPop = 3116;
-        EmitMove = 4040;
-        OperandAddRightToLeftPop = 2296;
-        EmitAdd = 3954;
-        OperandForceLeftIntoTemp = 3697;
-        EmitSub = 3969;
-        OperandMultiplyLeftByRightPop = 2521;
-        OperandDivideLeftByRightPop = 2715;
-        OperandEmitDividePopPop = 2791;
-        SaveTempRegsToStack = 2990;
-        RestoreTempRegsFromStack = 3022;
-        OperandPushTrueTemp = 3411;
-        OperandPushFalseTemp = 3427;
-        OperandPushTempByte = 3854;
-        OperandFoldComparisonPopPop = 3610;
-        OperandPushTempWord = 3845;
-        OperandForceAddressIntoNewTemp = 3773;
-        OperandAreLeftAndRightManifest = 3896; >>14
-        OperandLeftOrRightIsTemp = 3925; >>14
+        OperandNegate = 2699;
+        OperandAddPop = 2777;
+        OperandSubtractPop = 2896;
+        OperandMultiplyPop = 3047;
+        OperandDividePop = 3192;
+        OperandModPop = 3217;
+        OperandNot = 3658;
+        OperandOrPop = 3711;
+        OperandEqualPop = 3931;
+        OperandGreaterPop = 4006;
+        OperandLessPop = 4094;
+        OperandConcatenatePop = 2324;
+        OperandRepeatStringPop = 2395;
+        OperandSubstringPopPop = 2463;
+        OperandLength = 2541;
+        OperandStringEqualPop = 2605;
+        OperandChr = 3349;
+        OperandOrd = 3355;
+        OperandEolnFunction = 3379;
+        OperandEofFunction = 3505;
+        EmitStringAddress = 1278;
+        OperandSubscriptIntegerPop = 1353;
+        OperandSubscriptCharPop = 1558;
+        OperandSubscriptBooleanPop = 1782;
+        OperandSubscriptNonManifestIntegerPop = 1382;
+        OperandCheckedSubscriptNonManifestIntegerPop = 1395;
+        OperandUncheckedSubscriptNonManifestIntegerPop = 1480;
+        EmitSubscriptRangeCheck = 1972;
+        OperandPushArrayLowerBound = 1939;
+        OperandSubscriptNonManifestCharPop = 1590;
+        OperandCheckedSubscriptNonManifestCharPop = 1603;
+        OperandUncheckedSubscriptNonManifestCharPop = 1688;
+        OperandSubscriptNonManifestBooleanPop = 1769;
+        OperandCheckedSubscriptNonManifestBooleanPop = 1814;
+        OperandUncheckedSubscriptNonManifestBooleanPop = 1886;
+        OperandPushArrayUpperBound = 1953;
+        EmitCmp = 4467;
+        EmitSubscriptAbort = 2006;
+        OperandNegateAssignPopPop = 2674;
+        OperandAddAssignPopPopPop = 2714;
+        OperandSubtractAssignPopPopPop = 2854;
+        OperandMultiplyAssignPopPopPop = 2939;
+        OperandDivideAssignPopPopPop = 3146;
+        OperandNotAssignPopPop = 3567;
+        SaveTempRegsToStack = 3441;
+        RestoreTempRegsFromStack = 3473;
+        EmitMove = 4523;
+        OperandAddRightToLeftPop = 2747;
+        EmitAdd = 4437;
+        OperandForceLeftIntoTemp = 4180;
+        EmitSub = 4452;
+        OperandMultiplyLeftByRightPop = 2972;
+        OperandDivideLeftByRightPop = 3166;
+        OperandEmitDividePopPop = 3242;
+        OperandPushTrueTemp = 3899;
+        OperandPushFalseTemp = 3915;
+        OperandPushTempByte = 4337;
+        OperandFoldComparisonPopPop = 4098;
+        OperandPushTempWord = 4328;
+        OperandForceAddressIntoNewTemp = 4256;
+        OperandAreLeftAndRightManifest = 4379; >>14
+        OperandLeftOrRightIsTemp = 4408; >>14
         }
 
         { S/SL Table Parameters }
-        sslTblSize = 4109;
+        sslTblSize = 4592;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 
@@ -748,7 +752,9 @@ program Coder (output, coderSsl, tCode, object, options);
                         assert18:
                             write ('compound token tCode is not tLiteralInteger in oOperandPushInteger');
                         assert19:
-                            write ('compound token tCode is not tLiteralChar in oOperandPushChar');
+{ CHANGE }
+                            write ('compound token tCode is not tStringData in oOperandPushChar');
+{ END }
                         assert20:
                             write ('compound token tCode is not tLiteralBoolean in oOperandPushBoolean');
                         assert21:
@@ -763,8 +769,10 @@ program Coder (output, coderSsl, tCode, object, options);
                             write ('compound token tCode is not tStringData in oEmitString');
                         assert27:
                             write ('compound token tCode is not tCallEnd in oOperandPushProcedure');
+{ REMOVE } (*
                         assert28:
                             write ('compound token tCode is not tLiteralString in oOperandPushStringAddress');
+*) { END }
                         assert29:
                             write ('less than two operands in operand stack in oOperandFoldManifestSubscript');
                         assert30:
@@ -1579,14 +1587,14 @@ program Coder (output, coderSsl, tCode, object, options);
             OperandPush (mProc, compoundTokenValue, undefined, word);
         end { OperandPushProcedure };
 
-{ REMOVE }
-    (*procedure OperandPushStringAddress;
+{ REMOVE } (*
+    procedure OperandPushStringAddress;
         { Push an operand stack entry for the string's address }
         begin
             Assert ( (compoundToken = tLiteralString), assert28);
             OperandPush (mStatic, compoundTokenValue, undefined, word);
-        end { OperandPushStringAddress };*)
-{ END }
+        end { OperandPushStringAddress };
+*) { END }
 
     procedure OperandPushArrayLowerBound;
         { Push and operand stack entry which is the manifest value of
@@ -1907,6 +1915,7 @@ program Coder (output, coderSsl, tCode, object, options);
                                     end;
 { ADD }
                                 read (tCode, compoundTokenText[i]);
+                                nextTCodeAddress := nextTCodeAddress + 1;
 { END }
                                 nextTCodeAddress := nextTCodeAddress + compoundTokenLength;
                             end;
@@ -2259,13 +2268,13 @@ program Coder (output, coderSsl, tCode, object, options);
                             OperandPush (mManifest, compoundTokenValue, undefined, word)
                         end;
 
-{ REMOVE } 
-                    (*oOperandPushChar:
+                    oOperandPushChar:
                         begin
-                            Assert ( (compoundToken = tLiteralChar), assert19);
-                            OperandPush (mManifest, compoundTokenValue, undefined, byte)
-                        end;*)
-{ END } 
+                            Assert ( (compoundToken = tStringData), assert19);
+{ CHANGE }
+                            OperandPush (mStatic, compoundTokenValue, undefined, string)
+{ END }
+                        end;
 
                     oOperandPushBoolean:
                         begin
@@ -2314,10 +2323,10 @@ program Coder (output, coderSsl, tCode, object, options);
 
                     oOperandPushProcedure:
                         OperandPushProcedure;
-{ REMOVE }
-                    (*oOperandPushStringAddress:
-                        OperandPushStringAddress;*)
-{ END }
+{ REMOVE } (*
+                    oOperandPushStringAddress:
+                        OperandPushStringAddress;
+*) { END }
                     oOperandPushTrap:
                         begin
                             Assert ( (compoundToken = tTrap), assert22);
