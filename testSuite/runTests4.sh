@@ -34,7 +34,6 @@ for path in * ; do
                 ssltrace "ptc -o4 -t4 -L ../../../ptsrc/lib/pt ${file}" ../../../ptsrc/lib/pt/coder.def -e > ${file%.*}.eOutput
             fi
         fi
-        fi
     done
     cd ..
 done
