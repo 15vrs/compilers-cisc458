@@ -779,6 +779,8 @@ Block:
             oFixForwardBranch   
             oFixPopAddress
 % ADD
+        | tInitialValue:
+            @OperandPushExpression
 % Statements options
         | tAssignBegin:
             @AssignStmt
@@ -1481,6 +1483,19 @@ OperandPushExpression:
             @OperandPushVariable
         | tLiteralInteger:
             oOperandPushInteger
+        | tStoreInteger, tStoreAddress:
+            % check some order of variable and value on the stack
+            oOperandPushVariable
+            oOperandSetLength(word)
+            @OperandAssignIntegerPopPop
+        | tStoreChar:
+            oOperandPushVariable
+            oOperandSetLength(string)
+            @OperandAssignCharPopPop
+        | tStoreBoolean:
+            oOperandPushVariable
+            oOperandSetLength(byte)
+            @OperandAssignBooleanPopPop
 % REMOVE
         % | tLiteralChar:
         %     oOperandPushChar
