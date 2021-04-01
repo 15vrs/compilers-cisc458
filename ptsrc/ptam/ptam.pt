@@ -1,7 +1,7 @@
-{  PT Abstract Machine Version 5.0
+{  PT Abstract Machine Version 5.1
 
    Date: 4 August 2009 
-         (Revised v5.0 - 10 Dec 2020)
+         (Revised v5.1 - 8 Feb 2021)
 
    Author: J.R. Cordy, Queen's University
 
@@ -61,21 +61,23 @@ program PTAM (input, output, ptamSsl, tCode, options);
         oALUpushOrdR = 42;
         oCUchooseInstruction = 43; { >>14 }
         oCUzeroPC = 44;
-        oCUmoveMDRtoR = 45;
-        oCUmoveMDRtoT = 46;
-        oCUmoveMDRtoZ = 47;
-        oCUmoveMDRtoIR = 48;
-        oCUmoveMDRtoPC = 49;
-        oCUmoveMDRtoSCR = 50;
-        oCUmoveLtoMDR = 51;
-        oCUmoveRtoMAR = 52;
-        oCUmovePCtoMAR = 53;
-        oCUmoveMARtoPC = 54;
-        oCUincPC = 55;
-        oCUpushPC = 56;
-        oCUpopPC = 57;
-        oCUcase = 58;
-        oTrapHandlerTrap = 59; { >>13 }
+        oCUmoveMDRtoL = 45;
+        oCUmoveMDRtoR = 46;
+        oCUmoveMDRtoT = 47;
+        oCUmoveMDRtoZ = 48;
+        oCUmoveMDRtoIR = 49;
+        oCUmoveMDRtoPC = 50;
+        oCUmoveMDRtoSCR = 51;
+        oCUmoveLtoMDR = 52;
+        oCUmoveRtoMAR = 53;
+        oCUmovePCtoMAR = 54;
+        oCUmoveMARtoPC = 55;
+        oCUincPC = 56;
+        oCUpushPC = 57;
+        oCUpopPC = 58;
+        oCUcase = 59;
+        oCUsubscriptCheck = 60;
+        oTrapHandlerTrap = 61; { >>13 }
 
         { Input Tokens }
 
@@ -151,26 +153,24 @@ program PTAM (input, output, ptamSsl, tCode, options);
         tLiteralAddress = 57;
         firstCompoundTcode = 57;
         tLiteralInteger = 58;
-        tLiteralChar = 59;
-        tLiteralBoolean = 60;
-        tSkipString = 61;
-        tStringData = 62;
-        tLiteralString = 63;
-        tIfThen = 64;
-        tIfMerge = 65;
-        tCaseSelect = 66;
-        tCaseMerge = 67;
-        tCaseEnd = 68;
-        tWhileTest = 69;
-        tWhileEnd = 70;
-        tRepeatTest = 71;
-        tSkipProc = 72;
-        tCallEnd = 73;
-        tLineNumber = 74;
-        tTrap = 75;
-        lastCompoundTcode = 75;
-        tEndOfFile = 76;
-        lastTcode = 76;
+        tLiteralBoolean = 59;
+        tSkipString = 60;
+        tStringData = 61;
+        tIfThen = 62;
+        tIfMerge = 63;
+        tCaseSelect = 64;
+        tCaseMerge = 65;
+        tCaseEnd = 66;
+        tWhileTest = 67;
+        tWhileEnd = 68;
+        tRepeatTest = 69;
+        tSkipProc = 70;
+        tCallEnd = 71;
+        tLineNumber = 72;
+        tTrap = 73;
+        lastCompoundTcode = 73;
+        tEndOfFile = 74;
+        lastTcode = 74;
         { Type 15 }
         trHalt = 0;
         trReset = 1;
@@ -196,7 +196,7 @@ program PTAM (input, output, ptamSsl, tCode, options);
         }
 
         { S/SL Table Parameters }
-        sslTblSize = 544;
+        sslTblSize = 522;
         minSslTableValue = -32767;
         maxSslTableValue = 32767;
 
@@ -209,8 +209,8 @@ program PTAM (input, output, ptamSsl, tCode, options);
         lastInputToken = 0;
 
         { S/SL table operations }
-        firstTableOperation = 0;
-        lastTableOperation = 120;
+	firstTableOperation = 0;
+	lastTableOperation = 120;
 
         { Primitive operations }
         oCall = 0;
@@ -430,7 +430,12 @@ program PTAM (input, output, ptamSsl, tCode, options);
                         assert34:
                             write ('return stack overflow in oCUreturnPush');
                     end;
+
                     writeln;
+                    lineNumber := SCR;
+                    write ('while processing line ', lineNumber);
+                    writeln;
+
                     processing := false;
                     sslabort := true;
                 end;
@@ -439,24 +444,25 @@ program PTAM (input, output, ptamSsl, tCode, options);
     procedure SubscriptError (subscript: integer;
                              lowerBound: integer;
                              upperBound: integer);
-        { Report a manifest subscript out of bounds. }
+        { Report a subscript out of bounds. }
         begin
+            lineNumber := SCR;
             write ('line ', lineNumber: 1, ': subscript [', subscript: 1, '] out of bounds [', 
                 lowerBound: 1, ' .. ', upperBound: 1, ']');
             writeln;
             noErrors := noErrors + 1;
+	    processing := false;  { terminate coding }
+	    sslabort := true;
         end { SubscriptError };
 
     procedure Error (errorCode: ErrorCodes);
         { Report an error and abort processing if the error was fatal. }
         begin
-            write ('execution error, line ', lineNumber:1, ': ');
-            if errorCode > firstFatalError then
-                write ('program too complicated ');
+            lineNumber := SCR;
+            write ('line ', lineNumber: 1, ': ');
             case errorCode of
-                eSubscriptError: write ('subscript out of range');
                 eCaseError: write ('case expression out of range');
-                eSslStackOvfl: write (' (SSL stack)');
+		eSslStackOvfl: write ('program too complicated (SSL stack)');
             end;
             writeln;
             noErrors := noErrors + 1;
@@ -565,11 +571,28 @@ program PTAM (input, output, ptamSsl, tCode, options);
         var lowerBound : integer;
             upperBound : integer;
         begin
-            lowerBound := codeMemory[R];
-            upperBound := codeMemory[R+1];
-            if (L >= lowerBound) and (L <= upperBound) then
-                PC := codeMemory[R + 2 + L - Z];
-            { otherwise we fall through to case abort }
+	    { L = case table address, R = subscript }
+            lowerBound := codeMemory[L];
+	    upperBound := codeMemory[L+1];
+            if (R >= lowerBound) and (R <= upperBound) then
+                PC := codeMemory[L + 2 + R - lowerBound]
+	    else
+		PC := -1;
+	    if PC = -1 then
+		Error (eCaseError);
+        end;
+
+    procedure CUsubscriptCheck;
+        var lowerBound : integer;
+            upperBound : integer;
+        begin
+	    { L = array descriptor address, R = subscript }
+            lowerBound := dataMemory[L];
+	    upperBound := dataMemory[L+4];
+            if (R < lowerBound) or (R > upperBound) then
+		SubscriptError (R, lowerBound, upperBound);
+	    { Data follows the descriptor }
+	    L := L + 8;
         end;
 
     procedure MemoryLoadCode;
@@ -751,12 +774,6 @@ program PTAM (input, output, ptamSsl, tCode, options);
                         dataMemory[fdaddress] := file (fdtextfile);
                     end;
 
-                trSubscriptAbort:
-                    Error (eSubscriptError);
-
-                trCaseAbort:
-                    Error (eCaseError);
-
                 trEoln:
                     begin
                         ALUpop (fdaddress);
@@ -810,6 +827,7 @@ program PTAM (input, output, ptamSsl, tCode, options);
 
     procedure SslFailure (failCode: FailureCodes);
         begin
+            lineNumber := SCR;
             write ('### PTAM S/SL program failure: ');
 
             case failCode of
@@ -1113,6 +1131,9 @@ program PTAM (input, output, ptamSsl, tCode, options);
                     oCUzeroPC:
                         PC := 0;
 
+                    oCUmoveMDRtoL:
+                        L := MDR;
+
                     oCUmoveMDRtoR:
                         R := MDR;
 
@@ -1158,6 +1179,9 @@ program PTAM (input, output, ptamSsl, tCode, options);
 
                     oCUcase:
                         CUcase;
+
+                    oCUsubscriptCheck:
+                        CUsubscriptCheck;
 
                     { ****
                       *  *  Trap Handler Mechanism Operations
