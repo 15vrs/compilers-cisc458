@@ -778,12 +778,32 @@ Block:
             @Routine
             oFixForwardBranch   
             oFixPopAddress
+% ADD
         | tInitialValue:
             @OperandPushExpression
+% Statements options
+        | tAssignBegin:
+            @AssignStmt
+        | tCallBegin:
+            @CallStmt
+        | tIfBegin:
+            @IfStmt
+        | tWhileBegin:
+            @WhileStmt
+        | tRepeatBegin:
+            @RepeatStmt
+        | tCaseBegin:
+            @CaseStmt
+        | tWriteBegin:
+            @WriteProc
+        | tReadBegin:
+            @ReadProc
+        | tTrapBegin:
+            @TrapStmt
         | *:
             >
-    ]}
-    @Statements;
+% END
+    ]};
 
 
 Routine:
@@ -846,32 +866,10 @@ OperandNextArgument:
     oOperandPop                         % ... 8
     oOperandSetMode(mArgument);         % ... 8(%ebp)
 
-
+% CHANGE
 Statements:
-    % Previous passes have removed redundant begin-end markers.
-    {[
-        | tAssignBegin:
-            @AssignStmt
-        | tCallBegin:
-            @CallStmt
-        | tIfBegin:
-            @IfStmt
-        | tWhileBegin:
-            @WhileStmt
-        | tRepeatBegin:
-            @RepeatStmt
-        | tCaseBegin:
-            @CaseStmt
-        | tWriteBegin:
-            @WriteProc
-        | tReadBegin:
-            @ReadProc
-        | tTrapBegin:
-            @TrapStmt
-        | *:
-            >   % End of statement list or empty statement
-    ]};
-
+    @Block;
+% END
 
 AssignStmt:
     oEmitSourceCoordinate
@@ -1210,16 +1208,24 @@ EmitDefaultCaseAbort:
     oFixSwapAddresses                   % (keep branch around case body on top)
     oEmitMergeSourceCoordinate
 
-    % Call case abort trap (never returns)
-    oOperandPushMode(mLineNum)          % ... n
-    oOperandSetLength(word)
-    @OperandForceToStack                %       pushl   n
-    oOperandPop                         % ...
-    oOperandPushMode(mTrap)
-    oOperandSetValue(trCaseAbort)
-    oEmitSingle(iCall)                  %       call  caseAbort
-
-    oOperandPop;
+    % ADD
+    [
+        | tCaseElse:
+            @Statements
+            tCaseMerge
+            oEmitCaseMergeBranch
+        | *:
+            % Call case abort trap (never returns)
+            oOperandPushMode(mLineNum)          % ... n
+            oOperandSetLength(word)
+            @OperandForceToStack                %       pushl   n
+            oOperandPop                         % ...
+            oOperandPushMode(mTrap)
+            oOperandSetValue(trCaseAbort)
+            oEmitSingle(iCall)                  %       call  caseAbort
+            oOperandPop
+    ];
+    % END
 
 
 EmitCaseSubscriptJump:
