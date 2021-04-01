@@ -25,7 +25,9 @@ for path in * ; do
         fi
         if [ ${file: -3} == ".pt" ]
         then
-            if [ "$1" == "s" ] # create ".s" files
+            if [ "$1" == "d" ]
+            then : # Just leave all *.eOutput files deleted
+            elif [ "$1" == "s" ] # create ".s" files
             then
                 ptc -S -L ../../../ptsrc/lib/pt ${file}
             else # create ".eOutput" and ".out" files
