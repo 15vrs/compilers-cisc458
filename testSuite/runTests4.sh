@@ -25,12 +25,15 @@ for path in * ; do
         fi
         if [ ${file: -3} == ".pt" ]
         then
+        if [ "$1" != "d" ]
+        then
             if [ "$1" == "s" ] # create ".s" files
             then
                 ptc -S -L ../../../ptsrc/lib/pt ${file}
             else # create ".eOutput" and ".out" files
                 ssltrace "ptc -o4 -t4 -L ../../../ptsrc/lib/pt ${file}" ../../../ptsrc/lib/pt/coder.def -e > ${file%.*}.eOutput
             fi
+        fi
         fi
     done
     cd ..

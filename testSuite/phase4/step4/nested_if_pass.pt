@@ -1,0 +1,7 @@
+using output;
+val x = 5;
+if x > 1 then
+    if x > 3 then
+        x = 10;
+    end;
+end;
