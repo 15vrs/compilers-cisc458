@@ -1,4 +1,4 @@
 using output;
 val x = "hello";
 var z: like true;
-z = x == "hello";
+/*z = x == "hello";*/
