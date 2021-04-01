@@ -3156,6 +3156,15 @@ PackageDefinition :
     %  modified ProcedureDefinition rule
     sIdentifier  oSymbolStkPushLocalIdentifier      % package name
 
+    [ oSymbolStkChooseKind
+        | syUndefined:
+        | syExternal:
+            % Program parameters must be declared as file variables
+            #eExternalDeclare
+        | *:
+            #eMultiplyDefined
+            % New definition obscures old one.
+    ]
     oSymbolStkSetKind(syPackage)
     oTypeStkPush(tpNull)
     oTypeTblEnter
