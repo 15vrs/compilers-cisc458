@@ -1559,12 +1559,12 @@ OperandPushExpression:
 % ADD
         | tConcatenate:
             @OperandConcatenatePop
+        | tLength:
+            @OperandLength
         | tRepeatString:
             @OperandRepeatStringPop
         | tSubstring:
             @OperandSubstringPopPop
-        | tLength:
-            @OperandLength
         | tStringEQ:
             @OperandStringEqualPop
 % END
@@ -2230,12 +2230,12 @@ OperandPushExpressionAssignPopPop:
 % ADD
         | tConcatenate:
             @OperandConcatenatePop
+        | tLength:
+            @OperandLength
         | tRepeatString:
             @OperandRepeatStringPop
         | tSubstring:
             @OperandSubstringPopPop
-        | tLength:
-            @OperandLength
         | tStringEQ:
             @OperandStringEqualPop
 % END
@@ -2257,10 +2257,10 @@ OperandConcatenatePop:
     % Now send the arguments
     @OperandForceAddressIntoTemp
     @OperandForcetoStack        % The file descriptor
-    oOperandPop
+    @OperandPopAndFreeTemp
     @OperandForceAddressIntoTemp
     @OperandForcetoStack        % The file descriptor
-    oOperandPop
+    @OperandPopAndFreeTemp
 
     % Call the trConcatenate trap routine
     oOperandPushMode(mTrap)
@@ -2269,15 +2269,21 @@ OperandConcatenatePop:
     oEmitSingle(iCall)          %       call    pttrapNN
     oOperandPop
 
-    % Pop argument
+    % Pop arguments
     oOperandPushMode(mStackReg)
     oOperandSetLength(string)
     oOperandPushMode(mManifest)
     oOperandSetLength(string)
-    oOperandSetValue(eight)      % ... %esp, 1arg*8
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(string)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(string)
+    oOperandSetValue(eight)     % ... %esp, 1arg*8
     oEmitDouble(iAdd)           %       addl    $8, %esp
-    @OperandPopAndFreeTemp
-    @OperandPopAndFreeTemp
+    oOperandPop
+    oOperandPop
+    oOperandPop
+    oOperandPop
 
     % Accept result
     oOperandPushMode(mScratchReg1)
@@ -2289,98 +2295,14 @@ OperandConcatenatePop:
 
     % Restore temp regs
     @RestoreTempRegsFromStack   %       popl    %edx .. $eax
-    @OperandForceAddressIntoTemp%       movl    %S1, %T
+    
+    @OperandForceIntoTemp       %       movl    %S1, %T
     oOperandSetLength(byte);    
 
 OperandRepeatStringPop:
-    % First save the temp registers
-    @SaveTempRegsToStack        %       pushl %eax .. %edx
-
-    % Now send the arguments
-    @OperandForcetoStack        % The file descriptor
-    oOperandPop
-    @OperandForceAddressIntoTemp
-    @OperandForcetoStack        % The file descriptor
-    oOperandPop
-
-    % Call the trRepeatString trap routine
-    oOperandPushMode(mTrap)
-    oOperandSetValue(trRepeatString)
-    oOperandSetLength(string)
-    oEmitSingle(iCall)          %       call    pttrapNN
-    oOperandPop
-
-    % Pop argument
-    oOperandPushMode(mStackReg)
-    oOperandSetLength(word)
-    oOperandPushMode(mManifest)
-    oOperandSetLength(string)
-    oOperandSetValue(eight)      % ... %esp, 1arg*8
-    oEmitDouble(iAdd)           %       addl    $8, %esp
-    @OperandPopAndFreeTemp
-    oOperandPop
-
-    % Accept result
-    oOperandPushMode(mScratchReg1)
-    oOperandSetLength(string)
-    oOperandPushMode(mResultReg)
-    oOperandSetLength(string)
-    oEmitDouble(iMov)           %       movl    %eax, %S1
-    oOperandPop %eax
-
-    % Restore temp regs
-    @RestoreTempRegsFromStack   %       popl    %edx .. $eax
-
-    @OperandForceAddressIntoTemp%       movl    %S1, %T
-    oOperandSetLength(byte);    
-
+;
 OperandSubstringPopPop:
-    % First save the temp registers
-    @SaveTempRegsToStack        %       pushl %eax .. %edx
-
-    % Now send the arguments
-    @OperandForcetoStack        % The file descriptor
-    oOperandPop
-    @OperandForcetoStack        % The file descriptor
-    oOperandPop
-    @OperandForceAddressIntoTemp
-    @OperandForcetoStack        % The file descriptor
-    oOperandPop
-
-    % Call the trSubstring trap routine
-    oOperandPushMode(mTrap)
-    oOperandSetValue(trSubstring)
-    oOperandSetLength(string)
-    oEmitSingle(iCall)          %       call    pttrapNN
-    oOperandPop
-
-    % Pop argument
-    oOperandPushMode(mStackReg)
-    oOperandSetLength(word)
-    oOperandPushMode(mStackReg)
-    oOperandSetLength(word)
-    oOperandPushMode(mManifest)
-    oOperandSetLength(string)
-    oOperandSetValue(twelve)    % ... %esp, 1arg*12
-    oEmitDouble(iAdd)           %       addl    $12, %esp
-    @OperandPopAndFreeTemp
-    oOperandPop
-    oOperandPop
-
-    % Accept result
-    oOperandPushMode(mScratchReg1)
-    oOperandSetLength(string)
-    oOperandPushMode(mResultReg)
-    oOperandSetLength(string)
-    oEmitDouble(iMov)           %       movl    %eax, %S1
-    oOperandPop %eax
-
-    % Restore temp regs
-    @RestoreTempRegsFromStack   %       popl    %edx .. $eax
-
-    @OperandForceAddressIntoTemp%       movl    %S1, %T
-    oOperandSetLength(byte);    
-
+;    
 OperandLength:
     % First save the temp registers
     @SaveTempRegsToStack        %       pushl %eax .. %edx
@@ -2388,7 +2310,7 @@ OperandLength:
     % Now send the arguments
     @OperandForceAddressIntoTemp
     @OperandForcetoStack        % The file descriptor
-    oOperandPop
+    @OperandPopAndFreeTemp
 
     % Call the trLength trap routine
     oOperandPushMode(mTrap)
@@ -2422,45 +2344,7 @@ OperandLength:
     oOperandSetLength(byte);    
 
 OperandStringEqualPop:
-    % First save the temp registers
-    @SaveTempRegsToStack        %       pushl %eax .. %edx
-
-    % Now send the arguments
-    @OperandForceAddressIntoTemp
-    @OperandForcetoStack        % The file descriptor
-    oOperandPop
-    @OperandForceAddressIntoTemp
-    @OperandForcetoStack        % The file descriptor
-    oOperandPop
-
-    % Call the trStringEqual trap routine
-    oOperandPushMode(mTrap)
-    oOperandSetValue(trStringEqual)
-    oOperandSetLength(byte)
-    oEmitSingle(iCall)          %       call    pttrapNN
-    oOperandPop
-
-    % Pop argument
-    oOperandPushMode(mStackReg)
-    oOperandSetLength(string)
-    oOperandPushMode(mManifest)
-    oOperandSetLength(string)
-    oOperandSetValue(eight)      % ... %esp, 1arg*8
-    oEmitDouble(iAdd)           %       addl    $8, %esp
-    @OperandPopAndFreeTemp
-    @OperandPopAndFreeTemp
-
-    % Accept result
-    oOperandPushMode(mScratchReg1)
-    oOperandSetLength(string)
-    oOperandPushMode(mResultReg)
-    oOperandSetLength(string)
-    oEmitDouble(iMov)           %       movl    %eax, %S1
-    oOperandPop %eax
-
-    % Restore temp regs
-    @RestoreTempRegsFromStack   %       popl    %edx .. $eax
-    oOperandSetLength(byte);    
+;    
 % END
 
 OperandNegateAssignPopPop:
