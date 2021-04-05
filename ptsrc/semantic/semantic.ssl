@@ -1124,8 +1124,11 @@ VariableDeclarations :
                 oSymbolStkPop
                 @TypeTblEnterIfNew
                 @EnterVariableAttributes
-                .tLiteralInteger
+                % .tLiteralInteger
                 .tLiteralAddress
+                oValuePushSymbol
+                oEmitValue
+                oValuePop
                 @EmitStore
             | *:
                 @TypeBody
