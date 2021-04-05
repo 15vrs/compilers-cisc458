@@ -1227,7 +1227,7 @@ EmitDefaultCaseAbort:
     [
         | tCaseElse:
             @Statements
-            tCaseMerge
+            tCaseElseEnd
             oEmitCaseMergeBranch
         | *:
             % Call case abort trap (never returns)
