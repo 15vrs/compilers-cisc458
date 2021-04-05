@@ -31,7 +31,7 @@ for path in * ; do
             then
                 ptc -S -L ../../../ptsrc/lib/pt ${file}
             else # create ".eOutput" and ".out" files
-                ssltrace "ptc -o4 -t4 -L ../../../ptsrc/lib/pt ${file}" ../../../ptsrc/lib/pt/coder.def -e > ${file%.*}.eOutput
+                ssltrace "ptc -o4 -t4 -L ../../../ptsrc/lib/pt ${file}" ../../../ptsrc/lib/pt/coder.def -ei > ${file%.*}.eOutput
             fi
         fi
     done
