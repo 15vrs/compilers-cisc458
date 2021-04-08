@@ -260,16 +260,16 @@ fun evaluate (ncards : like 1, var hand : like handarray,
 
     var i = 1;
     repeat while i <= ncards
-        if (hand [i] > 1) and (hand [i] < 11) then
-            // 2-10 
-            value += hand [i];
-        elseif hand [i] == 1 then
-            // A 
-            value += 11;
-            nacescounted11 = nacescounted11 + 1;
-        else 
-            // J,Q,K  
-            value += 10;
+        choose hand [i] of
+            when 2,3,4,5,6,7,8,9,10 then
+                value += hand [i];
+            when 1 then
+                // A 
+                value += 11;
+                nacescounted11 = nacescounted11 + 1;
+            else 
+                // J,Q,K  
+                value += 10;
         end;
 
         i += 1;

@@ -43,17 +43,22 @@ repeat while factor <= maxfactor
     // set factor = next prime 
     var nextfactor = factor + 1;
     var isprime : like boolean;
+
     flag (nextfactor, isprime);
-    repeat while (nextfactor <= maxprimes) and isprime 
+    repeat while (nextfactor <= maxprimes) and not isprime 
         nextfactor += 1;
         flag (nextfactor, isprime);
     end;
+
     factor = nextfactor;
 end;
 
 // now report the results 
 put ("The primes up to ", maxprimes:1, " are:"); putln;
-nextfactor = 2;
+
+var isprime: like boolean;
+var nextfactor = 2;
+
 repeat while nextfactor <= maxprimes 
     flag (nextfactor, isprime);
     if isprime then
@@ -61,4 +66,5 @@ repeat while nextfactor <= maxprimes
     end;
     nextfactor += 1;
 end;
+
 putln;
