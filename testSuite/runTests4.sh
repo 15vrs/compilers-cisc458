@@ -32,7 +32,7 @@ for path in * ; do
             then : # Just leave all *.eOutput files deleted
             elif [ "$1" == "e" ] # run sanity check?
             then
-                ptc -o4 -t4 -L ../../../ptsrc/lib/pt ${file}
+                ptc -o4 -t4 -L ../../../ptsrc/lib/pt ${file} > ${file%.*}.eOutput
             elif [ "$1" == "s" ] # create ".s" files
             then
                 ptc -S -L ../../../ptsrc/lib/pt ${file}
