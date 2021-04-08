@@ -16,3 +16,10 @@ There are multiple flags that can be used when running runTests3.sh:
   - "./runTests3.sh g" will egrep the ssltrace output
   - "./runTests3.sh d" will delete all of the *.eOutput files recursively within the phase3 directory
   - "./runTests3.sh" (no flag) will run the ssltrace command with the -e flag
+
+There are multiple flags that can be used when running runTests4.sh:
+  - "./runTests4.sh i" will run the ssltrace command with the -ei flag
+  - "./runTests4.sh e" will run the ptc command
+  - "./runTests4.sh s" will run the `ptc -S` command
+  - "./runTests4.sh d" will delete all of the *.eOutput, *.out, and *.s files recursively within the phase4 directory
+  - "./runTests4.sh" (no flag) will run the ssltrace command with the -e flag
