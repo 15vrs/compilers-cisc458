@@ -13,9 +13,12 @@ for path in * ; do
     echo $dirname
     cd $dirname
     for file in ./*; do
-        if [ ${file: -8} == ".eOutput" ] # delete ".eOutput" files
+        if [ ${#file} -ge 8 ]
         then
-            rm -f ${file}
+            if [ ${file: -8} == ".eOutput" ] # delete ".eOutput" files
+            then
+                rm -f ${file}
+            fi
         elif [ ${file: -4} == ".out" ] # delete ".out" files
         then
             rm -f ${file}
@@ -27,6 +30,9 @@ for path in * ; do
         then
             if [ "$1" == "d" ]
             then : # Just leave all *.eOutput files deleted
+            elif [ "$1" == "e" ] # run sanity check?
+            then
+                ptc -o4 -t4 -L ../../../ptsrc/lib/pt ${file}
             elif [ "$1" == "s" ] # create ".s" files
             then
                 ptc -S -L ../../../ptsrc/lib/pt ${file}

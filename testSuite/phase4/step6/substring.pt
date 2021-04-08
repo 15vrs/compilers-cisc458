@@ -2,4 +2,4 @@ using output;
 var x: like "";
 val y = 3;
 val z = "hello";
-/*x = z / 1 : y;*/
+x = z / 1 : y;
