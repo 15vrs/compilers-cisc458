@@ -13,12 +13,9 @@ for path in * ; do
     echo $dirname
     cd $dirname
     for file in ./*; do
-        if [ ${#file} -ge 8 ]
+        if [ ${file: -8} == ".eOutput" ] # delete ".eOutput" files
         then
-            if [ ${file: -8} == ".eOutput" ] # delete ".eOutput" files
-            then
-                rm -f ${file}
-            fi
+            rm -f ${file}
         elif [ ${file: -4} == ".out" ] # delete ".out" files
         then
             rm -f ${file}
